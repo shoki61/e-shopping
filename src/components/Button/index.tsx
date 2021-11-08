@@ -12,7 +12,7 @@ type Props = {
   fontSize?: FontSizeKey;
 };
 
-const Button: React.FC<Props> = ({ title, type = 'submit', borderRadius, color = 'd', fontSize = 'm' }: Props) => {
+const Button: React.FC<Props> = ({ title, type = 'submit', borderRadius = 7, color = 'd', fontSize = 'm' }: Props) => {
   return (
     <button className="Button" style={{ ...styles[type], borderRadius }}>
       <P color={color} size={fontSize}>

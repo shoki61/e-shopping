@@ -11,4 +11,5 @@ export const palette: Palette = {
   e: '#f73434', // error;
   s: '#08a360', // success;
   i: '#358696', // info;
+  dg: '#696969', // dim gray;
 };

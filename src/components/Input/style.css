@@ -1,0 +1,6 @@
+.Input {
+  outline: none;
+  padding: 7px 10px;
+  border: 1px solid;
+  transition: all 0.2 ease-in-out;
+}
