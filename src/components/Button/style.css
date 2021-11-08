@@ -3,4 +3,10 @@
   border: none;
   outline: none;
   padding: 10px 13px;
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+}
+
+.Button:hover {
+  box-shadow: 0 1px 5px #c2c2c2;
 }

@@ -1,10 +1,7 @@
+export type PaletteKey = 'm' | 'd' | 'l' | 'e' | 's' | 'i';
+
 export type Palette = {
-  m: string;
-  d: string;
-  l: string;
-  e: string;
-  s: string;
-  i: string;
+  [key: string]: string;
 };
 
 export const palette: Palette = {
