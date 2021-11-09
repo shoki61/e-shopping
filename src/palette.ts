@@ -1,4 +1,4 @@
-export type PaletteKey = 'm' | 'd' | 'l' | 'e' | 's' | 'i';
+export type PaletteKey = 'm' | 'd' | 'l' | 'e' | 's' | 'i' | 'dg';
 
 export type Palette = {
   [key: string]: string;

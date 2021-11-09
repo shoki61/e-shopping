@@ -1,3 +1,7 @@
+import { useState } from 'react';
+import Visibility from '@material-ui/icons/Visibility';
+import VisibilityOff from '@material-ui/icons/VisibilityOff';
+
 import { palette, PaletteKey } from 'palette';
 
 import P from '../P';
@@ -21,6 +25,7 @@ type Props = {
   placeholderColor?: PaletteKey;
   maxLength?: number;
   minLength?: number;
+  style?: any;
 };
 
 const Input: React.FC<Props> = ({
@@ -39,29 +44,35 @@ const Input: React.FC<Props> = ({
   enabled = true,
   maxLength,
   minLength,
+  style,
 }: Props) => {
+  const [showSecret, setShowSecret] = useState(false);
   return (
-    <Space>
+    <Space v={'n'} h={'n'}>
       {title && (
         <P bold={titleBold} color={titleColor}>
           {title}
         </P>
       )}
-      <input
-        className={'Input'}
-        style={{
-          borderColor: error ? palette.e : palette.dg,
-          borderRadius,
-          color: palette[color],
-          fontWeight: valueBold ? 700 : 'normal',
-        }}
-        value={value}
-        placeholder={placeholder}
-        onChange={({ target: { value } }) => onChange(value)}
-        disabled={!enabled}
-        maxLength={maxLength}
-        minLength={minLength}
-      />
+      <div
+        className={'Input-Container'}
+        style={{ borderColor: error ? palette.e : palette.dg, borderRadius, ...style }}
+      >
+        <input
+          className={'Input'}
+          style={{
+            color: palette[color],
+            fontWeight: valueBold ? 700 : 'normal',
+          }}
+          value={value}
+          placeholder={placeholder}
+          onChange={({ target: { value } }) => onChange(value)}
+          disabled={!enabled}
+          maxLength={maxLength}
+          minLength={minLength}
+        />
+        {showSecret ? <VisibilityOff /> : <Visibility />}
+      </div>
       {errorMessage && (
         <P bold color={'e'} size={'s'}>
           {errorMessage}

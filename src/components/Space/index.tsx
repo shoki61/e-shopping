@@ -1,31 +1,49 @@
 type Props = {
-  t?: number; // top;
-  l?: number; // left;
-  b?: number; // bottom;
-  r?: number; // right;
-  v?: number; // vertical;
-  h?: number; // horizontal;
+  t?: SpaceValueKey; // top;
+  l?: SpaceValueKey; // left;
+  b?: SpaceValueKey; // bottom;
+  r?: SpaceValueKey; // right;
+  v?: SpaceValueKey; // vertical;
+  h?: SpaceValueKey; // horizontal;
   children?: any;
   flex?: boolean;
   style?: any;
+  className?: string;
 };
 
-const Space: React.FC<Props> = ({ t, l, b, r, v = 10, h = 10, children, flex, style }: Props) => {
+const Space: React.FC<Props> = ({ t, l, b, r, v = 'm', h = 'm', children, flex, style, className }: Props) => {
   return (
     <div
       style={{
-        padding: `${v}px ${h}px`,
-        paddingTop: `${t}px`,
-        paddingLeft: `${l}px`,
-        paddingBottom: `${b}px`,
-        paddingRight: `${r}px`,
+        padding: `${spaceValue[v]}px ${spaceValue[h]}px`,
+        paddingTop: t ? spaceValue[t] : 'auto',
+        paddingLeft: l ? spaceValue[l] : 'auto',
+        paddingBottom: b ? spaceValue[b] : 'auto',
+        paddingRight: r ? spaceValue[r] : 'auto',
         display: flex ? 'flex' : 'inline-block',
         ...style,
       }}
+      className={className}
     >
       {children}
     </div>
   );
+};
+
+export type SpaceValueKey = 'n' | 's' | 'm' | 'l' | 'xl' | 'xxl' | 'xxxl';
+
+type SpaceValue = {
+  [key: string]: number;
+};
+
+const spaceValue: SpaceValue = {
+  n: 0,
+  s: 10,
+  m: 20,
+  l: 30,
+  xl: 40,
+  xxl: 50,
+  xxxl: 60,
 };
 
 export default Space;

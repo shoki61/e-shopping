@@ -15,7 +15,7 @@ const Home: React.FC<Props> = () => {
   const [inputV, setInputV] = useState('');
   return (
     <div style={{ width: w(100), height: h(100) }}>
-      <Input title={'Selamlar'} value={inputV} onChange={(v) => setInputV(v)} placeholder={'test placeholder'} />
+      <Input title={'Password'} placeholder={'enter your passord'} value={inputV} onChange={setInputV} />
     </div>
   );
 };
