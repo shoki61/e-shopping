@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 
 import { palette } from 'palette';
-import { Button, Space, P, Input, Clickable } from 'components';
+import { Button, Space, P, Input, Clickable, Image } from 'components';
 import { h, w } from 'windowDimensions';
 
 type ReduxProps = unknown;
@@ -23,8 +23,9 @@ const Home: React.FC<Props> = () => {
           setLoading(true);
         }}
       >
-        <img
-          src={
+        <Image
+          width={250}
+          source={
             'https://images.unsplash.com/photo-1453728013993-6d66e9c9123a?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8dmlld3xlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&w=1000&q=80'
           }
         />
