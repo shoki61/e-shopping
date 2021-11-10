@@ -25,7 +25,7 @@ type Props = {
   placeholderColor?: PaletteKey;
   maxLength?: number;
   minLength?: number;
-  style?: any;
+  style?: React.CSSProperties;
 };
 
 const Input: React.FC<Props> = ({

@@ -10,9 +10,16 @@ type Props = {
   bold?: boolean;
 };
 
-const P: React.FC<Props> = ({ children, size = 'm', color = 'd', bold = false }: Props) => {
+const P: React.FC<Props> = ({ children, size = 'm', color, bold = false }: Props) => {
   return (
-    <p className={'P'} style={{ fontSize: fontSize[size], color: palette[color], fontWeight: bold ? 700 : 'normal' }}>
+    <p
+      className={'P'}
+      style={{
+        fontSize: fontSize[size],
+        color: color ? palette[color] : 'inherit',
+        fontWeight: bold ? 700 : 'inherit',
+      }}
+    >
       {children}
     </p>
   );

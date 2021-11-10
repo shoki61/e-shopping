@@ -2,7 +2,7 @@ type Props = {
   source: string;
   alt?: string;
   borderRadius?: number;
-  style?: any;
+  style?: React.CSSProperties;
   width?: number | string;
   height?: number | string;
   title?: string;

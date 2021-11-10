@@ -7,11 +7,12 @@ type Props = {
   h?: SpaceValueKey; // horizontal;
   children?: any;
   flex?: boolean;
-  style?: any;
+  style?: React.CSSProperties;
   className?: string;
 };
 
 const Space: React.FC<Props> = ({ t, l, b, r, v = 'm', h = 'm', children, flex, style, className }: Props) => {
+  console.log(className);
   return (
     <div
       style={{

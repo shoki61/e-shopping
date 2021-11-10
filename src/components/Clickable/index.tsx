@@ -4,7 +4,7 @@ type CursorType = 'pointer' | 'crosshair' | 'zoom-in' | 'wait' | 'not-allowed';
 
 type Props = {
   children: JSX.Element;
-  style?: any;
+  style?: React.CSSProperties;
   onClick: () => any;
   cursor?: CursorType;
   loading?: boolean;

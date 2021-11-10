@@ -1,12 +1,17 @@
 import { Routes, Route } from 'react-router-dom';
 
-import { Home } from 'pages';
+import { Home, Login } from 'pages';
+import { Header } from 'shared';
 
 const Navigation = () => {
   return (
-    <Routes>
-      <Route path="/" element={<Home />} />
-    </Routes>
+    <div>
+      <Header />
+      <Routes>
+        <Route caseSensitive path="/" element={<Login />} />
+        <Route index element={<Home />} />
+      </Routes>
+    </div>
   );
 };
 
