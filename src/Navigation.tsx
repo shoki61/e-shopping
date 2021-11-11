@@ -8,8 +8,9 @@ const Navigation = () => {
     <div>
       <Header />
       <Routes>
-        <Route caseSensitive path="/" element={<Login />} />
-        <Route index element={<Home />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/sign-up" element={<Login />} />
       </Routes>
     </div>
   );

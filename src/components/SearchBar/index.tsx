@@ -10,13 +10,12 @@ type Props = {
   value: string;
   onChange: (v: string) => any;
   placeholder?: string;
-  Icon?: JSX.Element;
   style?: React.CSSProperties;
 };
 
-const SearchBar: React.FC<Props> = ({ value, onChange, placeholder, Icon }: Props) => {
+const SearchBar: React.FC<Props> = ({ value, onChange, placeholder }: Props) => {
   return (
-    <div className={'Search-Bar-Container'} style={{ borderColor: '#ebebeb' }}>
+    <div className={'Search-Bar-Container'} style={{ borderColor: palette.lg }}>
       <Horizontal align={'middle'}>
         <input
           className={'Search-Bar-Input'}

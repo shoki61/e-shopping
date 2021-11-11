@@ -1,8 +1,9 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import FavoriteSharp from '@material-ui/icons/FavoriteSharp';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 
-import { P, Button, Space, Input, Image, Horizontal, SearchBar, Clickable } from 'components';
+import { P, Space, Image, Horizontal, SearchBar, Clickable } from 'components';
 import { AppLogo } from 'assets';
 import { palette } from 'palette';
 
@@ -12,6 +13,7 @@ type Props = {};
 
 const Header: React.FC<Props> = () => {
   const [searchValue, setSearchValue] = useState('');
+  const navigate = useNavigate();
 
   const navItems = [
     { title: 'Man', to: '/man' },
@@ -27,14 +29,14 @@ const Header: React.FC<Props> = () => {
     <div className={'Header'} style={{ borderBottomColor: `${palette.dg}50` }}>
       <Space v={'xs'} h={'n'} fullWidth>
         <Horizontal align={'bottom'} spread>
-          <Clickable onClick={() => {}}>
+          <Clickable onClick={() => navigate('/')}>
             <Image width={250} source={AppLogo} alt={'App-Logo'} />
           </Clickable>
           <Space fullWidth v={'n'} h={'xxl'} b={'s'}>
             <SearchBar
               value={searchValue}
               onChange={setSearchValue}
-              placeholder={'please enter product, category or mark...'}
+              placeholder={'enter product, category or mark...'}
             />
           </Space>
           <Space v={'n'} b={'s'}>
@@ -60,7 +62,7 @@ const Header: React.FC<Props> = () => {
             ))}
           </Horizontal>
           <Horizontal>
-            <NavItem title={'Login'} to={'/auth'} />
+            <NavItem title={'Login'} to={'/login'} />
             <P color={'dg'}>or</P>
             <NavItem title={'Sign Up'} to={'/sign-up'} />
           </Horizontal>

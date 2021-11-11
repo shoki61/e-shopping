@@ -4,6 +4,8 @@
   padding: 10px 13px;
   transition: all 0.2s ease-in-out;
   cursor: pointer;
+  display: flex;
+  align-items: center;
 }
 
 .Button:hover {

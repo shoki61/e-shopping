@@ -10,6 +10,8 @@ type Props = {
   style?: React.CSSProperties;
   className?: string;
   fullWidth?: boolean;
+  column?: boolean;
+  align?: 'center' | 'flex-start' | 'flex-end';
 };
 
 const Space: React.FC<Props> = ({
@@ -24,6 +26,8 @@ const Space: React.FC<Props> = ({
   style,
   className,
   fullWidth,
+  column,
+  align,
 }: Props) => {
   console.log(className);
   return (
@@ -34,8 +38,10 @@ const Space: React.FC<Props> = ({
         paddingLeft: l ? spaceValue[l] : 'auto',
         paddingBottom: b ? spaceValue[b] : 'auto',
         paddingRight: r ? spaceValue[r] : 'auto',
-        display: flex ? 'flex' : 'inline-block',
+        display: flex ? 'flex' : 'block',
         width: fullWidth ? '100%' : 'auto',
+        flexDirection: column ? 'column' : 'row',
+        alignItems: align,
         ...style,
       }}
       className={className}

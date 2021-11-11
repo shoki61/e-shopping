@@ -6,6 +6,7 @@ import { palette, PaletteKey } from 'palette';
 
 import P from '../P';
 import Space from '../Space';
+import Clickable from '../Clickable';
 import './style.css';
 
 type Props = {
@@ -26,6 +27,7 @@ type Props = {
   maxLength?: number;
   minLength?: number;
   style?: React.CSSProperties;
+  type?: React.HTMLInputTypeAttribute;
 };
 
 const Input: React.FC<Props> = ({
@@ -45,6 +47,7 @@ const Input: React.FC<Props> = ({
   maxLength,
   minLength,
   style,
+  type = 'text',
 }: Props) => {
   const [showSecret, setShowSecret] = useState(false);
   return (
@@ -56,7 +59,7 @@ const Input: React.FC<Props> = ({
       )}
       <div
         className={'Input-Container'}
-        style={{ borderColor: error ? palette.e : palette.dg, borderRadius, ...style }}
+        style={{ borderColor: error ? palette.e : palette.lg, borderRadius, ...style }}
       >
         <input
           className={'Input'}
@@ -70,8 +73,13 @@ const Input: React.FC<Props> = ({
           disabled={!enabled}
           maxLength={maxLength}
           minLength={minLength}
+          type={secret ? (showSecret ? 'text' : 'password') : type}
         />
-        {showSecret ? <VisibilityOff /> : <Visibility />}
+        {secret ? (
+          <Clickable onClick={() => setShowSecret(!showSecret)}>
+            {showSecret ? <Visibility style={{ color: palette.m }} /> : <VisibilityOff style={{ color: palette.lg }} />}
+          </Clickable>
+        ) : null}
       </div>
       {errorMessage && (
         <P bold color={'e'} size={'s'}>

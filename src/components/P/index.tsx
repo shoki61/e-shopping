@@ -9,9 +9,11 @@ type Props = {
   color?: string;
   bold?: boolean;
   className?: string;
+  style?: React.CSSProperties;
+  align?: 'center' | 'left' | 'right';
 };
 
-const P: React.FC<Props> = ({ children, size = 'm', color, bold = false, className }: Props) => {
+const P: React.FC<Props> = ({ children, size = 'm', color, bold = false, className, style, align = 'left' }: Props) => {
   return (
     <p
       className={`P ${className}`}
@@ -19,6 +21,8 @@ const P: React.FC<Props> = ({ children, size = 'm', color, bold = false, classNa
         fontSize: fontSize[size],
         color: color ? palette[color] : 'inherit',
         fontWeight: bold ? 700 : 'inherit',
+        textAlign: align,
+        ...style,
       }}
     >
       {children}

@@ -14,7 +14,7 @@ type Props = ReduxProps & HomeProps;
 const Home: React.FC<Props> = () => {
   const [inputV, setInputV] = useState('');
   const [loading, setLoading] = useState(false);
-  return <div style={{ width: w(90), height: h(90) }}></div>;
+  return <div></div>;
 };
 
 const mapStateToProps = () => ({});
