@@ -8,12 +8,13 @@ type Props = {
   size?: string;
   color?: string;
   bold?: boolean;
+  className?: string;
 };
 
-const P: React.FC<Props> = ({ children, size = 'm', color, bold = false }: Props) => {
+const P: React.FC<Props> = ({ children, size = 'm', color, bold = false, className }: Props) => {
   return (
     <p
-      className={'P'}
+      className={`P ${className}`}
       style={{
         fontSize: fontSize[size],
         color: color ? palette[color] : 'inherit',

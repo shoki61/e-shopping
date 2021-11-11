@@ -3,12 +3,13 @@ import './style.css';
 type CursorType = 'pointer' | 'crosshair' | 'zoom-in' | 'wait' | 'not-allowed';
 
 type Props = {
-  children: JSX.Element;
+  children: JSX.Element[] | JSX.Element;
   style?: React.CSSProperties;
   onClick: () => any;
   cursor?: CursorType;
   loading?: boolean;
   enabled?: boolean;
+  className?: string;
 };
 
 const Clickable: React.FC<Props> = ({
@@ -18,12 +19,13 @@ const Clickable: React.FC<Props> = ({
   cursor = 'pointer',
   loading = false,
   enabled = true,
+  className,
 }: Props) => {
   return (
     <button
       disabled={!enabled}
       onClick={() => !loading && onClick()}
-      className="Clickable"
+      className={`Clickable ${className}`}
       style={{
         cursor: !enabled ? 'no-drop' : loading ? 'wait' : cursor,
         ...style,

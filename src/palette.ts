@@ -1,4 +1,4 @@
-export type PaletteKey = 'm' | 'd' | 'l' | 'e' | 's' | 'i' | 'dg';
+export type PaletteKey = 'm' | 'd' | 'l' | 'e' | 's' | 'i' | 'y' | 'dg';
 
 export type Palette = {
   [key: string]: string;
@@ -11,5 +11,6 @@ export const palette: Palette = {
   e: '#f73434', // error;
   s: '#08a360', // success;
   i: '#358696', // info;
+  y: '#ffa200', // yellow;
   dg: '#696969', // dim gray;
 };

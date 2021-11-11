@@ -9,9 +9,22 @@ type Props = {
   flex?: boolean;
   style?: React.CSSProperties;
   className?: string;
+  fullWidth?: boolean;
 };
 
-const Space: React.FC<Props> = ({ t, l, b, r, v = 'm', h = 'm', children, flex, style, className }: Props) => {
+const Space: React.FC<Props> = ({
+  t,
+  l,
+  b,
+  r,
+  v = 'm',
+  h = 'm',
+  children,
+  flex,
+  style,
+  className,
+  fullWidth,
+}: Props) => {
   console.log(className);
   return (
     <div
@@ -22,6 +35,7 @@ const Space: React.FC<Props> = ({ t, l, b, r, v = 'm', h = 'm', children, flex, 
         paddingBottom: b ? spaceValue[b] : 'auto',
         paddingRight: r ? spaceValue[r] : 'auto',
         display: flex ? 'flex' : 'inline-block',
+        width: fullWidth ? '100%' : 'auto',
         ...style,
       }}
       className={className}
@@ -31,7 +45,7 @@ const Space: React.FC<Props> = ({ t, l, b, r, v = 'm', h = 'm', children, flex, 
   );
 };
 
-export type SpaceValueKey = 'n' | 's' | 'm' | 'l' | 'xl' | 'xxl' | 'xxxl';
+export type SpaceValueKey = 'n' | 'xs' | 's' | 'm' | 'l' | 'xl' | 'xxl' | 'xxxl';
 
 type SpaceValue = {
   [key: string]: number;
@@ -39,6 +53,7 @@ type SpaceValue = {
 
 const spaceValue: SpaceValue = {
   n: 0,
+  xs: 5,
   s: 10,
   m: 20,
   l: 30,

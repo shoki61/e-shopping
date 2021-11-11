@@ -26,7 +26,7 @@ const justifyContentValue: AlignAndJustifyType = {
 };
 
 const Horizontal: React.FC<Props> = ({
-  align = 'top',
+  align = 'middle',
   justify = 'start',
   children,
   wrap = false,
