@@ -1,0 +1,24 @@
+.Search-Bar-Container {
+  border: 2px solid;
+  background-color: #fafafa;
+  border-radius: 100px;
+  padding: 5px 15px;
+  flex: 1;
+  transition: border 0.2s ease-in-out;
+}
+
+.Search-Bar-Input {
+  border: none;
+  outline: none;
+  flex: 1;
+  background-color: transparent;
+  font-weight: 600;
+}
+
+.Search-Bar-Input::placeholder {
+  color: #969696;
+}
+
+.Search-Bar-Container:focus-within {
+  border-color: #d4612450 !important;
+}
