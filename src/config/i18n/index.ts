@@ -1,0 +1,56 @@
+const en = {
+  key: 'US',
+  en: 'English',
+  tr: 'Turkish',
+  login: 'Login',
+  signUp: 'Sign Up',
+  forgotYourPassword: 'Forgot your password?',
+  enterYourPassword: 'enter your password',
+  notAccount: "Don't you have an account?",
+  favorites: 'Favorites',
+  cart: 'Cart',
+  searchBarPlaceholder: 'enter product, category or mark...',
+  loginPageTitle: 'Hello welcome back',
+  email: 'E-mail',
+  password: 'Password',
+  or: 'or',
+
+  //navs
+  man: 'Man',
+  woman: 'Woman',
+  child: 'Child',
+  home: 'Home',
+  life: 'Life',
+  pet: 'Pet',
+  garden: 'Garden',
+  electronic: 'Electronic',
+};
+const tr = {
+  key: 'TR',
+  en: 'İngilizce',
+  tr: 'Türkçe',
+  login: 'Giriş yap',
+  signUp: 'Üye ol',
+  forgotYourPassword: 'Şifeni mi unuttun?',
+  enterYourPassword: 'şifrenizi giriniz',
+  notAccount: 'Hesabın yok mu?',
+  favorites: 'Favorilerim',
+  cart: 'Sepetim',
+  searchBarPlaceholder: 'ürün, kategori veya marka giriniz...',
+  loginPageTitle: 'Merhaba, tekrardan hoş geldin',
+  email: 'E-mail',
+  password: 'Şifre',
+  or: 'veya',
+
+  //navs
+  man: 'Erkek',
+  woman: 'Kadın',
+  child: 'Çocuk',
+  home: 'Ev',
+  life: 'Yaşam',
+  pet: 'Evcil Hayvan',
+  garden: 'Bahçe',
+  electronic: 'Elektronik',
+};
+
+export const languages: any = { en, tr };
