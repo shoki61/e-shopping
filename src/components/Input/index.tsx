@@ -10,7 +10,7 @@ import Clickable from '../Clickable';
 import './style.css';
 
 type Props = {
-  title?: string;
+  title?: string | React.ReactElement<any, string | React.JSXElementConstructor<any>>;
   value: string;
   placeholder?: string;
   onChange: (v: any) => any;

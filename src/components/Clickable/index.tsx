@@ -3,13 +3,14 @@ import './style.css';
 export type CursorType = 'pointer' | 'crosshair' | 'zoom-in' | 'wait' | 'not-allowed';
 
 type Props = {
-  children: JSX.Element[] | JSX.Element;
+  children: JSX.Element[] | any;
   style?: React.CSSProperties;
   onClick: () => any;
   cursor?: CursorType;
   loading?: boolean;
   enabled?: boolean;
   className?: string;
+  fullWidth?: boolean;
 };
 
 const Clickable: React.FC<Props> = ({
@@ -20,6 +21,7 @@ const Clickable: React.FC<Props> = ({
   loading = false,
   enabled = true,
   className,
+  fullWidth,
 }: Props) => {
   return (
     <button
@@ -29,6 +31,7 @@ const Clickable: React.FC<Props> = ({
       style={{
         cursor: !enabled ? 'no-drop' : loading ? 'wait' : cursor,
         ...style,
+        width: fullWidth ? '100%' : 'auto',
         opacity: loading ? 0.7 : 1,
       }}
     >

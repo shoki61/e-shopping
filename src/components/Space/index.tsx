@@ -29,7 +29,6 @@ const Space: React.FC<Props> = ({
   column,
   align,
 }: Props) => {
-  console.log(className);
   return (
     <div
       style={{

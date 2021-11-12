@@ -3,3 +3,11 @@
   padding: 0 25px;
   border-bottom: 2px solid;
 }
+
+.Header-Languages-Container {
+  position: absolute;
+  left: -20px;
+  box-shadow: 0 0 2px #a5a5a5;
+  border-radius: 5px;
+  margin-top: 8px;
+}
