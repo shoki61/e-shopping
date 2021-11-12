@@ -19,6 +19,7 @@ type Props = {
   onClick: () => any;
   cursor?: CursorType;
   loadingIconSize?: number;
+  style?: React.CSSProperties;
 };
 
 const Button: React.FC<Props> = ({
@@ -33,6 +34,7 @@ const Button: React.FC<Props> = ({
   onClick,
   cursor,
   loadingIconSize = 17,
+  style,
 }: Props) => {
   const iconSize = { width: loadingIconSize, height: loadingIconSize };
   return (
@@ -46,6 +48,7 @@ const Button: React.FC<Props> = ({
         justifyContent: align,
         opacity: loading ? 0.7 : 1,
         cursor: loading ? 'wait' : cursor,
+        ...style,
       }}
     >
       {loading ? (
