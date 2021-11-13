@@ -17,15 +17,25 @@ type LoginProps = unknown;
 
 type Props = ReduxProps & LoginProps;
 
+const user = { email: 'test@gmail.com', password: '12345678' };
+const emailRgx = /^\S+@\S+\.\S+$/;
+
 const Login = (props: Props) => {
   const [userInfo, setUserInfo] = useState({
     email: '',
     password: '',
   });
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  const userInfoHandler = (key: string) => (value: string) => setUserInfo({ ...userInfo, [key]: value });
+  const userInfoHandler = (key: string) => (value: string) =>
+    setUserInfo({ ...userInfo, [key]: value.replace(/\s/g, '') });
+
+  const login = () => {
+    if (!userInfo.email) return setError('email boş olamaz');
+    if (!user.password) return setError('şifre boş olamaz');
+  };
   return (
     <Space column align={'center'} flex>
       <Space v={'s'}>
@@ -54,7 +64,7 @@ const Login = (props: Props) => {
           secret
         />
         <Space h={'n'} v={'n'} t={'s'} b={'m'} flex style={{ justifyContent: 'flex-end' }}>
-          <Clickable onClick={() => {}}>
+          <Clickable onClick={() => navigate('/reset-password')}>
             <P color={'dg'} size={'s'} bold>
               <T>forgotYourPassword</T>
             </P>
@@ -62,13 +72,13 @@ const Login = (props: Props) => {
         </Space>
         <Button
           title={translate('login')}
-          type={'submit'}
           color={'l'}
           borderRadius={100}
           fullWidth
           align={'center'}
           loading={loading}
-          onClick={() => setLoading(!loading)}
+          onClick={login}
+          enabled={emailRgx.test(userInfo.email) && userInfo.password.length > 8}
         />
         <Space h={'n'} v={'s'} flex column align={'center'}>
           <P color={'dg'} align={'center'}>

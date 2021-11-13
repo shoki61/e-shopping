@@ -21,6 +21,10 @@ const en = {
   or: 'or',
   username: 'Username',
   usernameInputPlaceholder: 'enter username',
+  resetPasswordPageTitle: 'Password reset',
+  continue: 'Continue',
+  back: 'Back',
+  resetPasswordPageInfo: 'A verification code will be sent to your e-mail address so that you can renew your password.',
 
   //navs
   man: 'Man',
@@ -55,6 +59,10 @@ const tr = {
   or: 'veya',
   username: 'Kullanıcı adı',
   usernameInputPlaceholder: 'kullanıcı adınızı giriniz',
+  resetPasswordPageTitle: 'Şifre yenileme',
+  continue: 'Devam et',
+  back: 'Geri',
+  resetPasswordPageInfo: 'Şifrenizi yenileyebilmeniz için e-mail adresinize doğrulama kodu gönderilecek',
 
   //navs
   man: 'Erkek',

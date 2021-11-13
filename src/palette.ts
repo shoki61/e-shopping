@@ -14,5 +14,5 @@ export const palette: Palette = {
   y: '#ffa200', // yellow;
   b: '#006aff', // blue;
   dg: '#696969', // dim gray;
-  lg: '#cccccc', // ligth gray
+  lg: '#d9d9d9', // ligth gray
 };

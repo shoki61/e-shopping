@@ -7,6 +7,8 @@ import { translate } from 'util/translate';
 import { palette } from 'palette';
 import { w } from 'windowDimensions';
 
+import './style.css';
+
 type Props = {};
 
 const SignUp: React.FC<Props> = (props: Props) => {
@@ -29,7 +31,7 @@ const SignUp: React.FC<Props> = (props: Props) => {
           <T>signUpPageTitle</T>
         </P>
       </Space>
-      <Space style={{ width: w(25) }} className={'Login-Inputs-Container'}>
+      <Space style={{ width: w(25) }} className={'Sign-Up-Inputs-Container'}>
         <Input
           style={{ height: 35, backgroundColor: `${palette.lg}15` }}
           titleColor={'dg'}
@@ -75,7 +77,6 @@ const SignUp: React.FC<Props> = (props: Props) => {
           borderRadius={100}
           fullWidth
           align={'center'}
-          style={{ backgroundColor: palette.y }}
           loading={loading}
           onClick={() => setLoading(!loading)}
         />

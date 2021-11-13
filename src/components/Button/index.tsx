@@ -20,6 +20,7 @@ type Props = {
   cursor?: CursorType;
   loadingIconSize?: number;
   style?: React.CSSProperties;
+  enabled?: boolean;
 };
 
 const Button: React.FC<Props> = ({
@@ -35,6 +36,7 @@ const Button: React.FC<Props> = ({
   cursor,
   loadingIconSize = 17,
   style,
+  enabled = true,
 }: Props) => {
   const iconSize = { width: loadingIconSize, height: loadingIconSize };
   return (
@@ -50,6 +52,7 @@ const Button: React.FC<Props> = ({
         cursor: loading ? 'wait' : cursor,
         ...style,
       }}
+      disabled={!enabled}
     >
       {loading ? (
         <ReactLoading type={'spinningBubbles'} color={palette.l} {...iconSize} />
@@ -67,7 +70,7 @@ const styles = {
     backgroundColor: palette.m,
   },
   back: {
-    backgroundColor: palette.l,
+    backgroundColor: palette.lg,
   },
 };
 
