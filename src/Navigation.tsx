@@ -1,6 +1,7 @@
 import { Routes, Route } from 'react-router-dom';
 
 import { Home, Login, SignUp, ResetPassword } from 'pages';
+import { AppNotification } from 'components';
 import { Header } from 'shared';
 
 const Navigation = () => {
@@ -13,6 +14,7 @@ const Navigation = () => {
         <Route path="/sign-up" element={<SignUp />} />
         <Route path="/reset-password" element={<ResetPassword />} />
       </Routes>
+      <AppNotification />
     </div>
   );
 };

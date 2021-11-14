@@ -3,7 +3,7 @@ import './style.css';
 type Props = {
   align?: 'top' | 'middle' | 'bottom';
   justify?: 'start' | 'center' | 'end';
-  children: JSX.Element[];
+  children: JSX.Element[] | any;
   style?: React.CSSProperties;
   wrap?: boolean;
   spread?: boolean;

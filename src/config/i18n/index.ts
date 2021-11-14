@@ -25,6 +25,8 @@ const en = {
   continue: 'Continue',
   back: 'Back',
   resetPasswordPageInfo: 'A verification code will be sent to your e-mail address so that you can renew your password.',
+  emailError: 'Please enter a valid e-mail.',
+  passwordError: 'Password cannot be empty.',
 
   //navs
   man: 'Man',
@@ -63,6 +65,8 @@ const tr = {
   continue: 'Devam et',
   back: 'Geri',
   resetPasswordPageInfo: 'Şifrenizi yenileyebilmeniz için e-mail adresinize doğrulama kodu gönderilecek',
+  emailError: 'Lütfen geçerli bir e-mail girin.',
+  passwordError: 'Şifre boş olamaz.',
 
   //navs
   man: 'Erkek',
