@@ -32,8 +32,7 @@ const Login = (props: Props) => {
   const navigate = useNavigate();
 
   const userInfoHandler = (key: string) => (value: string) => {
-    if (key === 'email') setErrors({ ...errors, emailError: '' });
-    else setErrors({ ...errors, passwordError: '' });
+    setErrors({ ...errors, [`${key}Error`]: '' });
     setUserInfo({ ...userInfo, [key]: value.replace(/\s/g, '') });
   };
 

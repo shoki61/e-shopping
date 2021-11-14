@@ -27,6 +27,10 @@ const en = {
   resetPasswordPageInfo: 'A verification code will be sent to your e-mail address so that you can renew your password.',
   emailError: 'Please enter a valid e-mail.',
   passwordError: 'Password cannot be empty.',
+  usernameError: 'Please enter your username',
+  confirmPasswordError: 'Make sure you enter correctly',
+  passwordMinError: 'Password must be at least 8 characters',
+  sendVerificationCode: 'Verification code sent. check your e-mail',
 
   //navs
   man: 'Man',
@@ -67,6 +71,10 @@ const tr = {
   resetPasswordPageInfo: 'Şifrenizi yenileyebilmeniz için e-mail adresinize doğrulama kodu gönderilecek',
   emailError: 'Lütfen geçerli bir e-mail girin.',
   passwordError: 'Şifre boş olamaz.',
+  usernameError: 'Lütfen kullanıcı adınızı giriniz.',
+  confirmPasswordError: 'Şifre tekrarını doğru girdiğinizden emin olun',
+  passwordMinError: 'Şifre en az 8 karakter olmalıdır',
+  sendVerificationCode: 'Doğrulama kodu gönderildi. e-mailini kontrol et',
 
   //navs
   man: 'Erkek',

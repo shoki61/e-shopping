@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { connect } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-import { Space, P, T, Input, Button } from 'components';
+import { Space, P, T, Input, Button, AppNotification } from 'components';
 import { translate } from 'util/translate';
 import { palette } from 'palette';
 import { w } from 'windowDimensions';
@@ -18,12 +18,25 @@ type ResetPassword = unknown;
 type Props = ReduxProps & ResetPassword;
 
 const ResetPassword: React.FC<Props> = ({}: Props) => {
-  const [email, setEmaiil] = useState('');
+  const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
   const navigate = useNavigate();
 
-  const userEmailHandler = (value: string) => setEmaiil(value);
+  const userEmailHandler = (value: string) => {
+    setError('');
+    setEmail(value);
+  };
+
+  const submit = () => {
+    if (!email || !/^\S+@\S+\.\S+$/.test(email)) return setError(translate('emailError'));
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+      AppNotification.success(translate('sendVerificationCode'));
+    }, 3000);
+  };
 
   return (
     <Space column align={'center'} flex>
@@ -46,6 +59,8 @@ const ResetPassword: React.FC<Props> = ({}: Props) => {
           placeholder={'example@gmail.com'}
           onChange={userEmailHandler}
           type={'email'}
+          error={error.length > 0}
+          errorMessage={error}
         />
         <Space v={'m'} />
         <Button
@@ -55,8 +70,7 @@ const ResetPassword: React.FC<Props> = ({}: Props) => {
           fullWidth
           align={'center'}
           loading={loading}
-          onClick={() => alert('selam')}
-          enabled={false}
+          onClick={submit}
         />
         <Space v={'s'} />
         <Button
