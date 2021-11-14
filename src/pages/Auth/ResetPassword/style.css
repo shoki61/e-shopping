@@ -3,3 +3,29 @@
   border-radius: 7px;
   box-shadow: 0 1px 3px lightgray;
 }
+
+.Verification-Character {
+  line-height: 45px !important;
+  font-size: 30px !important;
+  font-weight: 600 !important;
+  color: #666666 !important;
+  background-color: #fdfdfd !important;
+  border: 2px solid #69696999 !important;
+  border-radius: 4px !important;
+  margin-left: 8px !important;
+  outline: none !important;
+  align-items: center !important;
+  width: 150px !important;
+}
+
+.Verification-Character:first-child {
+  margin-left: 0 !important;
+}
+
+.character--inactive {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+.character--selected {
+  background-color: #eeeeee !important;
+}

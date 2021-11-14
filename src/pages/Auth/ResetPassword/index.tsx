@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { connect } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import VerificationInput from 'react-verification-input';
 
 import { Space, P, T, Input, Button, AppNotification } from 'components';
 import { translate } from 'util/translate';
 import { palette } from 'palette';
-import { w } from 'windowDimensions';
 
 import './style.css';
 
@@ -13,30 +13,42 @@ type ReduxProps = {
   languages: any;
 };
 
-type ResetPassword = unknown;
+type ResetPasswordProps = unknown;
 
-type Props = ReduxProps & ResetPassword;
+type Props = ReduxProps & ResetPasswordProps;
 
 const ResetPassword: React.FC<Props> = ({}: Props) => {
-  const [email, setEmail] = useState('');
+  const [steps, setSteps] = useState({
+    emailVerify: true,
+    verificationCode: false,
+    newPassword: false,
+  });
+
+  const [inputsValue, setInputsValue] = useState({
+    email: '',
+    verificationCode: '',
+    newPassword: '',
+    confirmPassword: '',
+  });
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
+  const [errors, setErrors] = useState({
+    emailError: '',
+    verificationCodeError: '',
+    newPasswordError: '',
+    confirmPasswordError: '',
+  });
 
   const navigate = useNavigate();
 
-  const userEmailHandler = (value: string) => {
-    setError('');
-    setEmail(value);
+  const inputsValueHandler = (key: string) => (value: string) => {
+    setErrors({ ...errors, [`${key}Error`]: '' });
+    setInputsValue({ ...inputsValue, [key]: value });
   };
 
-  const submit = () => {
-    if (!email || !/^\S+@\S+\.\S+$/.test(email)) return setError(translate('emailError'));
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      AppNotification.success(translate('sendVerificationCode'));
-    }, 3000);
-  };
+  const onNext = (inactiveKey: string, activeKey: string) =>
+    setSteps({ ...steps, [inactiveKey]: false, [activeKey]: true });
+
+  const finish = () => {};
 
   return (
     <Space column align={'center'} flex>
@@ -46,41 +58,132 @@ const ResetPassword: React.FC<Props> = ({}: Props) => {
         </P>
         <Space v={'xs'} style={{ width: 450 }}>
           <P color={'dg'} align={'center'}>
-            <T>resetPasswordPageInfo</T>
+            <T>
+              {steps.emailVerify
+                ? 'resetPasswordPageInfo'
+                : steps.verificationCode
+                ? 'enterVerificationCodeMessage'
+                : 'newPasswordMessage'}
+            </T>
           </P>
         </Space>
       </Space>
       <Space className={'Reset-Inputs-Container'}>
-        <Input
-          style={{ height: 35, backgroundColor: `${palette.lg}15` }}
-          titleColor={'dg'}
-          title={translate('email')}
-          value={email}
-          placeholder={'example@gmail.com'}
-          onChange={userEmailHandler}
-          type={'email'}
-          error={error.length > 0}
-          errorMessage={error}
-        />
-        <Space v={'m'} />
-        <Button
-          title={translate('continue')}
-          color={'l'}
-          borderRadius={100}
-          fullWidth
-          align={'center'}
-          loading={loading}
-          onClick={submit}
-        />
-        <Space v={'s'} />
-        <Button
-          title={translate('back')}
-          fullWidth
-          align={'center'}
-          borderRadius={100}
-          type={'back'}
-          onClick={() => navigate('/login')}
-        />
+        {steps.emailVerify && (
+          <>
+            <Input
+              style={{ height: 35, backgroundColor: `${palette.lg}15` }}
+              titleColor={'dg'}
+              title={translate('email')}
+              value={inputsValue.email}
+              placeholder={'example@gmail.com'}
+              onChange={inputsValueHandler('email')}
+              type={'email'}
+              error={errors.emailError.length > 0}
+              errorMessage={errors.emailError}
+            />
+            <Space v={'s'} />
+            <Button
+              title={translate('continue')}
+              color={'l'}
+              borderRadius={100}
+              fullWidth
+              align={'center'}
+              loading={loading}
+              onClick={() => onNext('emailVerify', 'verificationCode')}
+            />
+            <Space v={'s'} />
+            <Button
+              title={translate('back')}
+              fullWidth
+              align={'center'}
+              borderRadius={100}
+              type={'back'}
+              onClick={() => navigate('/login')}
+            />
+          </>
+        )}
+        {steps.verificationCode && (
+          <>
+            <VerificationInput
+              value={inputsValue.verificationCode}
+              autoFocus
+              onChange={inputsValueHandler('verificationCode')}
+              classNames={{
+                character: 'Verification-Character',
+                characterInactive: 'character--inactive',
+                characterSelected: 'character--selected',
+              }}
+            />
+            <Space v={'s'} />
+            <Button
+              title={translate('continue')}
+              color={'l'}
+              borderRadius={100}
+              fullWidth
+              align={'center'}
+              loading={loading}
+              onClick={() => onNext('verificationCode', 'newPassword')}
+            />
+            <Space v={'s'} />
+            <Button
+              title={translate('back')}
+              fullWidth
+              align={'center'}
+              borderRadius={100}
+              type={'back'}
+              onClick={() => onNext('verificationCode', 'emailVerify')}
+            />
+          </>
+        )}
+        {steps.newPassword && (
+          <>
+            <Input
+              style={{ height: 35, backgroundColor: `${palette.lg}15` }}
+              titleColor={'dg'}
+              title={translate('newPassword')}
+              value={inputsValue.newPassword}
+              placeholder={translate('newPasswordPlaceholder')}
+              onChange={inputsValueHandler('newPassword')}
+              type={'password'}
+              secret
+              error={errors.newPasswordError.length > 0}
+              errorMessage={errors.newPasswordError}
+            />
+            <Space v={'s'} />
+            <Input
+              style={{ height: 35, backgroundColor: `${palette.lg}15` }}
+              titleColor={'dg'}
+              title={translate('confirmPassword')}
+              value={inputsValue.confirmPassword}
+              placeholder={translate('confirmPasswordPlaceholder')}
+              onChange={inputsValueHandler('confirmPassword')}
+              type={'password'}
+              secret
+              error={errors.confirmPasswordError.length > 0}
+              errorMessage={errors.confirmPasswordError}
+            />
+            <Space v={'s'} />
+            <Button
+              title={translate('submit')}
+              color={'l'}
+              borderRadius={100}
+              fullWidth
+              align={'center'}
+              loading={loading}
+              onClick={finish}
+            />
+            <Space v={'s'} />
+            <Button
+              title={translate('back')}
+              fullWidth
+              align={'center'}
+              borderRadius={100}
+              type={'back'}
+              onClick={() => onNext('newPassword', 'verificationCode')}
+            />
+          </>
+        )}
       </Space>
     </Space>
   );

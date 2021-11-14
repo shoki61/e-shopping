@@ -41,7 +41,7 @@ const Button: React.FC<Props> = ({
   const iconSize = { width: loadingIconSize, height: loadingIconSize };
   return (
     <button
-      onClick={onClick}
+      onClick={() => !loading && onClick()}
       className="Button"
       style={{
         ...styles[type],
