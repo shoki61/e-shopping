@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { connect } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-import { Space, P, T, Input, Clickable, Button } from 'components';
+import { Space, P, T, Input, Button } from 'components';
 import { translate } from 'util/translate';
 import { palette } from 'palette';
 import { w } from 'windowDimensions';
@@ -31,13 +31,13 @@ const ResetPassword: React.FC<Props> = ({}: Props) => {
         <P align={'center'} size={'xl'} color={'m'}>
           <T>resetPasswordPageTitle</T>
         </P>
-        <Space v={'xs'} style={{ width: w(35) }}>
+        <Space v={'xs'} style={{ width: 450 }}>
           <P color={'dg'} align={'center'}>
             <T>resetPasswordPageInfo</T>
           </P>
         </Space>
       </Space>
-      <Space style={{ width: w(25) }} className={'Login-Inputs-Container'}>
+      <Space className={'Reset-Inputs-Container'}>
         <Input
           style={{ height: 35, backgroundColor: `${palette.lg}15` }}
           titleColor={'dg'}

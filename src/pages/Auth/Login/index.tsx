@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import { Space, Button, Input, P, Clickable, T } from 'components';
+import { Space, Button, Input, P, Clickable, T, AppNotification } from 'components';
 import { w } from 'windowDimensions';
 import { palette } from 'palette';
 import { translate } from 'util/translate';
@@ -18,7 +18,6 @@ type LoginProps = unknown;
 type Props = ReduxProps & LoginProps;
 
 const user = { email: 'test@gmail.com', password: '12345678' };
-const emailRgx = /^\S+@\S+\.\S+$/;
 
 const Login = (props: Props) => {
   const [userInfo, setUserInfo] = useState({
@@ -26,16 +25,30 @@ const Login = (props: Props) => {
     password: '',
   });
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
+  const [errors, setErrors] = useState({
+    emailError: '',
+    passwordError: '',
+  });
   const navigate = useNavigate();
 
-  const userInfoHandler = (key: string) => (value: string) =>
+  const userInfoHandler = (key: string) => (value: string) => {
+    if (key === 'email') setErrors({ ...errors, emailError: '' });
+    else setErrors({ ...errors, passwordError: '' });
     setUserInfo({ ...userInfo, [key]: value.replace(/\s/g, '') });
+  };
 
   const login = () => {
-    if (!userInfo.email) return setError('email boş olamaz');
-    if (!user.password) return setError('şifre boş olamaz');
+    if (!userInfo.email || !/^\S+@\S+\.\S+$/.test(userInfo.email))
+      return setErrors({ ...errors, emailError: translate('emailError') });
+    if (!userInfo.password) return setErrors({ ...errors, passwordError: translate('passwordError') });
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+      if (userInfo.email !== user.email || userInfo.password !== user.password) AppNotification.error('Hatalı giriş');
+      else AppNotification.success('Hoşgeldiniz!');
+    }, 3000);
   };
+
   return (
     <Space column align={'center'} flex>
       <Space v={'s'}>
@@ -43,7 +56,7 @@ const Login = (props: Props) => {
           <T>loginPageTitle</T>
         </P>
       </Space>
-      <Space style={{ width: w(25) }} className={'Login-Inputs-Container'}>
+      <Space className={'Login-Inputs-Container'}>
         <Input
           style={{ height: 35, backgroundColor: `${palette.lg}15` }}
           titleColor={'dg'}
@@ -52,6 +65,8 @@ const Login = (props: Props) => {
           placeholder={'example@gmail.com'}
           onChange={userInfoHandler('email')}
           type={'email'}
+          errorMessage={errors.emailError}
+          error={errors.emailError.length > 0}
         />
         <Space v={'s'} />
         <Input
@@ -62,6 +77,8 @@ const Login = (props: Props) => {
           placeholder={translate('enterYourPassword')}
           onChange={userInfoHandler('password')}
           secret
+          errorMessage={errors.passwordError}
+          error={errors.passwordError.length > 0}
         />
         <Space h={'n'} v={'n'} t={'s'} b={'m'} flex style={{ justifyContent: 'flex-end' }}>
           <Clickable onClick={() => navigate('/reset-password')}>
@@ -78,7 +95,6 @@ const Login = (props: Props) => {
           align={'center'}
           loading={loading}
           onClick={login}
-          enabled={emailRgx.test(userInfo.email) && userInfo.password.length > 8}
         />
         <Space h={'n'} v={'s'} flex column align={'center'}>
           <P color={'dg'} align={'center'}>

@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import { Input, Button, P, T, Space, Clickable } from 'components';
 import { translate } from 'util/translate';
 import { palette } from 'palette';
-import { w } from 'windowDimensions';
 
 import './style.css';
 
@@ -31,9 +30,9 @@ const SignUp: React.FC<Props> = (props: Props) => {
           <T>signUpPageTitle</T>
         </P>
       </Space>
-      <Space style={{ width: w(25) }} className={'Sign-Up-Inputs-Container'}>
+      <Space className={'Sign-Up-Inputs-Container'}>
         <Input
-          style={{ height: 35, backgroundColor: `${palette.lg}15` }}
+          style={{ backgroundColor: `${palette.lg}15` }}
           titleColor={'dg'}
           title={translate('username')}
           value={userInfo.name}
@@ -42,7 +41,7 @@ const SignUp: React.FC<Props> = (props: Props) => {
         />
         <Space v={'s'} />
         <Input
-          style={{ height: 35, backgroundColor: `${palette.lg}15` }}
+          style={{ backgroundColor: `${palette.lg}15` }}
           titleColor={'dg'}
           title={translate('email')}
           value={userInfo.email}
@@ -52,7 +51,7 @@ const SignUp: React.FC<Props> = (props: Props) => {
         />
         <Space v={'s'} />
         <Input
-          style={{ height: 35, backgroundColor: `${palette.lg}15` }}
+          style={{ backgroundColor: `${palette.lg}15` }}
           titleColor={'dg'}
           title={translate('password')}
           value={userInfo.password}
@@ -62,7 +61,7 @@ const SignUp: React.FC<Props> = (props: Props) => {
         />
         <Space v={'s'} />
         <Input
-          style={{ height: 35, backgroundColor: `${palette.lg}15` }}
+          style={{ backgroundColor: `${palette.lg}15` }}
           titleColor={'dg'}
           title={translate('confirmPassword')}
           value={userInfo.confirmPassword}

@@ -1,4 +1,9 @@
 .Sign-Up-Inputs-Container {
   border-radius: 7px;
   box-shadow: 0 1px 3px lightgray;
+  width: 350px !important;
+}
+
+.Sign-Up-Inputs-Container .Input-Container {
+  height: 35px !important;
 }
