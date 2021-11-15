@@ -2,6 +2,11 @@
   width: 350px !important;
   border-radius: 7px;
   box-shadow: 0 1px 3px lightgray;
+  overflow: hidden;
+}
+
+.Reset-Inputs-Container .Input-Container {
+  height: 35px !important;
 }
 
 .Verification-Character {
@@ -28,4 +33,21 @@
 
 .character--selected {
   background-color: #eeeeee !important;
+}
+
+.fade-enter .Step-Item {
+  opacity: 0;
+}
+.fade-enter-active .Step-Item {
+  opacity: 1;
+}
+.fade-exit .Step-Item {
+  opacity: 1;
+}
+.fade-exit-active .Step-Item {
+  opacity: 0;
+}
+.fade-enter-active .Step-Item,
+.fade-exit-active .Step-Item {
+  transition: opacity 200ms;
 }

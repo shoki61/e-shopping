@@ -1,13 +1,15 @@
 import { useState } from 'react';
 import { connect } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import VerificationInput from 'react-verification-input';
+import { CSSTransition, SwitchTransition } from 'react-transition-group';
 
-import { Space, P, T, Input, Button, AppNotification } from 'components';
+import { Space, P, T } from 'components';
 import { translate } from 'util/translate';
-import { palette } from 'palette';
 
 import './style.css';
+import EmailVerify from './EmailVerify';
+import VerificationCode from './VerificationCode';
+import NewPassword from './NewPassword';
 
 type ReduxProps = {
   languages: any;
@@ -37,6 +39,7 @@ const ResetPassword: React.FC<Props> = ({}: Props) => {
     newPasswordError: '',
     confirmPasswordError: '',
   });
+  const [currentPage, setCurrentPage] = useState('emailVerify');
 
   const navigate = useNavigate();
 
@@ -45,8 +48,35 @@ const ResetPassword: React.FC<Props> = ({}: Props) => {
     setInputsValue({ ...inputsValue, [key]: value });
   };
 
-  const onNext = (inactiveKey: string, activeKey: string) =>
-    setSteps({ ...steps, [inactiveKey]: false, [activeKey]: true });
+  const controlEmail = () => {
+    if (!/^\S+@\S+\.\S+$/.test(inputsValue.email)) {
+      return setErrors({ ...errors, emailError: translate('emailError') });
+    }
+    setLoading(true);
+    setCurrentPage('verificationCode');
+    setSteps({ ...steps, emailVerify: false, verificationCode: true });
+  };
+
+  const controlVerificationCode = () => {
+    if (inputsValue.verificationCode.length < 6) {
+      return setErrors({ ...errors, verificationCodeError: translate('verificationCodeError') });
+    }
+    setLoading(true);
+    setCurrentPage('newPassword');
+    setSteps({ ...steps, verificationCode: false, newPassword: true });
+  };
+
+  const controlPasswords = () => {
+    const { newPassword, confirmPassword } = inputsValue;
+    if (!newPassword) {
+      return setErrors({ ...errors, newPasswordError: translate('passwordError') });
+    }
+    if (newPassword.length < 8) return setErrors({ ...errors, newPasswordError: translate('passwordMinError') });
+    if (newPassword !== confirmPassword)
+      return setErrors({ ...errors, confirmPasswordError: translate('confirmPasswordError') });
+    setLoading(true);
+    finish();
+  };
 
   const finish = () => {};
 
@@ -56,6 +86,7 @@ const ResetPassword: React.FC<Props> = ({}: Props) => {
         <P align={'center'} size={'xl'} color={'m'}>
           <T>resetPasswordPageTitle</T>
         </P>
+        <p>{JSON.stringify(steps)}</p>
         <Space v={'xs'} style={{ width: 450 }}>
           <P color={'dg'} align={'center'}>
             <T>
@@ -69,121 +100,63 @@ const ResetPassword: React.FC<Props> = ({}: Props) => {
         </Space>
       </Space>
       <Space className={'Reset-Inputs-Container'}>
-        {steps.emailVerify && (
-          <>
-            <Input
-              style={{ height: 35, backgroundColor: `${palette.lg}15` }}
-              titleColor={'dg'}
-              title={translate('email')}
-              value={inputsValue.email}
-              placeholder={'example@gmail.com'}
-              onChange={inputsValueHandler('email')}
-              type={'email'}
-              error={errors.emailError.length > 0}
-              errorMessage={errors.emailError}
-            />
-            <Space v={'s'} />
-            <Button
-              title={translate('continue')}
-              color={'l'}
-              borderRadius={100}
-              fullWidth
-              align={'center'}
-              loading={loading}
-              onClick={() => onNext('emailVerify', 'verificationCode')}
-            />
-            <Space v={'s'} />
-            <Button
-              title={translate('back')}
-              fullWidth
-              align={'center'}
-              borderRadius={100}
-              type={'back'}
-              onClick={() => navigate('/login')}
-            />
-          </>
-        )}
-        {steps.verificationCode && (
-          <>
-            <VerificationInput
-              value={inputsValue.verificationCode}
-              autoFocus
-              onChange={inputsValueHandler('verificationCode')}
-              classNames={{
-                character: 'Verification-Character',
-                characterInactive: 'character--inactive',
-                characterSelected: 'character--selected',
-              }}
-            />
-            <Space v={'s'} />
-            <Button
-              title={translate('continue')}
-              color={'l'}
-              borderRadius={100}
-              fullWidth
-              align={'center'}
-              loading={loading}
-              onClick={() => onNext('verificationCode', 'newPassword')}
-            />
-            <Space v={'s'} />
-            <Button
-              title={translate('back')}
-              fullWidth
-              align={'center'}
-              borderRadius={100}
-              type={'back'}
-              onClick={() => onNext('verificationCode', 'emailVerify')}
-            />
-          </>
-        )}
-        {steps.newPassword && (
-          <>
-            <Input
-              style={{ height: 35, backgroundColor: `${palette.lg}15` }}
-              titleColor={'dg'}
-              title={translate('newPassword')}
-              value={inputsValue.newPassword}
-              placeholder={translate('newPasswordPlaceholder')}
-              onChange={inputsValueHandler('newPassword')}
-              type={'password'}
-              secret
-              error={errors.newPasswordError.length > 0}
-              errorMessage={errors.newPasswordError}
-            />
-            <Space v={'s'} />
-            <Input
-              style={{ height: 35, backgroundColor: `${palette.lg}15` }}
-              titleColor={'dg'}
-              title={translate('confirmPassword')}
-              value={inputsValue.confirmPassword}
-              placeholder={translate('confirmPasswordPlaceholder')}
-              onChange={inputsValueHandler('confirmPassword')}
-              type={'password'}
-              secret
-              error={errors.confirmPasswordError.length > 0}
-              errorMessage={errors.confirmPasswordError}
-            />
-            <Space v={'s'} />
-            <Button
-              title={translate('submit')}
-              color={'l'}
-              borderRadius={100}
-              fullWidth
-              align={'center'}
-              loading={loading}
-              onClick={finish}
-            />
-            <Space v={'s'} />
-            <Button
-              title={translate('back')}
-              fullWidth
-              align={'center'}
-              borderRadius={100}
-              type={'back'}
-              onClick={() => onNext('newPassword', 'verificationCode')}
-            />
-          </>
-        )}
+        <SwitchTransition mode={'out-in'}>
+          <CSSTransition
+            key={currentPage}
+            addEndListener={(node, done) => {
+              node.addEventListener('transitionend', done, false);
+            }}
+            classNames={'fade'}
+          >
+            <div>
+              {steps.emailVerify && (
+                <div className={'Step-Item'}>
+                  <EmailVerify
+                    value={inputsValue.email}
+                    onChange={inputsValueHandler('email')}
+                    errorMessage={errors.emailError}
+                    onNext={controlEmail}
+                    onBack={() => navigate('/login')}
+                    loading={loading}
+                  />
+                </div>
+              )}
+              {steps.verificationCode && (
+                <div className={'Step-Item'}>
+                  <VerificationCode
+                    value={inputsValue.verificationCode}
+                    onChange={inputsValueHandler('verificationCode')}
+                    errorMessage={errors.verificationCodeError}
+                    onNext={controlVerificationCode}
+                    onBack={() => {
+                      setSteps({ ...steps, verificationCode: false, emailVerify: true });
+                      setCurrentPage('emailVerify');
+                    }}
+                    loading={loading}
+                  />
+                </div>
+              )}
+              {steps.newPassword && (
+                <div className={'Step-Item'}>
+                  <NewPassword
+                    newPassword={inputsValue.newPassword}
+                    confirmPassword={inputsValue.confirmPassword}
+                    onChangeNewPassword={inputsValueHandler('newPassword')}
+                    onChangeConfirmPassword={inputsValueHandler('confirmPassword')}
+                    onNext={controlPasswords}
+                    onBack={() => {
+                      setSteps({ ...steps, newPassword: false, verificationCode: true });
+                      setCurrentPage('verificationCode');
+                    }}
+                    newPasswordError={errors.newPasswordError}
+                    confirmPasswordError={errors.confirmPasswordError}
+                    loading={loading}
+                  />
+                </div>
+              )}
+            </div>
+          </CSSTransition>
+        </SwitchTransition>
       </Space>
     </Space>
   );

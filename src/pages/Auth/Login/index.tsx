@@ -73,7 +73,7 @@ const Login = (props: Props) => {
           titleColor={'dg'}
           title={translate('password')}
           value={userInfo.password}
-          placeholder={translate('enterYourPassword')}
+          placeholder={translate('passwordPlaceholder')}
           onChange={userInfoHandler('password')}
           secret
           errorMessage={errors.passwordError}

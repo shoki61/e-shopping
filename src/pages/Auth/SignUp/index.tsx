@@ -69,7 +69,7 @@ const SignUp: React.FC<Props> = (props: Props) => {
     {
       title: translate('password'),
       value: userInfo.password,
-      placeholder: translate('enterPassword'),
+      placeholder: translate('passwordPlaceholder'),
       onChange: userInfoHandler('password'),
       secret: true,
       error: errors.passwordError.length > 0,
@@ -78,7 +78,7 @@ const SignUp: React.FC<Props> = (props: Props) => {
     {
       title: translate('confirmPassword'),
       value: userInfo.confirmPassword,
-      placeholder: translate('enterConfirmPassword'),
+      placeholder: translate('confirmPasswordPlaceholder'),
       onChange: userInfoHandler('confirmPassword'),
       secret: true,
       error: errors.confirmPasswordError?.length > 0,

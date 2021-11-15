@@ -16,7 +16,7 @@ type Props = {
   fullWidth?: boolean;
   align?: 'center' | 'flex-start' | 'flex-end';
   loading?: boolean;
-  onClick: () => any;
+  onClick: () => void;
   cursor?: CursorType;
   loadingIconSize?: number;
   style?: React.CSSProperties;
@@ -30,7 +30,7 @@ const Button: React.FC<Props> = ({
   color = 'd',
   fontSize = 'm',
   fullWidth,
-  align,
+  align = 'center',
   loading,
   onClick,
   cursor,

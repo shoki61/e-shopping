@@ -1,4 +1,4 @@
-const en = {
+export const en = {
   key: 'US',
   en: 'English',
   tr: 'Turkish',
@@ -12,10 +12,10 @@ const en = {
   //input placeholder
   searchBarPlaceholder: 'enter product, category or mark...',
   usernameInputPlaceholder: 'enter username',
-  enterPassword: 'enter password',
-  enterYourPassword: 'enter your password',
+  passwordPlaceholder: 'enter password',
   confirmPasswordPlaceholder: 'repeat password',
   newPasswordPlaceholder: 'enter new password',
+  emailPlaceholder: 'example@gmail.com',
 
   //input errors
   emailError: 'Please enter a valid e-mail.',
@@ -23,6 +23,7 @@ const en = {
   usernameError: 'Please enter your username',
   confirmPasswordError: 'Make sure you enter correctly',
   passwordMinError: 'Password must be at least 8 characters',
+  verificationCodeError: 'Must be at least 6 characters',
 
   login: 'Login',
   signUp: 'Sign Up',
@@ -53,7 +54,7 @@ const en = {
   garden: 'Garden',
   electronic: 'Electronic',
 };
-const tr = {
+export const tr = {
   key: 'TR',
   en: 'İngilizce',
   tr: 'Türkçe',
