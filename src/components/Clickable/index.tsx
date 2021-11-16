@@ -5,7 +5,7 @@ export type CursorType = 'pointer' | 'crosshair' | 'zoom-in' | 'wait' | 'not-all
 type Props = {
   children: JSX.Element[] | any;
   style?: React.CSSProperties;
-  onClick: () => any;
+  onClick?: () => any;
   cursor?: CursorType;
   loading?: boolean;
   enabled?: boolean;
@@ -16,7 +16,7 @@ type Props = {
 const Clickable: React.FC<Props> = ({
   children,
   style,
-  onClick,
+  onClick = () => {},
   cursor = 'pointer',
   loading = false,
   enabled = true,
