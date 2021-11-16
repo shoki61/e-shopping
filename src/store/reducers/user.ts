@@ -14,6 +14,9 @@ export const user = (state = initialState, { type, payload }: any): userReducer 
   switch (type) {
     case types.LOGIN:
       return { ...state, profile: payload, loggedIn: true };
+
+    case types.LOGOUT:
+      return { ...initialState };
     default:
       return state;
   }

@@ -7,9 +7,6 @@ import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import PersonIcon from '@material-ui/icons/Person';
 import LogoutRoundedIcon from '@material-ui/icons/ExitToAppRounded';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-import { MenuItem, ControlledMenu, useMenuState } from '@szhsin/react-menu';
-import '@szhsin/react-menu/dist/index.css';
-import '@szhsin/react-menu/dist/transitions/slide.css';
 
 import { P, Space, Image, Horizontal, SearchBar, Clickable, T, Menu } from 'components';
 import { AppLogo, TR, US } from 'assets';
@@ -48,7 +45,7 @@ const Header: React.FC<Props> = ({ languages, profile, loggedIn }: Props) => {
 
   const menuItems = [
     { label: 'Your Account', icon: <PersonIcon />, onClick: () => {} },
-    { label: 'Logout', icon: <LogoutRoundedIcon />, onClick: () => {} },
+    { label: 'Logout', icon: <LogoutRoundedIcon />, onClick: () => store.dispatch(actions.logout()) },
   ];
 
   return (
