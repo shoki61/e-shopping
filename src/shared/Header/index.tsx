@@ -1,10 +1,15 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { connect } from 'react-redux';
 import FavoriteSharp from '@material-ui/icons/FavoriteSharp';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import PersonIcon from '@material-ui/icons/Person';
+import LogoutRoundedIcon from '@material-ui/icons/ExitToAppRounded';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import { MenuItem, ControlledMenu, useMenuState } from '@szhsin/react-menu';
+import '@szhsin/react-menu/dist/index.css';
+import '@szhsin/react-menu/dist/transitions/slide.css';
 
 import { P, Space, Image, Horizontal, SearchBar, Clickable, T } from 'components';
 import { AppLogo, TR, US } from 'assets';
@@ -40,6 +45,8 @@ const Header: React.FC<Props> = ({ languages, profile, loggedIn }: Props) => {
     { title: translate('garden'), to: '/garden' },
     { title: translate('electronic'), to: '/electronic' },
   ];
+  const ref = useRef(null);
+  const { toggleMenu, ...menuProps } = useMenuState({ transition: true });
 
   return (
     <div className={'Header'} style={{ borderBottomColor: `${palette.dg}50` }}>
@@ -53,6 +60,59 @@ const Header: React.FC<Props> = ({ languages, profile, loggedIn }: Props) => {
           </Space>
           <Space v={'n'} b={'s'}>
             <Horizontal>
+              {loggedIn && (
+                <>
+                  <div ref={ref} onMouseEnter={() => toggleMenu(true)}>
+                    <Clickable onClick={() => {}}>
+                      <AccountCircleIcon style={{ color: `${palette.dg}`, height: 25 }} />
+                      <P color={'dg'}>{profile.name || 'Sohrat'}</P>
+                    </Clickable>
+                  </div>
+                  <ControlledMenu
+                    {...menuProps}
+                    arrow
+                    menuStyles={{ borderRadius: 10 }}
+                    align={'center'}
+                    anchorRef={ref}
+                    onMouseLeave={() => toggleMenu(false)}
+                    onClose={() => toggleMenu(false)}
+                  >
+                    <MenuItem
+                      styles={{
+                        color: palette.dg,
+                        hover: {
+                          color: palette.m,
+                          backgroundColor: `${palette.lg}40`,
+                        },
+                        active: {
+                          backgroundColor: `${palette.m}30`,
+                        },
+                      }}
+                    >
+                      <PersonIcon />
+                      <Space v={'n'} h={'xs'} />
+                      <P bold>Your account</P>
+                    </MenuItem>
+                    <MenuItem
+                      styles={{
+                        color: palette.dg,
+                        hover: {
+                          color: palette.m,
+                          backgroundColor: `${palette.lg}40`,
+                        },
+                        active: {
+                          backgroundColor: `${palette.m}30`,
+                        },
+                      }}
+                    >
+                      <LogoutRoundedIcon />
+                      <Space v={'n'} h={'xs'} />
+                      <P bold>Logout</P>
+                    </MenuItem>
+                  </ControlledMenu>
+                  <Space v={'n'} />
+                </>
+              )}
               <Clickable onClick={() => {}}>
                 <FavoriteSharp style={{ color: palette.e, height: 25 }} />
                 <P color={'dg'}>
@@ -66,15 +126,6 @@ const Header: React.FC<Props> = ({ languages, profile, loggedIn }: Props) => {
                   <T>cart</T>
                 </P>
               </Clickable>
-              {loggedIn && (
-                <>
-                  <Space v={'n'} />
-                  <Clickable onClick={() => {}}>
-                    <PersonIcon style={{ color: `${palette.d}99`, height: 25 }} />
-                    <P color={'dg'}>{profile.name}</P>
-                  </Clickable>
-                </>
-              )}
             </Horizontal>
           </Space>
         </Horizontal>
