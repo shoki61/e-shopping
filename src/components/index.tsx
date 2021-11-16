@@ -8,3 +8,4 @@ export { default as Horizontal } from './Horizontal';
 export { default as SearchBar } from './SearchBar';
 export { default as T } from './T';
 export { default as AppNotification } from './AppNotification';
+export { default as Menu } from './Menu';
