@@ -44,9 +44,16 @@ const NewPassword = ({
         secret
       />
       <Space v={'s'} />
-      <Button title={translate('continue')} loading={loading} fullWidth onClick={onNext} color={'l'} />
+      <Button
+        title={translate('continue')}
+        borderRadius={100}
+        loading={loading}
+        fullWidth
+        onClick={onNext}
+        color={'l'}
+      />
       <Space v={'s'} />
-      <Button title={translate('back')} fullWidth onClick={onBack} type={'back'} />
+      <Button title={translate('back')} borderRadius={100} fullWidth onClick={onBack} type={'back'} />
     </>
   );
 };

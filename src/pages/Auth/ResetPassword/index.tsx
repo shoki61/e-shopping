@@ -86,7 +86,6 @@ const ResetPassword: React.FC<Props> = ({}: Props) => {
         <P align={'center'} size={'xl'} color={'m'}>
           <T>resetPasswordPageTitle</T>
         </P>
-        <p>{JSON.stringify(steps)}</p>
         <Space v={'xs'} style={{ width: 450 }}>
           <P color={'dg'} align={'center'}>
             <T>

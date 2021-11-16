@@ -3,9 +3,10 @@ import { useNavigate } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import { Space, Button, Input, P, Clickable, T, AppNotification } from 'components';
-import { w } from 'windowDimensions';
 import { palette } from 'palette';
 import { translate } from 'util/translate';
+import { store } from 'store';
+import * as actions from 'store/actions';
 
 import './style.css';
 
@@ -44,7 +45,9 @@ const Login = (props: Props) => {
     setTimeout(() => {
       setLoading(false);
       if (userInfo.email !== user.email || userInfo.password !== user.password) AppNotification.error('Hatalı giriş');
-      else AppNotification.success('Hoşgeldiniz!');
+      else {
+        store.dispatch(actions.login({ name: 'Sohrat', email: 'test@gmail.com' }));
+      }
     }, 3000);
   };
 
@@ -61,7 +64,7 @@ const Login = (props: Props) => {
           titleColor={'dg'}
           title={translate('email')}
           value={userInfo.email}
-          placeholder={'example@gmail.com'}
+          placeholder={translate('emailPlaceholder')}
           onChange={userInfoHandler('email')}
           type={'email'}
           errorMessage={errors.emailError}

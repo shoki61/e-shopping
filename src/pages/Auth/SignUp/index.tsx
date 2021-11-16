@@ -61,7 +61,7 @@ const SignUp: React.FC<Props> = (props: Props) => {
     {
       title: translate('email'),
       value: userInfo.email,
-      placeholder: 'example@gmail.com',
+      placeholder: translate('emailPlaceholder'),
       onChange: userInfoHandler('email'),
       error: errors.emailError.length > 0,
       errorMessage: errors.emailError,

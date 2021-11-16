@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import FavoriteSharp from '@material-ui/icons/FavoriteSharp';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
+import PersonIcon from '@material-ui/icons/Person';
 
 import { P, Space, Image, Horizontal, SearchBar, Clickable, T } from 'components';
 import { AppLogo, TR, US } from 'assets';
@@ -17,13 +18,15 @@ import './style.css';
 
 type ReduxProps = {
   languages: any;
+  profile: any;
+  loggedIn: boolean;
 };
 
 type HeaderProps = unknown;
 
 type Props = ReduxProps & HeaderProps;
 
-const Header: React.FC<Props> = ({ languages }: Props) => {
+const Header: React.FC<Props> = ({ languages, profile, loggedIn }: Props) => {
   const [searchValue, setSearchValue] = useState('');
   const [showLanguages, setShowLanguages] = useState(false);
   const navigate = useNavigate();
@@ -63,6 +66,15 @@ const Header: React.FC<Props> = ({ languages }: Props) => {
                   <T>cart</T>
                 </P>
               </Clickable>
+              {loggedIn && (
+                <>
+                  <Space v={'n'} />
+                  <Clickable onClick={() => {}}>
+                    <PersonIcon style={{ color: `${palette.d}99`, height: 25 }} />
+                    <P color={'dg'}>{profile.name}</P>
+                  </Clickable>
+                </>
+              )}
             </Horizontal>
           </Space>
         </Horizontal>
@@ -75,11 +87,15 @@ const Header: React.FC<Props> = ({ languages }: Props) => {
             ))}
           </Horizontal>
           <Horizontal>
-            <NavItem title={translate('login')} to={'/login'} />
-            <P color={'dg'}>
-              <T>or</T>
-            </P>
-            <NavItem title={translate('signUp')} to={'/sign-up'} />
+            {!loggedIn && (
+              <>
+                <NavItem title={translate('login')} to={'/login'} />
+                <P color={'dg'}>
+                  <T>or</T>
+                </P>
+                <NavItem title={translate('signUp')} to={'/sign-up'} />
+              </>
+            )}
             <Space v={'n'} h={'s'} />
             <Clickable onClick={() => setShowLanguages(!showLanguages)} style={{ position: 'relative' }}>
               <Horizontal>
@@ -119,6 +135,10 @@ const Header: React.FC<Props> = ({ languages }: Props) => {
   );
 };
 
-const mapStateToProps = ({ app: { languages } }: any) => ({ languages });
+const mapStateToProps = ({ app: { languages }, user: { profile, loggedIn } }: any) => ({
+  languages,
+  profile,
+  loggedIn,
+});
 
 export default connect(mapStateToProps)(Header);
