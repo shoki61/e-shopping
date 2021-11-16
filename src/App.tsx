@@ -1,5 +1,12 @@
-import Navigation from 'Navigation';
+import { PersistGate } from 'redux-persist/integration/react';
 
-const App = () => <Navigation />;
+import Navigation from 'Navigation';
+import { persistor } from 'store';
+
+const App = () => (
+  <PersistGate persistor={persistor}>
+    <Navigation />
+  </PersistGate>
+);
 
 export default App;
