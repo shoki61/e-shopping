@@ -7,7 +7,7 @@ import { Clickable, P, Space } from 'components';
 import { palette } from 'palette';
 
 type Props = {
-  label?: string;
+  label?: string | JSX.Element;
   labelIcon?: JSX.Element;
   horizontal?: boolean;
   onClick?: () => any;

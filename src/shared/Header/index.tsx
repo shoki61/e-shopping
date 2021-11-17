@@ -34,13 +34,13 @@ const Header: React.FC<Props> = ({ languages, profile, loggedIn }: Props) => {
   const navigate = useNavigate();
 
   const navItems = [
-    { title: translate('clothes'), to: '/clothes' },
-    { title: translate('shoes'), to: '/shoes' },
-    { title: translate('accessory'), to: '/accessory' },
-    { title: translate('sport'), to: '/sport' },
+    { title: translate('man'), to: '/man' },
+    { title: translate('woman'), to: '/woman' },
+    { title: translate('child'), to: '/child' },
+    { title: `${translate('home')} & ${translate('life')}`, to: '/home' },
     { title: translate('pet'), to: '/pet' },
-    { title: translate('garden'), to: '/garden' },
     { title: translate('electronic'), to: '/electronic' },
+    { title: translate('sport'), to: '/sport' },
   ];
 
   const menuItems = [
