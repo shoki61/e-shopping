@@ -53,6 +53,7 @@ export const en = {
   pet: 'Pet',
   garden: 'Garden',
   electronic: 'Electronic',
+  sport: 'Sport',
 };
 export const tr = {
   key: 'TR',

@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { connect } from 'react-redux';
 import FavoriteSharp from '@material-ui/icons/FavoriteSharp';
@@ -39,8 +39,8 @@ const Header: React.FC<Props> = ({ languages, profile, loggedIn }: Props) => {
     { title: translate('child'), to: '/child' },
     { title: `${translate('home')} & ${translate('life')}`, to: '/home' },
     { title: translate('pet'), to: '/pet' },
-    { title: translate('garden'), to: '/garden' },
     { title: translate('electronic'), to: '/electronic' },
+    { title: translate('sport'), to: '/sport' },
   ];
 
   const menuItems = [
