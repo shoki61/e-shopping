@@ -45,11 +45,10 @@ export const en = {
   newPasswordMessage: 'You can now create your new password.',
 
   //navs
-  man: 'Man',
-  woman: 'Woman',
-  child: 'Child',
-  home: 'Home',
-  life: 'Life',
+  clothes: 'Clothes',
+  shoes: 'Shoes',
+  accessory: 'Accessory',
+  sport: 'Sport',
   pet: 'Pet',
   garden: 'Garden',
   electronic: 'Electronic',
@@ -89,11 +88,10 @@ export const tr = {
   sendVerificationCode: 'Doğrulama kodu gönderildi. e-mailini kontrol et',
 
   //navs
-  man: 'Erkek',
-  woman: 'Kadın',
-  child: 'Çocuk',
-  home: 'Ev',
-  life: 'Yaşam',
+  clothes: 'Kıyafetler',
+  shoes: 'Ayakkabılar',
+  accessory: 'Aksesuarlar',
+  sport: 'Spor',
   pet: 'Evcil Hayvan',
   garden: 'Bahçe',
   electronic: 'Elektronik',
