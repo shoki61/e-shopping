@@ -10,12 +10,19 @@ type Props = {
   title: string;
   to: string;
   data?: any;
+  onMouseEnter?: () => void;
+  onMouseLeave?: () => void;
 };
 
-const NavItem: React.FC<Props> = ({ title, to, data }: Props) => {
+const NavItem: React.FC<Props> = ({ title, to, data, onMouseEnter, onMouseLeave }: Props) => {
   const [isActiveNav, setIsActiveNav] = useState(false);
   return (
-    <div className={'Nav-Item-Container'} style={{ borderBottomColor: isActiveNav ? palette.m : 'transparent' }}>
+    <div
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
+      className={'Nav-Item-Container'}
+      style={{ borderBottomColor: isActiveNav ? palette.m : 'transparent' }}
+    >
       <NavLink
         style={({ isActive }) => {
           setIsActiveNav(isActive);

@@ -12,6 +12,8 @@ type Props = {
   fullWidth?: boolean;
   column?: boolean;
   align?: 'center' | 'flex-start' | 'flex-end';
+  onMouseEnter?: () => void;
+  onMouseLeave?: () => void;
 };
 
 const Space: React.FC<Props> = ({
@@ -28,9 +30,13 @@ const Space: React.FC<Props> = ({
   fullWidth,
   column,
   align,
+  onMouseEnter,
+  onMouseLeave,
 }: Props) => {
   return (
     <div
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
       style={{
         padding: `${spaceValue[v]}px ${spaceValue[h]}px`,
         paddingTop: t ? spaceValue[t] : 'auto',

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { CSSTransition } from 'react-transition-group';
 import FavoriteSharp from '@material-ui/icons/FavoriteSharp';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
@@ -14,7 +15,6 @@ import { palette } from 'palette';
 import { translate } from 'util/translate';
 import * as actions from 'store/actions';
 import { store } from 'store';
-import { h } from 'windowDimensions';
 
 import { NavItem, SubNav } from './components';
 import './style.css';
@@ -33,6 +33,7 @@ const Header: React.FC<Props> = ({ languages, profile, loggedIn }: Props) => {
   const [searchValue, setSearchValue] = useState('');
   const [showLanguages, setShowLanguages] = useState(false);
   const navigate = useNavigate();
+  const [showMenu, setShowMenu] = useState(false);
 
   const navItems = [
     { title: translate('man'), to: '/man' },
@@ -99,7 +100,12 @@ const Header: React.FC<Props> = ({ languages, profile, loggedIn }: Props) => {
             <Horizontal wrap spread>
               <Horizontal>
                 {navItems.map((item, i) => (
-                  <NavItem {...item} key={`header-nav-item-${i}`} />
+                  <NavItem
+                    onMouseEnter={() => setShowMenu(true)}
+                    onMouseLeave={() => setShowMenu(false)}
+                    {...item}
+                    key={`header-nav-item-${i}`}
+                  />
                 ))}
               </Horizontal>
               <Horizontal>
@@ -154,7 +160,9 @@ const Header: React.FC<Props> = ({ languages, profile, loggedIn }: Props) => {
           </Space>
         </nav>
       </div>
-      <SubNav />
+      <CSSTransition in={showMenu} classNames={'fade'} timeout={200} unmountOnExit>
+        <SubNav onOpen={() => setShowMenu(true)} onClose={() => setShowMenu(false)} />
+      </CSSTransition>
     </>
   );
 };
