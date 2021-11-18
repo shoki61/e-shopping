@@ -1,0 +1,13 @@
+.Sub-Nav {
+  position: fixed;
+  left: 0;
+  z-index: 200;
+  height: 100%;
+}
+
+.Sub-Nav-Content {
+  background-color: #fff;
+  border-radius: 0 0 15px 15px;
+  margin: auto;
+  min-height: 500px;
+}
