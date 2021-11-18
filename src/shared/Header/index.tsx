@@ -15,6 +15,7 @@ import { palette } from 'palette';
 import { translate } from 'util/translate';
 import * as actions from 'store/actions';
 import { store } from 'store';
+import { productMenus } from 'config/products';
 
 import { NavItem, SubNav } from './components';
 import './style.css';
@@ -34,6 +35,7 @@ const Header: React.FC<Props> = ({ languages, profile, loggedIn }: Props) => {
   const [showLanguages, setShowLanguages] = useState(false);
   const navigate = useNavigate();
   const [showMenu, setShowMenu] = useState(false);
+  const [category, setCategory] = useState('');
 
   const navItems = [
     { title: translate('man'), to: '/man' },
@@ -101,8 +103,13 @@ const Header: React.FC<Props> = ({ languages, profile, loggedIn }: Props) => {
               <Horizontal>
                 {navItems.map((item, i) => (
                   <NavItem
-                    onMouseEnter={() => setShowMenu(true)}
-                    onMouseLeave={() => setShowMenu(false)}
+                    onMouseEnter={(v: string) => {
+                      setCategory(v);
+                      setShowMenu(true);
+                    }}
+                    onMouseLeave={() => {
+                      setShowMenu(false);
+                    }}
                     {...item}
                     key={`header-nav-item-${i}`}
                   />
@@ -161,7 +168,14 @@ const Header: React.FC<Props> = ({ languages, profile, loggedIn }: Props) => {
         </nav>
       </div>
       <CSSTransition in={showMenu} classNames={'fade'} timeout={200} unmountOnExit>
-        <SubNav onOpen={() => setShowMenu(true)} onClose={() => setShowMenu(false)} />
+        <SubNav
+          category={category}
+          onOpen={() => setShowMenu(true)}
+          onClose={() => {
+            setShowMenu(false);
+            setCategory('');
+          }}
+        />
       </CSSTransition>
     </>
   );

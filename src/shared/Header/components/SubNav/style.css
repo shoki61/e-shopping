@@ -10,4 +10,17 @@
   border-radius: 0 0 15px 15px;
   margin: auto;
   min-height: 500px;
+  box-shadow: 0 0 3px #b4b4b4;
+}
+
+.Sub-Nav-Product-Title {
+  border-radius: 5px;
+}
+
+.Sub-Nav-Product-Item {
+  color: #696969;
+}
+
+.Sub-Nav-Product-Item:hover {
+  color: #d46124 !important;
 }
