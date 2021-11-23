@@ -13,3 +13,7 @@ export const login =
 export const logout = () => ({
   type: types.LOGOUT,
 });
+
+export const signUp = (obj: { name: string; email: string; password: string }) => ({
+  type: types.SIGN_UP,
+});

@@ -5,24 +5,30 @@ import { connect } from 'react-redux';
 import { Input, Button, P, T, Space, Clickable, AppNotification } from 'components';
 import { translate } from 'util/translate';
 import { palette } from 'palette';
+import { store } from 'store';
+import * as actions from 'store/actions';
 
+import { EmailVerify } from '../components';
 import './style.css';
 
 type Props = {};
 
 const SignUp: React.FC<Props> = (props: Props) => {
+  const [steps, setSteps] = useState({ userInformation: true, verificationCode: false });
   const [userInfo, setUserInfo] = useState({
     name: '',
     email: '',
     password: '',
     confirmPassword: '',
   });
+  const [verificationCode, setVerificationCode] = useState('');
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({
     nameError: '',
     emailError: '',
     passwordError: '',
     confirmPasswordError: '',
+    verificationCodeError: '',
   });
 
   const navigate = useNavigate();
@@ -43,11 +49,9 @@ const SignUp: React.FC<Props> = (props: Props) => {
       return setErrors({ ...errors, confirmPasswordError: translate('confirmPasswordError') });
 
     setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      AppNotification.success('Wolcome!');
-    }, 3000);
   };
+
+  const verify = () => {};
 
   const inputs = [
     {
@@ -130,6 +134,16 @@ const SignUp: React.FC<Props> = (props: Props) => {
             </P>
           </Clickable>
         </Space>
+      </Space>
+      <Space>
+        <EmailVerify
+          loading={loading}
+          onNext={verify}
+          onBack={() => setSteps({ userInformation: true, verificationCode: false })}
+          value={verificationCode}
+          onChange={setVerificationCode}
+          errorMessage={errors.verificationCodeError}
+        />
       </Space>
     </Space>
   );
