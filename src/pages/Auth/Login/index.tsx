@@ -38,17 +38,15 @@ const Login = (props: Props) => {
   };
 
   const login = () => {
-    if (!userInfo.email || !/^\S+@\S+\.\S+$/.test(userInfo.email))
-      return setErrors({ ...errors, emailError: translate('emailError') });
-    if (!userInfo.password) return setErrors({ ...errors, passwordError: translate('passwordError') });
+    const { email, password } = userInfo;
+    if (!email || !/^\S+@\S+\.\S+$/.test(email)) return setErrors({ ...errors, emailError: translate('emailError') });
+    if (!password) return setErrors({ ...errors, passwordError: translate('passwordError') });
     setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      if (userInfo.email !== user.email || userInfo.password !== user.password) AppNotification.error('Hatalı giriş');
-      else {
-        store.dispatch(actions.login({ name: 'Sohrat', email: 'test@gmail.com' }));
-      }
-    }, 3000);
+    store.dispatch(
+      actions.login(email, password, () => {
+        setLoading(false);
+      }),
+    );
   };
 
   return (

@@ -7,6 +7,9 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { store } from 'store';
+import { Request } from './Request';
+
+Request.baseURL = 'http://localhost:3080';
 
 ReactDOM.render(
   <React.StrictMode>
