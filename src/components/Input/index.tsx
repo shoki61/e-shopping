@@ -28,6 +28,7 @@ type Props = {
   minLength?: number;
   style?: React.CSSProperties;
   type?: React.HTMLInputTypeAttribute;
+  className?: string;
 };
 
 const Input: React.FC<Props> = ({
@@ -48,6 +49,7 @@ const Input: React.FC<Props> = ({
   minLength,
   style,
   type = 'text',
+  className,
 }: Props) => {
   const [showSecret, setShowSecret] = useState(false);
   return (
@@ -62,7 +64,7 @@ const Input: React.FC<Props> = ({
         style={{ borderColor: error ? palette.e : palette.lg, borderRadius, ...style }}
       >
         <input
-          className={'Input'}
+          className={`Input ${className}`}
           style={{
             color: palette[color],
             fontWeight: valueBold ? 700 : 'normal',
