@@ -25,6 +25,10 @@ export const en = {
   passwordMinError: 'Password must be at least 8 characters',
   verificationCodeError: 'Must be at least 6 characters',
 
+  //api errors
+  notUser: 'There is no user in this email',
+  passwordIncorrect: 'The password is incorrect',
+
   login: 'Login',
   signUp: 'Sign Up',
   forgotYourPassword: 'Forgot your password?',
