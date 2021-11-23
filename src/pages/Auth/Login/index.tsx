@@ -43,8 +43,11 @@ const Login = (props: Props) => {
     if (!password) return setErrors({ ...errors, passwordError: translate('passwordError') });
     setLoading(true);
     store.dispatch(
-      actions.login(email, password, () => {
+      actions.login(email, password, (res) => {
         setLoading(false);
+        if (res.error) {
+          AppNotification.error(res.error);
+        }
       }),
     );
   };
