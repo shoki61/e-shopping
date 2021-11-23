@@ -1,1 +1,1 @@
-export { default as EmailVerify } from './EmailVerify';
+export { default as VerificationCode } from './VerificationCode';

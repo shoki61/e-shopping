@@ -8,7 +8,7 @@ import { palette } from 'palette';
 import { store } from 'store';
 import * as actions from 'store/actions';
 
-import { EmailVerify } from '../components';
+import { VerificationCode } from '../components';
 import './style.css';
 
 type Props = {};
@@ -49,9 +49,30 @@ const SignUp: React.FC<Props> = (props: Props) => {
       return setErrors({ ...errors, confirmPasswordError: translate('confirmPasswordError') });
 
     setLoading(true);
+    store.dispatch(
+      actions.signUp({ ...userInfo }, (res) => {
+        setLoading(false);
+        if (res.error) {
+          AppNotification.error(res.error);
+        } else {
+          setSteps({ userInformation: false, verificationCode: true });
+          AppNotification.success('Verification code sent to your email');
+        }
+      }),
+    );
   };
 
-  const verify = () => {};
+  const verify = () => {
+    store.dispatch(
+      actions.verifyEmail(userInfo.email, verificationCode, (res) => {
+        if (res.error) {
+          AppNotification.error(res.error);
+        } else {
+          AppNotification.success('Your account has been created successfully');
+        }
+      }),
+    );
+  };
 
   const inputs = [
     {
@@ -93,57 +114,68 @@ const SignUp: React.FC<Props> = (props: Props) => {
   return (
     <Space column align={'center'} flex>
       <Space v={'s'}>
-        <P size={'xl'} color={'m'}>
+        <P size={'xl'} align={'center'} color={'m'}>
           <T>signUpPageTitle</T>
         </P>
-      </Space>
-      <Space className={'Sign-Up-Inputs-Container'}>
-        {inputs.map(({ title, value, placeholder, onChange, secret, error, errorMessage }, i) => (
-          <Fragment key={`sign-up-inputs-${i}`}>
-            <Input
-              style={{ backgroundColor: `${palette.lg}15` }}
-              titleColor={'dg'}
-              title={title}
-              value={value}
-              placeholder={placeholder}
-              onChange={onChange}
-              secret={secret}
-              error={error}
-              errorMessage={errorMessage}
-            />
-            <Space v={'s'} />
-          </Fragment>
-        ))}
-
-        <Button
-          title={translate('signUp')}
-          color={'l'}
-          borderRadius={100}
-          fullWidth
-          align={'center'}
-          loading={loading}
-          onClick={signUp}
-        />
-        <Space h={'n'} v={'s'} flex column align={'center'}>
-          <P color={'dg'} align={'center'}>
-            <T>accountAvailable</T>
+        {steps.verificationCode && (
+          <P align={'center'} color={'dg'}>
+            Please enter the verification code from your e-mail. (may be in spam :))
           </P>
-          <Clickable onClick={() => navigate('/login')}>
-            <P color={'i'} bold>
-              <T>login</T>
-            </P>
-          </Clickable>
-        </Space>
+        )}
       </Space>
-      <Space>
-        <EmailVerify
-          loading={loading}
-          onNext={verify}
-          onBack={() => setSteps({ userInformation: true, verificationCode: false })}
-          value={verificationCode}
-          onChange={setVerificationCode}
-          errorMessage={errors.verificationCodeError}
-        />
+
+      <Space className={'Sign-Up-Inputs-Container'}>
+        {!steps.userInformation ? (
+          <>
+            {inputs.map(({ title, value, placeholder, onChange, secret, error, errorMessage }, i) => (
+              <Fragment key={`sign-up-inputs-${i}`}>
+                <Input
+                  style={{ backgroundColor: `${palette.lg}15` }}
+                  titleColor={'dg'}
+                  title={title}
+                  value={value}
+                  placeholder={placeholder}
+                  onChange={onChange}
+                  secret={secret}
+                  error={error}
+                  errorMessage={errorMessage}
+                />
+                <Space v={'s'} />
+              </Fragment>
+            ))}
+
+            <Button
+              title={translate('signUp')}
+              color={'l'}
+              borderRadius={100}
+              fullWidth
+              align={'center'}
+              loading={loading}
+              onClick={signUp}
+            />
+            <Space h={'n'} v={'s'} flex column align={'center'}>
+              <P color={'dg'} align={'center'}>
+                <T>accountAvailable</T>
+              </P>
+              <Clickable onClick={() => navigate('/login')}>
+                <P color={'i'} bold>
+                  <T>login</T>
+                </P>
+              </Clickable>
+            </Space>
+          </>
+        ) : (
+          <>
+            <VerificationCode
+              loading={loading}
+              onNext={verify}
+              onBack={() => setSteps({ userInformation: true, verificationCode: false })}
+              value={verificationCode}
+              onChange={setVerificationCode}
+              errorMessage={errors.verificationCodeError}
+            />
+          </>
+        )}
       </Space>
     </Space>
   );
