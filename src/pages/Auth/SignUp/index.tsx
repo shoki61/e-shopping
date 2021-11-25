@@ -63,10 +63,12 @@ const SignUp: React.FC<Props> = (props: Props) => {
   };
 
   const verify = () => {
+    setLoading(true);
     store.dispatch(
       actions.verifyEmail(userInfo.email, verificationCode, (res) => {
+        setLoading(false);
         if (res.error) {
-          AppNotification.error(res.error);
+          AppNotification.error('Verification code is wrong');
         } else {
           AppNotification.success('Your account has been created successfully');
         }
@@ -125,7 +127,7 @@ const SignUp: React.FC<Props> = (props: Props) => {
       </Space>
 
       <Space className={'Sign-Up-Inputs-Container'}>
-        {!steps.userInformation ? (
+        {steps.userInformation ? (
           <>
             {inputs.map(({ title, value, placeholder, onChange, secret, error, errorMessage }, i) => (
               <Fragment key={`sign-up-inputs-${i}`}>

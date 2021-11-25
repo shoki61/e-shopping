@@ -32,7 +32,7 @@ export const signUp =
 export const verifyEmail =
   (email: string, verificationCode: string, callback = (res: any) => {}) =>
   async (dispatch: Dispatch) => {
-    const res = await Request.post(`/verify_email/${email}/${verificationCode}`);
+    const res = await Request.post(`/user/verify_email/${email}/${verificationCode}`);
     callback(res);
     if (res.data) {
       dispatch(signUpSuccess(res.data));
