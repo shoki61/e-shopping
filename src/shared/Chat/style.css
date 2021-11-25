@@ -95,3 +95,7 @@
 .Message-Content-Container {
   border-radius: 15px;
 }
+
+.Message-Content-Container {
+  box-shadow: 1px 1px 1px #ccc;
+}
