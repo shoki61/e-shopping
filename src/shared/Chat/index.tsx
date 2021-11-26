@@ -1,47 +1,68 @@
 import { useEffect, useState } from 'react';
+import io from 'socket.io-client';
 import ModeCommentIcon from '@material-ui/icons/ModeComment';
 import CloseRoundedIcon from '@material-ui/icons/CloseRounded';
 import PersonOutlineOutlinedIcon from '@material-ui/icons/PersonOutlineOutlined';
 import SendRoundedIcon from '@material-ui/icons/SendRounded';
+import { v4 as uuidv4 } from 'uuid';
 
-import { Space, P, Clickable, Input, Horizontal } from 'components';
+import { Space, P, Clickable, Horizontal } from 'components';
 import { palette } from 'palette';
 
 import './style.css';
 
-const dummyMessages = [
-  { id: '111', message: 'Selam, sana nasıl yardımcı olabiriz', date: new Date().toLocaleDateString() },
-  { id: '222', message: 'Selam', date: new Date().toLocaleDateString() },
-  { id: '222', message: 'Hesabıma giriş yapamıyorum', date: new Date().toLocaleDateString() },
-  { id: '111', message: 'Şifrenizi yenilemeyi denediniz mi?', date: new Date().toLocaleDateString() },
-  { id: '222', message: 'Yok hemen deneyeceğim', date: new Date().toLocaleDateString() },
-  {
-    id: '111',
-    message: 'Tamam, eğer hala sorun yaşamaya devam ederseniz lütfen bizimle iletişime geçin.',
-    date: new Date().toLocaleDateString(),
-  },
-  { id: '222', message: 'Tamam, Teşekkürler', date: new Date().toLocaleDateString() },
-  { id: '111', message: 'Teşekkürler', date: new Date().toLocaleDateString() },
-  {
-    id: '222',
-    message: 'Şifremi sıfırlayamıyorum, doğrulama kodu mailime gelmiyor',
-    date: new Date().toLocaleDateString(),
-  },
-  { id: '111', message: 'Mailinizi yazabilimisiniz hemen kontrol edelim', date: new Date().toLocaleDateString() },
-  { id: '222', message: 'example@gmail.com', date: new Date().toLocaleDateString() },
-  { id: '111', message: 'Bekleyin hemen kontrol ediyoruz.', date: new Date().toLocaleDateString() },
-];
+interface Message {
+  id: string;
+  text: string;
+}
 
+interface Payload {
+  id: string;
+  text: string;
+}
+
+const userId = uuidv4();
+
+const socket = io('http://localhost:3080', { transports: ['websocket'] });
 const Chat = () => {
   const [openChatBox, setOpenChatBox] = useState(false);
-  const [message, setMessage] = useState('');
+  const [text, setText] = useState('');
+  const [messages, setMessages] = useState<Message[]>([]);
 
   useEffect(() => {
     const elem = document.getElementById('Messages-Container');
     if (elem) {
       elem.scrollTop = elem?.scrollHeight;
     }
-  }, [openChatBox]);
+
+    function receivedMessage(message: Payload) {
+      const newMessage: Message = {
+        id: message.id,
+        text: message.text,
+      };
+
+      setMessages([...messages, newMessage]);
+    }
+
+    socket.on('messageToClient', (message: Payload) => {
+      console.log(message);
+      receivedMessage(message);
+    });
+    console.log(messages);
+  }, [openChatBox, messages]);
+
+  function sendMessage() {
+    if (text.length > 0) {
+      const message: Payload = {
+        id: userId,
+        text,
+      };
+
+      socket.emit('messageToServer', message);
+      setText('');
+    }
+  }
+
   return (
     <Space
       v={'n'}
@@ -74,12 +95,12 @@ const Chat = () => {
             </Horizontal>
           </Space>
           <Space h={'s'} id={'Messages-Container'}>
-            {dummyMessages.map((item) => (
+            {messages.map((message: Message) => (
               <Space
                 flex
-                style={{ justifyContent: item.id === '111' ? 'flex-start' : 'flex-end' }}
+                style={{ justifyContent: message.id !== userId ? 'flex-start' : 'flex-end' }}
                 className={'Message-Container'}
-                key={item.id}
+                key={message.id}
                 v={'xs'}
                 h={'xs'}
               >
@@ -87,10 +108,10 @@ const Chat = () => {
                   className={'Message-Content-Container'}
                   v={'xs'}
                   h={'s'}
-                  style={{ backgroundColor: item.id === '111' ? '#fff' : palette.m, maxWidth: '85%' }}
+                  style={{ backgroundColor: message.id !== userId ? '#fff' : palette.m, maxWidth: '85%' }}
                 >
-                  <P style={{ fontWeight: 500 }} color={item.id === '111' ? 'dg' : 'l'}>
-                    {item.message}
+                  <P style={{ fontWeight: 500 }} color={message.id !== userId ? 'dg' : 'l'}>
+                    {message.text}
                   </P>
                 </Space>
               </Space>
@@ -101,14 +122,14 @@ const Chat = () => {
               <textarea
                 className={'Chat-Input'}
                 placeholder={'how can we help you'}
-                value={message}
+                value={text}
                 rows={1}
                 style={{ color: palette.dg }}
-                onChange={({ target: { value } }) => setMessage(value)}
+                onChange={({ target: { value } }) => setText(value)}
               />
               <Space v={'n'} h={'xs'} />
-              <Clickable onClick={() => {}}>
-                <SendRoundedIcon style={{ color: palette.m }} />
+              <Clickable onClick={sendMessage}>
+                <SendRoundedIcon style={{ color: text.length > 0 ? palette.m : palette.lg }} />
               </Clickable>
             </Horizontal>
           </Space>
