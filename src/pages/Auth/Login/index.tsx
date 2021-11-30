@@ -44,8 +44,9 @@ const Login = (props: Props) => {
       actions.login(email, password, (res) => {
         setLoading(false);
         if (res.error) {
-          AppNotification.error(res.error);
+          return AppNotification.error(res.error);
         }
+        store.dispatch(actions.loginSuccess(res.data));
         navigate('/');
       }),
     );

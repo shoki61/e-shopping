@@ -36,8 +36,9 @@ const Menu: React.FC<Props> = ({ label, labelIcon, onClick, items, horizontal = 
         onMouseLeave={() => toggleMenu(false)}
         onClose={() => toggleMenu(false)}
       >
-        {items?.map(({ label, icon, onClick }) => (
+        {items?.map(({ label, icon, onClick }, i: number) => (
           <MenuItem
+            key={`menu-items-${label}-${i}`}
             onClick={onClick}
             styles={{
               color: palette.dg,
