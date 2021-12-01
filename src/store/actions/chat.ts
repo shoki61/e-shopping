@@ -24,7 +24,7 @@ export const getMessages =
   };
 
 export const sendMessage =
-  (conversationId: string, senderId: string = 'Null', text: string, callback = (res: any) => {}) =>
+  (conversationId: string, senderId: string, text: string, callback = (res: any) => {}) =>
   async () => {
     const res = await Request.post(`/chat/message/${conversationId}/${senderId}`, { text });
     callback(res);

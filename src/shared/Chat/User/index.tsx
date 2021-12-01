@@ -3,19 +3,20 @@ import { palette } from 'palette';
 
 import { Space, P, Clickable, Horizontal } from 'components';
 import './style.css';
+import { Profile } from 'models';
 
 type ReduxProps = {};
 
 type UserProps = {
-  profile: any;
-  onClick: () => void;
+  profile?: Profile;
+  onClick: (v?: Profile) => void;
 };
 
 type Props = ReduxProps & UserProps;
 
-const User: React.FC<Props> = ({ profile: { name }, onClick }: Props) => {
+const User: React.FC<Props> = ({ profile, onClick }: Props) => {
   return (
-    <Clickable onClick={onClick} className={'User-Container'} style={{ backgroundColor: palette.l }}>
+    <Clickable onClick={() => onClick(profile)} className={'User-Container'} style={{ backgroundColor: palette.l }}>
       <Space v={'s'}>
         <Horizontal>
           <Space flex align={'center'} v={'n'} h={'n'} className={'User-Avatar'} style={{ backgroundColor: palette.m }}>
@@ -23,7 +24,7 @@ const User: React.FC<Props> = ({ profile: { name }, onClick }: Props) => {
             <div className={'User-Active'} style={{ backgroundColor: false ? 'limegreen' : '#9c9c9c' }} />
           </Space>
           <Space v={'n'} h={'s'}>
-            <P color={'dg'}>{name || 'User'}</P>
+            <P color={'dg'}>{profile?.name || 'Misafir Kullanıcı'}</P>
           </Space>
         </Horizontal>
       </Space>

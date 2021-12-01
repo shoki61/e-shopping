@@ -28,16 +28,11 @@ const Chat: React.FC<Props> = ({ profile, guestUserId }: Props) => {
   const [text, setText] = useState('');
   const [messages, setMessages] = useState<Message[]>([]);
   const [users, setUsers] = useState<Profile[]>([]);
+  const [showAdminChat, setShowAdminChat] = useState(false);
+  const [selectedUser, setSelectedUser] = useState<Profile | undefined>();
+  const [selectedConversationId, setSelectedConversationId] = useState('');
 
-  useEffect(() => {
-    store.dispatch(
-      actions.getConversations(profile?._id ?? guestUserId, (res) => {
-        if (!res.error) {
-          setConversations(res.data);
-        }
-      }),
-    );
-  }, [profile, openChatBox, guestUserId]);
+  useEffect(() => {}, []);
 
   useEffect(() => {
     store.dispatch(
@@ -54,45 +49,66 @@ const Chat: React.FC<Props> = ({ profile, guestUserId }: Props) => {
     if (elem) {
       elem.scrollTop = elem?.scrollHeight;
     }
-
-    // socket.on('messageToClient', (message: Payload) => {
-    //   receivedMessage(message);
-    // });
-  }, [openChatBox, messages]);
-
-  const sendMessage = () => {
     const adminId = users?.find((u: Profile) => u?.isAdmin)?._id;
-    if (profile._id !== adminId && !conversations) {
-      store.dispatch(
-        actions.createConversation(profile._id ?? guestUserId, adminId, (res) => {
-          console.log(res);
-        }),
-      );
-    }
-    if (text.length > 0) {
-      if (profile._id !== adminId) {
+    if (profile?._id || guestUserId) {
+      if (adminId && profile?._id !== adminId) {
         store.dispatch(
-          actions.sendMessage(conversations[0]._id, profile?._id ?? guestUserId, text, (res) => {
-            console.log(res);
+          actions.createConversation(profile?._id ?? guestUserId, adminId, (res) => {
+            setConversations([res.data]);
           }),
         );
       }
+    }
+    store.dispatch(
+      actions.getConversations(profile?._id ?? guestUserId, (res) => {
+        if (!res.error) {
+          setConversations(res.data);
+          console.log(res.data);
+        }
+      }),
+    );
+  }, [openChatBox]);
+
+  const sendMessage = async (isAdmin?: boolean) => {
+    if (text.length > 0) {
+      store.dispatch(
+        actions.sendMessage(
+          isAdmin ? selectedConversationId : conversations[0]._id,
+          profile?._id ?? guestUserId,
+          text,
+          (res) => {},
+        ),
+      );
       setText('');
     }
   };
 
+  const getMessages = (conversationId: string) => {
+    store.dispatch(
+      actions.getMessages(conversationId, (res) => {
+        if (!res.error) {
+          setMessages(res.data);
+          console.log(res.data);
+        }
+      }),
+    );
+  };
+
   useEffect(() => {
-    if (openChatBox) {
-      store.dispatch(
-        actions.getMessages(conversations[0]._id, (res) => {
-          if (!res.error) {
-            setMessages(res.data);
-            console.log(res.data);
-          }
-        }),
-      );
+    if (openChatBox && conversations.length > 0) {
+      const adminId = users?.find((u: Profile) => u?.isAdmin)?._id;
+      if (profile?._id !== adminId) {
+        getMessages(conversations[0]?._id);
+      }
     }
-  }, [openChatBox, conversations]);
+  }, [openChatBox, conversations, profile]);
+
+  const selectUser = (conversationId: string, profile?: Profile) => {
+    getMessages(conversationId);
+    setSelectedUser(profile);
+    setSelectedConversationId(conversationId);
+    setShowAdminChat(true);
+  };
 
   return (
     <Space
@@ -104,26 +120,102 @@ const Chat: React.FC<Props> = ({ profile, guestUserId }: Props) => {
       {openChatBox ? (
         <div className={'Chat-Items-Container'}>
           {profile?.isAdmin ? (
-            <div>
-              <Space v={'s'} style={{ backgroundColor: palette.m }}>
-                <Horizontal align={'middle'} spread>
-                  <P align={'center'} size={'l'} color={'l'}>
-                    Users
-                  </P>
-                  <Clickable onClick={() => setOpenChatBox(false)}>
-                    <CloseRoundedIcon style={{ color: palette.l }} />
-                  </Clickable>
-                </Horizontal>
-              </Space>
-              <Space v={'s'} h={'s'}>
-                {users?.map((u: any) => (
-                  <Fragment key={`chat-user-${u._id}`}>
-                    <User profile={u} onClick={() => {}} />
-                    <Space v={'n'} b={'xs'} />
-                  </Fragment>
-                ))}
-              </Space>
-            </div>
+            !showAdminChat ? (
+              <div>
+                <Space v={'s'} style={{ backgroundColor: palette.m }}>
+                  <Horizontal align={'middle'} spread>
+                    <P align={'center'} size={'l'} color={'l'}>
+                      Users
+                    </P>
+                    <Clickable onClick={() => setOpenChatBox(false)}>
+                      <CloseRoundedIcon style={{ color: palette.l }} />
+                    </Clickable>
+                  </Horizontal>
+                </Space>
+                <Space v={'s'} h={'s'}>
+                  {conversations?.map((c: Conversation) => (
+                    <Fragment key={`chat-user-${c._id}`}>
+                      <User
+                        profile={users.find((u) =>
+                          c.members.find((m) => m !== users.find((user) => user.isAdmin)?._id && m === u._id),
+                        )}
+                        onClick={(v?: Profile) => selectUser(c._id, v)}
+                      />
+                      <Space v={'n'} b={'xs'} />
+                    </Fragment>
+                  ))}
+                </Space>
+              </div>
+            ) : (
+              <>
+                <Space v={'s'} className={'Header-Container'} style={{ backgroundColor: palette.m }}>
+                  <Horizontal spread>
+                    <Horizontal>
+                      <Space
+                        flex
+                        v={'n'}
+                        h={'n'}
+                        align={'center'}
+                        className={'Avatar-Container'}
+                        style={{ backgroundColor: `${palette.l}20` }}
+                      >
+                        <PersonOutlineOutlinedIcon style={{ color: palette.l }} />
+                      </Space>
+                      <P bold color={'l'}>
+                        {selectedUser?.name || 'Misafir Kullanıcı'}
+                      </P>
+                    </Horizontal>
+                    <Clickable onClick={() => setShowAdminChat(false)}>
+                      <CloseRoundedIcon style={{ color: palette.l }} />
+                    </Clickable>
+                  </Horizontal>
+                </Space>
+                <Space h={'s'} id={'Messages-Container'}>
+                  {messages.map((message: Message) => (
+                    <Space
+                      flex
+                      style={{
+                        justifyContent: message.sender !== profile._id ?? guestUserId ? 'flex-start' : 'flex-end',
+                      }}
+                      className={'Message-Container'}
+                      key={message._id}
+                      v={'xs'}
+                      h={'xs'}
+                    >
+                      <Space
+                        className={'Message-Content-Container'}
+                        v={'xs'}
+                        h={'s'}
+                        style={{
+                          backgroundColor: message._id !== profile._id ?? guestUserId ? '#fff' : palette.m,
+                          maxWidth: '85%',
+                        }}
+                      >
+                        <P style={{ fontWeight: 500 }} color={message._id !== profile._id ?? guestUserId ? 'dg' : 'l'}>
+                          {message.text}
+                        </P>
+                      </Space>
+                    </Space>
+                  ))}
+                </Space>
+                <Space className={'Chat-Bar'}>
+                  <Horizontal>
+                    <textarea
+                      className={'Chat-Input'}
+                      placeholder={'how can we help you'}
+                      value={text}
+                      rows={1}
+                      style={{ color: palette.dg }}
+                      onChange={({ target: { value } }) => setText(value)}
+                    />
+                    <Space v={'n'} h={'xs'} />
+                    <Clickable onClick={() => sendMessage(true)}>
+                      <SendRoundedIcon style={{ color: text.length > 0 ? palette.m : palette.lg }} />
+                    </Clickable>
+                  </Horizontal>
+                </Space>
+              </>
+            )
           ) : (
             <>
               <Space v={'s'} className={'Header-Container'} style={{ backgroundColor: palette.m }}>
