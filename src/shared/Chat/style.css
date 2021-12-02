@@ -73,6 +73,7 @@
 #Messages-Container {
   overflow: auto;
   flex: 1;
+  padding: 15px 10px;
 }
 
 #Messages-Container::-webkit-scrollbar {
@@ -90,6 +91,8 @@
 
 .Message-Container {
   width: 100%;
+  padding: 4px 0;
+  display: flex;
 }
 
 .Message-Content-Container {

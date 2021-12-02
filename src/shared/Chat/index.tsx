@@ -1,40 +1,48 @@
-import { Fragment, useEffect, useState } from 'react';
-// import io from 'socket.io-client';
+import { Fragment, useEffect, useState, useRef } from 'react';
+import { io } from 'socket.io-client';
 import { connect } from 'react-redux';
 import ModeCommentIcon from '@material-ui/icons/ModeComment';
 import CloseRoundedIcon from '@material-ui/icons/CloseRounded';
 import PersonOutlineOutlinedIcon from '@material-ui/icons/PersonOutlineOutlined';
 import SendRoundedIcon from '@material-ui/icons/SendRounded';
-import { v4 as uuidv4 } from 'uuid';
 
 import { Space, P, Clickable, Horizontal } from 'components';
 import { palette } from 'palette';
 import { store } from 'store';
-import * as actions from '../../store/actions';
-import User from './User';
-
-import './style.css';
 import { Profile, Conversation, Message } from 'models';
+import * as actions from 'store/actions';
+
+import User from './User';
+import './style.css';
 
 type Props = {
   profile: Profile;
-  guestUserId: string;
 };
 
-// const socket = io('http://localhost:3080', { transports: ['websocket'] });
-const Chat: React.FC<Props> = ({ profile, guestUserId }: Props) => {
+const Chat: React.FC<Props> = ({ profile }: Props) => {
   const [openChatBox, setOpenChatBox] = useState(false);
   const [conversations, setConversations] = useState<Conversation[]>([]);
   const [text, setText] = useState('');
   const [messages, setMessages] = useState<Message[]>([]);
+  const [arrivalMessage, setArrivalMessage] = useState<any>(null);
   const [users, setUsers] = useState<Profile[]>([]);
   const [showAdminChat, setShowAdminChat] = useState(false);
   const [selectedUser, setSelectedUser] = useState<Profile | undefined>();
-  const [selectedConversationId, setSelectedConversationId] = useState('');
-
-  useEffect(() => {}, []);
+  const [selectedConversation, setSelectedConversation] = useState<any>();
+  const [onlineUsers, setOnlineUsers] = useState<string[]>([]);
+  const socket = useRef<any>();
+  const scrollRef = useRef<any>();
 
   useEffect(() => {
+    socket.current = io('http://localhost:3030');
+
+    socket.current.on('getMessage', ({ senderId, text }: any) => {
+      console.log(text);
+      setArrivalMessage({
+        sender: senderId,
+        text,
+      });
+    });
     store.dispatch(
       actions.getAllUsers((res) => {
         if (!res.error) {
@@ -42,28 +50,40 @@ const Chat: React.FC<Props> = ({ profile, guestUserId }: Props) => {
         }
       }),
     );
-  }, [profile]);
+  }, []);
 
   useEffect(() => {
-    const elem = document.getElementById('Messages-Container');
-    if (elem) {
-      elem.scrollTop = elem?.scrollHeight;
-    }
+    socket.current.emit('addUser', profile._id);
+    socket.current.on('onlineUsers', (users: any) => setOnlineUsers(users.map((user: any) => user.userId)));
+  }, [profile._id]);
+
+  useEffect(() => {
     const adminId = users?.find((u: Profile) => u?.isAdmin)?._id;
-    if (profile?._id || guestUserId) {
+    if (arrivalMessage) {
+      if (profile?._id === adminId) {
+        selectedConversation?.members.includes(arrivalMessage.sender) &&
+          setMessages((prev) => [...prev, arrivalMessage]);
+      } else {
+        conversations[0].members.includes(arrivalMessage.sender) && setMessages((prev) => [...prev, arrivalMessage]);
+      }
+    }
+  }, [arrivalMessage, selectedConversation]);
+
+  useEffect(() => {
+    const adminId = users?.find((u: Profile) => u?.isAdmin)?._id;
+    if (profile?._id) {
       if (adminId && profile?._id !== adminId) {
         store.dispatch(
-          actions.createConversation(profile?._id ?? guestUserId, adminId, (res) => {
+          actions.createConversation(profile?._id, adminId, (res) => {
             setConversations([res.data]);
           }),
         );
       }
     }
     store.dispatch(
-      actions.getConversations(profile?._id ?? guestUserId, (res) => {
+      actions.getConversations(profile?._id, (res) => {
         if (!res.error) {
           setConversations(res.data);
-          console.log(res.data);
         }
       }),
     );
@@ -71,13 +91,16 @@ const Chat: React.FC<Props> = ({ profile, guestUserId }: Props) => {
 
   const sendMessage = async (isAdmin?: boolean) => {
     if (text.length > 0) {
+      const adminId = users?.find((u: Profile) => u?.isAdmin)?._id;
+      socket.current.emit('sendMessage', {
+        senderId: profile._id,
+        receiverId: isAdmin ? selectedUser?._id : adminId,
+        text,
+      });
       store.dispatch(
-        actions.sendMessage(
-          isAdmin ? selectedConversationId : conversations[0]._id,
-          profile?._id ?? guestUserId,
-          text,
-          (res) => {},
-        ),
+        actions.sendMessage(isAdmin ? selectedConversation._id : conversations[0]._id, profile?._id, text, (res) => {
+          setMessages((prev) => [...prev, res.data]);
+        }),
       );
       setText('');
     }
@@ -88,11 +111,14 @@ const Chat: React.FC<Props> = ({ profile, guestUserId }: Props) => {
       actions.getMessages(conversationId, (res) => {
         if (!res.error) {
           setMessages(res.data);
-          console.log(res.data);
         }
       }),
     );
   };
+
+  useEffect(() => {
+    scrollRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [messages]);
 
   useEffect(() => {
     if (openChatBox && conversations.length > 0) {
@@ -103,10 +129,10 @@ const Chat: React.FC<Props> = ({ profile, guestUserId }: Props) => {
     }
   }, [openChatBox, conversations, profile]);
 
-  const selectUser = (conversationId: string, profile?: Profile) => {
-    getMessages(conversationId);
+  const selectUser = (conversation: Conversation, profile?: Profile) => {
+    getMessages(conversation._id);
     setSelectedUser(profile);
-    setSelectedConversationId(conversationId);
+    setSelectedConversation(conversation);
     setShowAdminChat(true);
   };
 
@@ -139,7 +165,8 @@ const Chat: React.FC<Props> = ({ profile, guestUserId }: Props) => {
                         profile={users.find((u) =>
                           c.members.find((m) => m !== users.find((user) => user.isAdmin)?._id && m === u._id),
                         )}
-                        onClick={(v?: Profile) => selectUser(c._id, v)}
+                        onlineUsers={onlineUsers}
+                        onClick={(v?: Profile) => selectUser(c, v)}
                       />
                       <Space v={'n'} b={'xs'} />
                     </Fragment>
@@ -165,39 +192,42 @@ const Chat: React.FC<Props> = ({ profile, guestUserId }: Props) => {
                         {selectedUser?.name || 'Misafir Kullanıcı'}
                       </P>
                     </Horizontal>
-                    <Clickable onClick={() => setShowAdminChat(false)}>
+                    <Clickable
+                      onClick={() => {
+                        setShowAdminChat(false);
+                        setMessages([]);
+                      }}
+                    >
                       <CloseRoundedIcon style={{ color: palette.l }} />
                     </Clickable>
                   </Horizontal>
                 </Space>
-                <Space h={'s'} id={'Messages-Container'}>
+                <div id={'Messages-Container'}>
                   {messages.map((message: Message) => (
-                    <Space
-                      flex
+                    <div
+                      ref={scrollRef}
                       style={{
-                        justifyContent: message.sender !== profile._id ?? guestUserId ? 'flex-start' : 'flex-end',
+                        justifyContent: message.sender !== profile?._id ? 'flex-start' : 'flex-end',
                       }}
                       className={'Message-Container'}
                       key={message._id}
-                      v={'xs'}
-                      h={'xs'}
                     >
                       <Space
                         className={'Message-Content-Container'}
                         v={'xs'}
                         h={'s'}
                         style={{
-                          backgroundColor: message._id !== profile._id ?? guestUserId ? '#fff' : palette.m,
+                          backgroundColor: message.sender !== profile._id ? '#fff' : palette.m,
                           maxWidth: '85%',
                         }}
                       >
-                        <P style={{ fontWeight: 500 }} color={message._id !== profile._id ?? guestUserId ? 'dg' : 'l'}>
+                        <P style={{ fontWeight: 500 }} color={message.sender !== profile._id ? 'dg' : 'l'}>
                           {message.text}
                         </P>
                       </Space>
-                    </Space>
+                    </div>
                   ))}
-                </Space>
+                </div>
                 <Space className={'Chat-Bar'}>
                   <Horizontal>
                     <textarea
@@ -240,34 +270,32 @@ const Chat: React.FC<Props> = ({ profile, guestUserId }: Props) => {
                   </Clickable>
                 </Horizontal>
               </Space>
-              <Space h={'s'} id={'Messages-Container'}>
+              <div id={'Messages-Container'}>
                 {messages.map((message: Message) => (
-                  <Space
-                    flex
+                  <div
+                    ref={scrollRef}
                     style={{
-                      justifyContent: message.sender !== profile._id ?? guestUserId ? 'flex-start' : 'flex-end',
+                      justifyContent: message.sender !== profile._id ? 'flex-start' : 'flex-end',
                     }}
                     className={'Message-Container'}
                     key={message._id}
-                    v={'xs'}
-                    h={'xs'}
                   >
                     <Space
                       className={'Message-Content-Container'}
                       v={'xs'}
                       h={'s'}
                       style={{
-                        backgroundColor: message._id !== profile._id ?? guestUserId ? '#fff' : palette.m,
+                        backgroundColor: message.sender !== profile._id ? '#fff' : palette.m,
                         maxWidth: '85%',
                       }}
                     >
-                      <P style={{ fontWeight: 500 }} color={message._id !== profile._id ?? guestUserId ? 'dg' : 'l'}>
+                      <P style={{ fontWeight: 500 }} color={message.sender !== profile._id ? 'dg' : 'l'}>
                         {message.text}
                       </P>
                     </Space>
-                  </Space>
+                  </div>
                 ))}
-              </Space>
+              </div>
               <Space className={'Chat-Bar'}>
                 <Horizontal>
                   <textarea
@@ -296,6 +324,6 @@ const Chat: React.FC<Props> = ({ profile, guestUserId }: Props) => {
   );
 };
 
-const mapStateToProps = ({ user: { profile, guestUserId } }: any) => ({ profile, guestUserId });
+const mapStateToProps = ({ user: { profile } }: any) => ({ profile });
 
 export default connect(mapStateToProps)(Chat);

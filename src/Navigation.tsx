@@ -2,7 +2,7 @@ import { Routes, Route } from 'react-router-dom';
 
 import { Home, Login, SignUp, ResetPassword } from 'pages';
 import { AppNotification } from 'components';
-import { Chat, Header } from 'shared';
+import { Chat, Header, LoginForChat } from 'shared';
 
 const Navigation = () => {
   return (
@@ -15,6 +15,7 @@ const Navigation = () => {
         <Route path="/reset-password" element={<ResetPassword />} />
       </Routes>
       <Chat />
+      <LoginForChat />
       <AppNotification />
     </div>
   );

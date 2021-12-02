@@ -31,9 +31,6 @@ export const verifyEmail =
   async (dispatch: Dispatch) => {
     const res = await Request.post(`/user/verify_email/${email}/${verificationCode}`);
     callback(res);
-    // if (res.data) {
-    //   dispatch(signUpSuccess(res.data));
-    // }
   };
 
 export const signUpSuccess = (data: any) => ({
@@ -47,5 +44,3 @@ export const getAllUsers =
     const res = await Request.get('/user/all_users');
     callback(res);
   };
-
-export const setGuestId = (id: string) => ({ type: types.GUEST_USER, payload: id });
