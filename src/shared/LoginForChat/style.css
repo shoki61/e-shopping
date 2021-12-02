@@ -1,0 +1,31 @@
+.Login-For-Chat-Button {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.Login-For-Chat-Box {
+  position: absolute;
+  bottom: 30px !important;
+  right: 50px !important;
+  box-shadow: 1px 1px 3px #acacac;
+  overflow: hidden;
+  transition: all 0.3s ease-in !important;
+}
+
+.Close-Login-For-Chat-Box {
+  border-radius: 100px;
+  width: 65px !important;
+  height: 65px;
+  align-items: center !important;
+  justify-content: center !important;
+  display: flex !important;
+}
+.Open-Login-For-Chat-Box {
+  height: 500px !important;
+  width: 350px !important;
+  border-radius: 15px;
+}
