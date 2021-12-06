@@ -1,10 +1,16 @@
 import { Routes, Route } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 import { Home, Login, SignUp, ResetPassword } from 'pages';
 import { AppNotification } from 'components';
 import { Chat, Header, LoginForChat } from 'shared';
+import { Profile } from 'models';
 
-const Navigation = () => {
+type Props = {
+  profile: Profile;
+};
+
+const Navigation = ({ profile }: Props) => {
   return (
     <div>
       <Header />
@@ -14,11 +20,12 @@ const Navigation = () => {
         <Route path="/sign-up" element={<SignUp />} />
         <Route path="/reset-password" element={<ResetPassword />} />
       </Routes>
-      <Chat />
-      <LoginForChat />
+      {profile?._id ? <Chat /> : <LoginForChat />}
       <AppNotification />
     </div>
   );
 };
 
-export default Navigation;
+const mapStateToProps = ({ user: { profile } }: any) => ({ profile });
+
+export default connect(mapStateToProps)(Navigation);

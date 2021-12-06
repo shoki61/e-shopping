@@ -102,3 +102,13 @@
 .Message-Content-Container {
   box-shadow: 1px 1px 1px #ccc;
 }
+
+.Typing-Bubbles-Container {
+  border-radius: 100px;
+  background-color: #fff;
+  display: flex;
+  width: 50px;
+  height: 25px;
+  align-items: center;
+  justify-content: center;
+}

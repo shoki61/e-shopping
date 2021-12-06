@@ -9,23 +9,71 @@
 
 .Login-For-Chat-Box {
   position: absolute;
-  bottom: 30px !important;
-  right: 50px !important;
+  bottom: 30px;
+  right: 50px;
   box-shadow: 1px 1px 3px #acacac;
   overflow: hidden;
+  justify-content: center !important;
+  display: flex !important;
   transition: all 0.3s ease-in !important;
 }
 
 .Close-Login-For-Chat-Box {
   border-radius: 100px;
   width: 65px !important;
-  height: 65px;
-  align-items: center !important;
-  justify-content: center !important;
-  display: flex !important;
+  height: 65px !important;
 }
 .Open-Login-For-Chat-Box {
   height: 500px !important;
   width: 350px !important;
   border-radius: 15px;
+}
+
+.Login-For-Chat-Box-Close {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+}
+
+.Bat-Image {
+  width: 100px;
+  position: absolute;
+  transform: rotate(180deg);
+  animation-name: batDown;
+  animation-duration: 1s;
+  animation-timing-function: ease-out;
+  animation-fill-mode: forwards;
+}
+
+@keyframes batDown {
+  from {
+    top: -175px;
+  }
+  to {
+    top: 100px;
+  }
+}
+
+.Line {
+  width: 2px;
+  position: absolute;
+  animation-name: Line;
+  animation-duration: 1s;
+  animation-timing-function: ease-out;
+  animation-fill-mode: forwards;
+  background-color: #464646;
+}
+
+@keyframes Line {
+  from {
+    height: 0;
+  }
+  to {
+    height: 140px;
+  }
+}
+
+.Login-For-Chat-Button-Description {
+  margin-top: 175px;
+  flex-direction: column !important;
 }

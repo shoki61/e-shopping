@@ -5,6 +5,7 @@ import ModeCommentIcon from '@material-ui/icons/ModeComment';
 import CloseRoundedIcon from '@material-ui/icons/CloseRounded';
 import PersonOutlineOutlinedIcon from '@material-ui/icons/PersonOutlineOutlined';
 import SendRoundedIcon from '@material-ui/icons/SendRounded';
+import ReLoading from 'react-loading';
 
 import { Space, P, Clickable, Horizontal } from 'components';
 import { palette } from 'palette';
@@ -30,6 +31,7 @@ const Chat: React.FC<Props> = ({ profile }: Props) => {
   const [selectedUser, setSelectedUser] = useState<Profile | undefined>();
   const [selectedConversation, setSelectedConversation] = useState<any>();
   const [onlineUsers, setOnlineUsers] = useState<string[]>([]);
+  const [isTyping, setIsTyping] = useState(false);
   const socket = useRef<any>();
   const scrollRef = useRef<any>();
 
@@ -43,6 +45,9 @@ const Chat: React.FC<Props> = ({ profile }: Props) => {
         text,
       });
     });
+
+    socket.current.on('startTyping', () => setIsTyping(true));
+    socket.current.on('endTyping', () => setIsTyping(false));
     store.dispatch(
       actions.getAllUsers((res) => {
         if (!res.error) {
@@ -118,7 +123,7 @@ const Chat: React.FC<Props> = ({ profile }: Props) => {
 
   useEffect(() => {
     scrollRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages]);
+  }, [messages, isTyping]);
 
   useEffect(() => {
     if (openChatBox && conversations.length > 0) {
@@ -134,6 +139,26 @@ const Chat: React.FC<Props> = ({ profile }: Props) => {
     setSelectedUser(profile);
     setSelectedConversation(conversation);
     setShowAdminChat(true);
+  };
+
+  let typing = false;
+  let timeout: any;
+
+  const timeoutFunction = (isAdmin?: boolean, adminId?: string) => {
+    typing = false;
+    socket.current.emit('endedTyping', { receiverId: isAdmin ? selectedUser?._id : adminId });
+  };
+
+  const onKeyDownNotEnter = (isAdmin: boolean) => {
+    const adminId = users.find((u) => u.isAdmin)?._id;
+    if (!typing) {
+      typing = true;
+      socket.current.emit('typing', { receiverId: isAdmin ? selectedUser?._id : adminId });
+      timeout = setTimeout(() => timeoutFunction(isAdmin, adminId), 3000);
+    } else {
+      clearTimeout(timeout);
+      timeout = setTimeout(timeoutFunction, 3000);
+    }
   };
 
   return (
@@ -189,7 +214,7 @@ const Chat: React.FC<Props> = ({ profile }: Props) => {
                         <PersonOutlineOutlinedIcon style={{ color: palette.l }} />
                       </Space>
                       <P bold color={'l'}>
-                        {selectedUser?.name || 'Misafir Kullanıcı'}
+                        {selectedUser?.name || 'User'}
                       </P>
                     </Horizontal>
                     <Clickable
@@ -227,6 +252,11 @@ const Chat: React.FC<Props> = ({ profile }: Props) => {
                       </Space>
                     </div>
                   ))}
+                  {isTyping && (
+                    <div className={'Typing-Bubbles-Container'}>
+                      <ReLoading type={'bubbles'} color={palette.dg} width={30} height={30} />
+                    </div>
+                  )}
                 </div>
                 <Space className={'Chat-Bar'}>
                   <Horizontal>
@@ -236,7 +266,10 @@ const Chat: React.FC<Props> = ({ profile }: Props) => {
                       value={text}
                       rows={1}
                       style={{ color: palette.dg }}
-                      onChange={({ target: { value } }) => setText(value)}
+                      onChange={({ target: { value } }) => {
+                        setText(value);
+                        onKeyDownNotEnter(true);
+                      }}
                     />
                     <Space v={'n'} h={'xs'} />
                     <Clickable onClick={() => sendMessage(true)}>
@@ -257,7 +290,7 @@ const Chat: React.FC<Props> = ({ profile }: Props) => {
                       h={'n'}
                       align={'center'}
                       className={'Avatar-Container'}
-                      style={{ backgroundColor: `${palette.l}20` }}
+                      style={{ backgroundColor: `${palette.l}35` }}
                     >
                       <PersonOutlineOutlinedIcon style={{ color: palette.l }} />
                     </Space>
@@ -295,6 +328,11 @@ const Chat: React.FC<Props> = ({ profile }: Props) => {
                     </Space>
                   </div>
                 ))}
+                {isTyping && (
+                  <div className={'Typing-Bubbles-Container'}>
+                    <ReLoading type={'bubbles'} color={palette.dg} width={30} height={30} />
+                  </div>
+                )}
               </div>
               <Space className={'Chat-Bar'}>
                 <Horizontal>
@@ -304,7 +342,10 @@ const Chat: React.FC<Props> = ({ profile }: Props) => {
                     value={text}
                     rows={1}
                     style={{ color: palette.dg }}
-                    onChange={({ target: { value } }) => setText(value)}
+                    onChange={({ target: { value } }) => {
+                      setText(value);
+                      onKeyDownNotEnter(false);
+                    }}
                   />
                   <Space v={'n'} h={'xs'} />
                   <Clickable onClick={sendMessage}>
