@@ -2,12 +2,17 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { CSSTransition } from 'react-transition-group';
-import FavoriteSharp from '@material-ui/icons/FavoriteSharp';
-import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
-import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
-import PersonIcon from '@material-ui/icons/Person';
-import LogoutRoundedIcon from '@material-ui/icons/ExitToAppRounded';
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import {
+  ShoppingCart,
+  FavoriteBorderRounded,
+  FavoriteRounded,
+  AccountCircle,
+  ShoppingCartOutlined,
+  ExitToAppRounded,
+  Person,
+  KeyboardArrowDown,
+} from '@material-ui/icons';
+import { useLocation } from 'react-router-dom';
 
 import { P, Space, Image, Horizontal, SearchBar, Clickable, T, Menu } from 'components';
 import { AppLogo, TR, US } from 'assets';
@@ -15,7 +20,6 @@ import { palette } from 'palette';
 import { translate } from 'util/translate';
 import * as actions from 'store/actions';
 import { store } from 'store';
-import { productMenus } from 'config/products';
 
 import { NavItem, SubNav } from './components';
 import './style.css';
@@ -36,6 +40,7 @@ const Header: React.FC<Props> = ({ languages, profile, loggedIn }: Props) => {
   const navigate = useNavigate();
   const [showMenu, setShowMenu] = useState(false);
   const [category, setCategory] = useState('');
+  const { pathname } = useLocation();
 
   const navItems = [
     { title: translate('man'), to: '/man' },
@@ -48,8 +53,8 @@ const Header: React.FC<Props> = ({ languages, profile, loggedIn }: Props) => {
   ];
 
   const menuItems = [
-    { label: 'Your Account', icon: <PersonIcon />, onClick: () => {} },
-    { label: 'Logout', icon: <LogoutRoundedIcon />, onClick: () => store.dispatch(actions.logout()) },
+    { label: 'Your Account', icon: <Person />, onClick: () => {} },
+    { label: 'Logout', icon: <ExitToAppRounded />, onClick: () => store.dispatch(actions.logout()) },
   ];
 
   return (
@@ -72,7 +77,7 @@ const Header: React.FC<Props> = ({ languages, profile, loggedIn }: Props) => {
                 {loggedIn && (
                   <>
                     <Menu
-                      labelIcon={<AccountCircleIcon style={{ color: palette.dg }} />}
+                      labelIcon={<AccountCircle style={{ color: palette.dg }} />}
                       label={profile.name}
                       items={menuItems}
                       horizontal={false}
@@ -81,14 +86,22 @@ const Header: React.FC<Props> = ({ languages, profile, loggedIn }: Props) => {
                   </>
                 )}
                 <Clickable onClick={() => {}}>
-                  <FavoriteSharp style={{ color: palette.e, height: 25 }} />
+                  {pathname.includes('favorites') ? (
+                    <FavoriteRounded style={{ color: palette.e, height: 25 }} />
+                  ) : (
+                    <FavoriteBorderRounded style={{ color: palette.dg1, height: 25 }} />
+                  )}
                   <P color={'dg'}>
                     <T>favorites</T>
                   </P>
                 </Clickable>
                 <Space v={'n'} />
                 <Clickable onClick={() => {}}>
-                  <ShoppingCartIcon style={{ color: palette.y, height: 25 }} />
+                  {pathname.includes('cart') ? (
+                    <ShoppingCart style={{ color: palette.y, height: 25 }} />
+                  ) : (
+                    <ShoppingCartOutlined style={{ color: palette.dg1, height: 25 }} />
+                  )}
                   <P color={'dg'}>
                     <T>cart</T>
                   </P>
@@ -131,7 +144,7 @@ const Header: React.FC<Props> = ({ languages, profile, loggedIn }: Props) => {
                     <Image source={languages.key === 'US' ? US : TR} width={15} height={15} borderRadius={3} />
                     <Space v={'n'} h={'n'} l={'xs'} />
                     <P color={'dg'}>{languages.key}</P>
-                    <KeyboardArrowDownIcon style={{ color: palette.dg }} />
+                    <KeyboardArrowDown style={{ color: palette.dg }} />
                   </Horizontal>
                   {showLanguages && (
                     <Space
