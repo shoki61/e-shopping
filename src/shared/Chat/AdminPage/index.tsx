@@ -70,7 +70,7 @@ const AdminPage: React.FC<Props> = ({
         {conversations?.map((c: Conversation) => (
           <Fragment key={`chat-user-${c._id}`}>
             <User
-              profile={users.find((user: Profile) => c.members.includes(user._id))}
+              profile={users.find((user: Profile) => c.members.includes(user._id) && user._id !== profile._id)}
               onlineUsers={onlineUsers}
               onClick={(v?: Profile) => {
                 onSelectedUser(c, v);
