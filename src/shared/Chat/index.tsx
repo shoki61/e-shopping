@@ -1,19 +1,17 @@
-import { Fragment, useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { io } from 'socket.io-client';
 import { connect } from 'react-redux';
 import ModeCommentIcon from '@material-ui/icons/ModeComment';
-import CloseRoundedIcon from '@material-ui/icons/CloseRounded';
-import PersonOutlineOutlinedIcon from '@material-ui/icons/PersonOutlineOutlined';
-import SendRoundedIcon from '@material-ui/icons/SendRounded';
-import ReLoading from 'react-loading';
+import { debounce } from 'lodash';
 
-import { Space, P, Clickable, Horizontal } from 'components';
+import { Space, Clickable } from 'components';
 import { palette } from 'palette';
 import { store } from 'store';
 import { Profile, Conversation, Message } from 'models';
 import * as actions from 'store/actions';
 
-import User from './User';
+import AdminPage from './AdminPage';
+import UserPage from './UserPage';
 import './style.css';
 
 type Props = {
@@ -23,23 +21,19 @@ type Props = {
 const Chat: React.FC<Props> = ({ profile }: Props) => {
   const [openChatBox, setOpenChatBox] = useState(false);
   const [conversations, setConversations] = useState<Conversation[]>([]);
-  const [text, setText] = useState('');
   const [messages, setMessages] = useState<Message[]>([]);
   const [arrivalMessage, setArrivalMessage] = useState<any>(null);
   const [users, setUsers] = useState<Profile[]>([]);
-  const [showAdminChat, setShowAdminChat] = useState(false);
-  const [selectedUser, setSelectedUser] = useState<Profile | undefined>();
+  const [selectedUser, setSelectedUser] = useState<Profile>();
   const [selectedConversation, setSelectedConversation] = useState<any>();
   const [onlineUsers, setOnlineUsers] = useState<string[]>([]);
   const [isTyping, setIsTyping] = useState(false);
   const socket = useRef<any>();
-  const scrollRef = useRef<any>();
 
   useEffect(() => {
     socket.current = io('http://localhost:3030');
 
     socket.current.on('getMessage', ({ senderId, text }: any) => {
-      console.log(text);
       setArrivalMessage({
         sender: senderId,
         text,
@@ -94,7 +88,7 @@ const Chat: React.FC<Props> = ({ profile }: Props) => {
     );
   }, [openChatBox]);
 
-  const sendMessage = async (isAdmin?: boolean) => {
+  const sendMessage = async (text: string, isAdmin?: boolean) => {
     if (text.length > 0) {
       const adminId = users?.find((u: Profile) => u?.isAdmin)?._id;
       socket.current.emit('sendMessage', {
@@ -107,7 +101,6 @@ const Chat: React.FC<Props> = ({ profile }: Props) => {
           setMessages((prev) => [...prev, res.data]);
         }),
       );
-      setText('');
     }
   };
 
@@ -122,10 +115,6 @@ const Chat: React.FC<Props> = ({ profile }: Props) => {
   };
 
   useEffect(() => {
-    scrollRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages, isTyping]);
-
-  useEffect(() => {
     if (openChatBox && conversations.length > 0) {
       const adminId = users?.find((u: Profile) => u?.isAdmin)?._id;
       if (profile?._id !== adminId) {
@@ -138,27 +127,16 @@ const Chat: React.FC<Props> = ({ profile }: Props) => {
     getMessages(conversation._id);
     setSelectedUser(profile);
     setSelectedConversation(conversation);
-    setShowAdminChat(true);
   };
 
-  let typing = false;
-  let timeout: any;
-
-  const timeoutFunction = (isAdmin?: boolean, adminId?: string) => {
-    typing = false;
-    socket.current.emit('endedTyping', { receiverId: isAdmin ? selectedUser?._id : adminId });
-  };
-
-  const onKeyDownNotEnter = (isAdmin: boolean) => {
+  const endedTyping = debounce((isAdmin: boolean) => {
     const adminId = users.find((u) => u.isAdmin)?._id;
-    if (!typing) {
-      typing = true;
-      socket.current.emit('typing', { receiverId: isAdmin ? selectedUser?._id : adminId });
-      timeout = setTimeout(() => timeoutFunction(isAdmin, adminId), 3000);
-    } else {
-      clearTimeout(timeout);
-      timeout = setTimeout(timeoutFunction, 3000);
-    }
+    socket.current.emit('endedTyping', { receiverId: isAdmin ? selectedUser?._id : adminId });
+  }, 2000);
+
+  const startTyping = (isAdmin: boolean) => {
+    const adminId = users.find((u) => u.isAdmin)?._id;
+    socket.current.emit('typing', { receiverId: isAdmin ? selectedUser?._id : adminId });
   };
 
   return (
@@ -171,189 +149,29 @@ const Chat: React.FC<Props> = ({ profile }: Props) => {
       {openChatBox ? (
         <div className={'Chat-Items-Container'}>
           {profile?.isAdmin ? (
-            !showAdminChat ? (
-              <div>
-                <Space v={'s'} style={{ backgroundColor: palette.m }}>
-                  <Horizontal align={'middle'} spread>
-                    <P align={'center'} size={'l'} color={'l'}>
-                      Users
-                    </P>
-                    <Clickable onClick={() => setOpenChatBox(false)}>
-                      <CloseRoundedIcon style={{ color: palette.l }} />
-                    </Clickable>
-                  </Horizontal>
-                </Space>
-                <Space v={'s'} h={'s'}>
-                  {conversations?.map((c: Conversation) => (
-                    <Fragment key={`chat-user-${c._id}`}>
-                      <User
-                        profile={users.find((u) =>
-                          c.members.find((m) => m !== users.find((user) => user.isAdmin)?._id && m === u._id),
-                        )}
-                        onlineUsers={onlineUsers}
-                        onClick={(v?: Profile) => selectUser(c, v)}
-                      />
-                      <Space v={'n'} b={'xs'} />
-                    </Fragment>
-                  ))}
-                </Space>
-              </div>
-            ) : (
-              <>
-                <Space v={'s'} className={'Header-Container'} style={{ backgroundColor: palette.m }}>
-                  <Horizontal spread>
-                    <Horizontal>
-                      <Space
-                        flex
-                        v={'n'}
-                        h={'n'}
-                        align={'center'}
-                        className={'Avatar-Container'}
-                        style={{ backgroundColor: `${palette.l}20` }}
-                      >
-                        <PersonOutlineOutlinedIcon style={{ color: palette.l }} />
-                      </Space>
-                      <P bold color={'l'}>
-                        {selectedUser?.name || 'User'}
-                      </P>
-                    </Horizontal>
-                    <Clickable
-                      onClick={() => {
-                        setShowAdminChat(false);
-                        setMessages([]);
-                      }}
-                    >
-                      <CloseRoundedIcon style={{ color: palette.l }} />
-                    </Clickable>
-                  </Horizontal>
-                </Space>
-                <div id={'Messages-Container'}>
-                  {messages.map((message: Message) => (
-                    <div
-                      ref={scrollRef}
-                      style={{
-                        justifyContent: message.sender !== profile?._id ? 'flex-start' : 'flex-end',
-                      }}
-                      className={'Message-Container'}
-                      key={message._id}
-                    >
-                      <Space
-                        className={'Message-Content-Container'}
-                        v={'xs'}
-                        h={'s'}
-                        style={{
-                          backgroundColor: message.sender !== profile._id ? '#fff' : palette.m,
-                          maxWidth: '85%',
-                        }}
-                      >
-                        <P style={{ fontWeight: 500 }} color={message.sender !== profile._id ? 'dg' : 'l'}>
-                          {message.text}
-                        </P>
-                      </Space>
-                    </div>
-                  ))}
-                  {isTyping && (
-                    <div className={'Typing-Bubbles-Container'}>
-                      <ReLoading type={'bubbles'} color={palette.dg} width={30} height={30} />
-                    </div>
-                  )}
-                </div>
-                <Space className={'Chat-Bar'}>
-                  <Horizontal>
-                    <textarea
-                      className={'Chat-Input'}
-                      placeholder={'how can we help you'}
-                      value={text}
-                      rows={1}
-                      style={{ color: palette.dg }}
-                      onChange={({ target: { value } }) => {
-                        setText(value);
-                        onKeyDownNotEnter(true);
-                      }}
-                    />
-                    <Space v={'n'} h={'xs'} />
-                    <Clickable onClick={() => sendMessage(true)}>
-                      <SendRoundedIcon style={{ color: text.length > 0 ? palette.m : palette.lg }} />
-                    </Clickable>
-                  </Horizontal>
-                </Space>
-              </>
-            )
+            <AdminPage
+              isTyping={isTyping}
+              onEndedTyping={() => endedTyping(true)}
+              onStartTyping={() => startTyping(true)}
+              messages={messages}
+              sendMessage={sendMessage}
+              selectedUser={selectedUser}
+              conversations={conversations}
+              onCloseChatBox={() => setOpenChatBox(false)}
+              users={users}
+              onlineUsers={onlineUsers}
+              cleareMessages={() => setMessages([])}
+              onSelectedUser={(c: Conversation, user?: Profile) => selectUser(c, user)}
+            />
           ) : (
-            <>
-              <Space v={'s'} className={'Header-Container'} style={{ backgroundColor: palette.m }}>
-                <Horizontal spread>
-                  <Horizontal>
-                    <Space
-                      flex
-                      v={'n'}
-                      h={'n'}
-                      align={'center'}
-                      className={'Avatar-Container'}
-                      style={{ backgroundColor: `${palette.l}35` }}
-                    >
-                      <PersonOutlineOutlinedIcon style={{ color: palette.l }} />
-                    </Space>
-                    <P bold color={'l'}>
-                      Admin
-                    </P>
-                  </Horizontal>
-                  <Clickable onClick={() => setOpenChatBox((openChatBox) => !openChatBox)}>
-                    <CloseRoundedIcon style={{ color: palette.l }} />
-                  </Clickable>
-                </Horizontal>
-              </Space>
-              <div id={'Messages-Container'}>
-                {messages.map((message: Message) => (
-                  <div
-                    ref={scrollRef}
-                    style={{
-                      justifyContent: message.sender !== profile._id ? 'flex-start' : 'flex-end',
-                    }}
-                    className={'Message-Container'}
-                    key={message._id}
-                  >
-                    <Space
-                      className={'Message-Content-Container'}
-                      v={'xs'}
-                      h={'s'}
-                      style={{
-                        backgroundColor: message.sender !== profile._id ? '#fff' : palette.m,
-                        maxWidth: '85%',
-                      }}
-                    >
-                      <P style={{ fontWeight: 500 }} color={message.sender !== profile._id ? 'dg' : 'l'}>
-                        {message.text}
-                      </P>
-                    </Space>
-                  </div>
-                ))}
-                {isTyping && (
-                  <div className={'Typing-Bubbles-Container'}>
-                    <ReLoading type={'bubbles'} color={palette.dg} width={30} height={30} />
-                  </div>
-                )}
-              </div>
-              <Space className={'Chat-Bar'}>
-                <Horizontal>
-                  <textarea
-                    className={'Chat-Input'}
-                    placeholder={'how can we help you'}
-                    value={text}
-                    rows={1}
-                    style={{ color: palette.dg }}
-                    onChange={({ target: { value } }) => {
-                      setText(value);
-                      onKeyDownNotEnter(false);
-                    }}
-                  />
-                  <Space v={'n'} h={'xs'} />
-                  <Clickable onClick={sendMessage}>
-                    <SendRoundedIcon style={{ color: text.length > 0 ? palette.m : palette.lg }} />
-                  </Clickable>
-                </Horizontal>
-              </Space>
-            </>
+            <UserPage
+              isTyping={isTyping}
+              messages={messages}
+              onEndedTyping={() => endedTyping(false)}
+              onStartTyping={() => startTyping(false)}
+              onCloseChatBox={() => setOpenChatBox(false)}
+              sendMessage={sendMessage}
+            />
           )}
         </div>
       ) : (
