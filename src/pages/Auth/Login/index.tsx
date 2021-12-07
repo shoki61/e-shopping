@@ -18,8 +18,6 @@ type LoginProps = unknown;
 
 type Props = ReduxProps & LoginProps;
 
-const user = { email: 'test@gmail.com', password: '12345678' };
-
 const Login = (props: Props) => {
   const [userInfo, setUserInfo] = useState({
     email: '',
@@ -46,8 +44,10 @@ const Login = (props: Props) => {
       actions.login(email, password, (res) => {
         setLoading(false);
         if (res.error) {
-          AppNotification.error(res.error);
+          return AppNotification.error(res.error);
         }
+        store.dispatch(actions.loginSuccess(res.data));
+        navigate('/');
       }),
     );
   };

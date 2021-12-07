@@ -8,9 +8,6 @@ export const login =
   async (dispatch: Dispatch) => {
     const res = await Request.post('/user/login', { email, password });
     callback(res);
-    if (res.data) {
-      dispatch(loginSuccess(res.data));
-    }
   };
 
 export const logout = () => ({
@@ -32,14 +29,18 @@ export const signUp =
 export const verifyEmail =
   (email: string, verificationCode: string, callback = (res: any) => {}) =>
   async (dispatch: Dispatch) => {
-    const res = await Request.post(`/verify_email/${email}/${verificationCode}`);
+    const res = await Request.post(`/user/verify_email/${email}/${verificationCode}`);
     callback(res);
-    if (res.data) {
-      dispatch(signUpSuccess(res.data));
-    }
   };
 
 export const signUpSuccess = (data: any) => ({
   type: types.SIGN_UP_SUCCESS,
   payload: data,
 });
+
+export const getAllUsers =
+  (callback = (res: any) => {}) =>
+  async () => {
+    const res = await Request.get('/user/all_users');
+    callback(res);
+  };

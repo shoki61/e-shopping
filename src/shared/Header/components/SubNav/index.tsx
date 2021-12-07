@@ -1,4 +1,4 @@
-import { Space, P, Clickable, Button, Horizontal } from 'components';
+import { Space, P, Clickable, Horizontal } from 'components';
 import { palette } from 'palette';
 import { productMenus } from 'config/products';
 
@@ -21,8 +21,8 @@ const SubNav: React.FC<Props> = ({ onOpen, onClose, category }: Props) => {
     <Space v={'n'} h={'xxxl'} className={'Sub-Nav'} style={{ backgroundColor: `${palette.dg}10` }} fullWidth>
       <Space onMouseEnter={onOpen} onMouseLeave={onClose} className={'Sub-Nav-Content'}>
         <Horizontal wrap align={'top'}>
-          {products?.map((product) => (
-            <Space h={'l'}>
+          {products?.map((product, i: number) => (
+            <Space h={'l'} key={`sub-nav-porducts-${product.title}-${i}`}>
               <Clickable onClick={() => {}}>
                 <Space
                   v={'xs'}
@@ -36,8 +36,8 @@ const SubNav: React.FC<Props> = ({ onOpen, onClose, category }: Props) => {
                 </Space>
               </Clickable>
               <Space v={'n'} b={'xs'} />
-              {product.items.map((item: string) => (
-                <Space h={'n'} v={'n'} b={'xs'}>
+              {product.items.map((item: string, i: number) => (
+                <Space h={'n'} v={'n'} b={'xs'} key={`sub-nav-products-items-${item}-${i}`}>
                   <Clickable onClick={() => {}} className={'Sub-Nav-Product-Item'}>
                     <P>{item}</P>
                   </Clickable>

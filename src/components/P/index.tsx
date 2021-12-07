@@ -10,7 +10,7 @@ type Props = {
   bold?: boolean;
   className?: string;
   style?: React.CSSProperties;
-  align?: 'center' | 'left' | 'right';
+  align?: 'center' | 'left' | 'right' | 'justify';
 };
 
 const P: React.FC<Props> = ({ children, size = 'm', color, bold = false, className, style, align = 'left' }: Props) => {

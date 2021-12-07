@@ -11,6 +11,7 @@ type Props = {
   className?: string;
   fullWidth?: boolean;
   column?: boolean;
+  id?: string;
   align?: 'center' | 'flex-start' | 'flex-end';
   onMouseEnter?: () => void;
   onMouseLeave?: () => void;
@@ -30,11 +31,13 @@ const Space: React.FC<Props> = ({
   fullWidth,
   column,
   align,
+  id,
   onMouseEnter,
   onMouseLeave,
 }: Props) => {
   return (
     <div
+      id={id}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
       style={{

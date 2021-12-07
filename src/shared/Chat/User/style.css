@@ -1,0 +1,28 @@
+.User-Avatar {
+  width: 35px !important;
+  height: 35px !important;
+  border-radius: 100px;
+  justify-content: center;
+  position: relative;
+}
+
+.User-Container {
+  box-shadow: 0 0 1px #ccc;
+  width: 100% !important;
+  border-radius: 7px;
+  transition: all 0.3s ease-in-out;
+}
+
+.User-Active {
+  width: 15px;
+  height: 15px;
+  border-radius: 100px;
+  border: 3px solid #fff;
+  position: absolute;
+  bottom: -2px;
+  right: -2px;
+}
+
+.User-Container:hover {
+  background-color: #d4612450 !important;
+}
