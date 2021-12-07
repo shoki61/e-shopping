@@ -50,7 +50,6 @@ const AdminPage: React.FC<Props> = ({
   const [openChat, setOpenChat] = useState(false);
   const [text, setText] = useState('');
   const scrollRef = useRef<any>();
-  console.log(users);
 
   useEffect(() => {
     scrollRef.current?.scrollIntoView({ behavior: 'smooth' });
