@@ -85,7 +85,7 @@ const Header: React.FC<Props> = ({ languages, profile, loggedIn }: Props) => {
                     <Space v={'n'} />
                   </>
                 )}
-                <Clickable onClick={() => {}}>
+                <Clickable onClick={() => navigate('favorites')}>
                   {pathname.includes('favorites') ? (
                     <FavoriteRounded style={{ color: palette.e, height: 25 }} />
                   ) : (

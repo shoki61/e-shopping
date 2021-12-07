@@ -4,7 +4,8 @@ import '@szhsin/react-menu/dist/index.css';
 import '@szhsin/react-menu/dist/transitions/slide.css';
 
 import { Clickable, P, Space } from 'components';
-import { palette } from 'palette';
+import { palette, PaletteKey } from 'palette';
+import { FontSizeKey } from 'fontSizes';
 
 type Props = {
   label?: string | JSX.Element;
@@ -12,9 +13,23 @@ type Props = {
   horizontal?: boolean;
   onClick?: () => any;
   items?: { label?: string; icon?: JSX.Element; onClick?: () => any }[];
+  itemLabelSize?: FontSizeKey;
+  labelSize?: FontSizeKey;
+  isLabelBold?: boolean;
+  labelColor?: PaletteKey;
 };
 
-const Menu: React.FC<Props> = ({ label, labelIcon, onClick, items, horizontal = true }: Props) => {
+const Menu: React.FC<Props> = ({
+  label,
+  labelIcon,
+  onClick,
+  items,
+  horizontal = true,
+  itemLabelSize = 'm',
+  labelSize = 'm',
+  isLabelBold,
+  labelColor = 'dg',
+}: Props) => {
   const ref = useRef(null);
   const { toggleMenu, ...menuProps } = useMenuState({ transition: true });
 
@@ -23,8 +38,12 @@ const Menu: React.FC<Props> = ({ label, labelIcon, onClick, items, horizontal = 
       <div ref={ref} onMouseEnter={() => toggleMenu(true)}>
         <Clickable onClick={onClick} style={{ display: horizontal ? 'flex' : 'block', alignItems: 'center' }}>
           {labelIcon && labelIcon}
-          {horizontal && <Space v={'n'} h={'xs'} />}
-          {label && <P color={'dg'}>{label}</P>}
+          {labelIcon && horizontal && <Space v={'n'} h={'xs'} />}
+          {label && (
+            <P bold={isLabelBold} color={labelColor} size={labelSize}>
+              {label}
+            </P>
+          )}
         </Clickable>
       </div>
       <ControlledMenu
@@ -53,7 +72,7 @@ const Menu: React.FC<Props> = ({ label, labelIcon, onClick, items, horizontal = 
           >
             {icon && icon}
             <Space v={'n'} h={'xs'} />
-            {label && <P>{label}</P>}
+            {label && <P size={itemLabelSize}>{label}</P>}
           </MenuItem>
         ))}
       </ControlledMenu>

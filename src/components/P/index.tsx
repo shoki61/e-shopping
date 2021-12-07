@@ -4,7 +4,7 @@ import { palette } from 'palette';
 import './styles.css';
 
 type Props = {
-  children: string | number | JSX.Element;
+  children: React.ReactNode;
   size?: string;
   color?: string;
   bold?: boolean;
