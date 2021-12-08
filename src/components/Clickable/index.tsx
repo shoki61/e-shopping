@@ -11,6 +11,7 @@ type Props = {
   enabled?: boolean;
   className?: string;
   fullWidth?: boolean;
+  htmlTitle?: string;
 };
 
 const Clickable: React.FC<Props> = ({
@@ -22,12 +23,14 @@ const Clickable: React.FC<Props> = ({
   enabled = true,
   className,
   fullWidth,
+  htmlTitle,
 }: Props) => {
   return (
     <button
       disabled={!enabled}
       onClick={() => !loading && onClick()}
       className={`Clickable ${className}`}
+      title={htmlTitle}
       style={{
         cursor: !enabled ? 'no-drop' : loading ? 'wait' : cursor,
         ...style,

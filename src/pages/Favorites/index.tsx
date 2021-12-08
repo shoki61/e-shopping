@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { connect } from 'react-redux';
 
-import { Space, Horizontal, P, Clickable, Menu } from 'components';
+import { Space, Horizontal, P, Clickable, Menu, ProductCard } from 'components';
 import { palette } from 'palette';
 import { fontSize } from 'fontSizes';
 
@@ -38,6 +38,15 @@ const Favorites: React.FC<Props> = ({}: Props) => {
             <Menu labelColor={'m'} isLabelBold label={sorting} labelSize={'s'} items={menuItems} />
           </Space>
         </Horizontal>
+        <ProductCard
+          title={'Siyah Basic Erkek Bisiklet Yaka Oversize Kısa Kollu Tişört'}
+          imageSource={'ded'}
+          isFavorite={false}
+          prize={125}
+          score={4}
+          switchFavorite={() => {}}
+          onClick={() => {}}
+        />
       </Space>
     </Space>
   );
