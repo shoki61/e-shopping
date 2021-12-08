@@ -85,14 +85,13 @@ const Login = (props: Props) => {
         />
         <Space h={'n'} v={'n'} t={'s'} b={'m'} flex style={{ justifyContent: 'flex-end' }}>
           <Clickable onClick={() => navigate('/reset-password')}>
-            <P color={'dg'} size={'s'} bold>
+            <P color={'dg'} size={'xs'} bold>
               <T>forgotYourPassword</T>
             </P>
           </Clickable>
         </Space>
         <Button
           title={translate('login')}
-          color={'l'}
           borderRadius={100}
           fullWidth
           align={'center'}

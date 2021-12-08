@@ -7,6 +7,7 @@ type Props = {
   style?: React.CSSProperties;
   wrap?: boolean;
   spread?: boolean;
+  className?: string;
 };
 
 type AlignAndJustifyType = {
@@ -32,10 +33,11 @@ const Horizontal: React.FC<Props> = ({
   wrap = false,
   spread = false,
   style,
+  className,
 }: Props) => {
   return (
     <div
-      className={'Horizontal'}
+      className={'Horizontal ' + className}
       style={{
         alignItems: alignItemsValue[align],
         justifyContent: spread ? 'space-between' : justifyContentValue[justify],

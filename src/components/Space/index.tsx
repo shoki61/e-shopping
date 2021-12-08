@@ -13,6 +13,7 @@ type Props = {
   column?: boolean;
   id?: string;
   align?: 'center' | 'flex-start' | 'flex-end';
+  justify?: 'center' | 'flex-start' | 'flex-end';
   onMouseEnter?: () => void;
   onMouseLeave?: () => void;
 };
@@ -30,7 +31,8 @@ const Space: React.FC<Props> = ({
   className,
   fullWidth,
   column,
-  align,
+  align = flex ? 'center' : 'flex-start',
+  justify = flex ? 'center' : 'flex-start',
   id,
   onMouseEnter,
   onMouseLeave,
@@ -50,6 +52,7 @@ const Space: React.FC<Props> = ({
         width: fullWidth ? '100%' : 'auto',
         flexDirection: column ? 'column' : 'row',
         alignItems: align,
+        justifyContent: justify,
         ...style,
       }}
       className={className}

@@ -1,9 +1,11 @@
 import ReactLoading from 'react-loading';
 
 import { palette, PaletteKey } from 'palette';
-import { P } from 'components';
 import { FontSizeKey } from 'fontSizes';
-import { CursorType } from 'components/Clickable';
+import { CursorType } from '../Clickable';
+import P from '../P';
+import Horizontal from '../Horizontal';
+import Space from '../Space';
 
 import './style.css';
 
@@ -21,13 +23,14 @@ type Props = {
   loadingIconSize?: number;
   style?: React.CSSProperties;
   enabled?: boolean;
+  icon?: any;
 };
 
 const Button: React.FC<Props> = ({
   title,
   type = 'submit',
   borderRadius = 7,
-  color = 'd',
+  color = type === 'submit' ? 'l' : 'd',
   fontSize = 'm',
   fullWidth,
   align = 'center',
@@ -37,6 +40,7 @@ const Button: React.FC<Props> = ({
   loadingIconSize = 17,
   style,
   enabled = true,
+  icon,
 }: Props) => {
   const iconSize = { width: loadingIconSize, height: loadingIconSize };
   return (
@@ -57,9 +61,17 @@ const Button: React.FC<Props> = ({
       {loading ? (
         <ReactLoading type={'spinningBubbles'} color={palette.l} {...iconSize} />
       ) : (
-        <P color={color} size={fontSize}>
-          {title}
-        </P>
+        <Horizontal align={'bottom'}>
+          {icon && (
+            <>
+              {icon}
+              <Space v={'n'} h={'n'} l={'xs'} />
+            </>
+          )}
+          <P color={color} size={fontSize}>
+            {title}
+          </P>
+        </Horizontal>
       )}
     </button>
   );
