@@ -38,8 +38,6 @@ const LoginForChat = () => {
                 setOpenLoginForChat(false);
               }}
               title={'Login'}
-              color={'l'}
-              type={'submit'}
             />
           </Space>
         </>

@@ -148,7 +148,6 @@ const SignUp: React.FC<Props> = (props: Props) => {
 
             <Button
               title={translate('signUp')}
-              color={'l'}
               borderRadius={100}
               fullWidth
               align={'center'}

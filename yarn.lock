@@ -9830,6 +9830,11 @@ react-scripts@4.0.3:
   optionalDependencies:
     fsevents "^2.1.3"
 
+react-simple-star-rating@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/react-simple-star-rating/-/react-simple-star-rating-4.0.0.tgz#fe5e5b4f2386061f89b3b09cf2e071175abce6b5"
+  integrity sha512-UiTMJDmaqj9CRqS+pJCyGNiP82VPr8WZxfHGJQSd7r8d4B6OoYQz17QJudRnGsniLhQY0TlZLO9FEg7O2iznHg==
+
 react-toastify@^8.1.0:
   version "8.1.0"
   resolved "https://registry.yarnpkg.com/react-toastify/-/react-toastify-8.1.0.tgz#acaca4e8c4415c8474562dd84a14e6f390ed7f17"

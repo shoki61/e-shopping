@@ -84,7 +84,7 @@ const Input: React.FC<Props> = ({
         ) : null}
       </div>
       {errorMessage && (
-        <P bold color={'e'} size={'s'}>
+        <P bold color={'e'} size={'xs'}>
           {errorMessage}
         </P>
       )}

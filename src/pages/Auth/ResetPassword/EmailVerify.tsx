@@ -22,14 +22,7 @@ const EmailVerify = ({ value, onChange, onNext, onBack, errorMessage, loading }:
         errorMessage={errorMessage}
       />
       <Space v={'s'} />
-      <Button
-        title={translate('continue')}
-        loading={loading}
-        borderRadius={100}
-        fullWidth
-        onClick={onNext}
-        color={'l'}
-      />
+      <Button title={translate('continue')} loading={loading} borderRadius={100} fullWidth onClick={onNext} />
       <Space v={'s'} />
       <Button title={translate('back')} fullWidth onClick={onBack} borderRadius={100} type={'back'} />
     </>

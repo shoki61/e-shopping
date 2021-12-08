@@ -25,18 +25,11 @@ const VerificationCode = ({ value, onChange, onNext, onBack, errorMessage, loadi
           characterSelected: 'character--selected',
         }}
       />
-      <P color={'e'} size={'s'}>
+      <P color={'e'} size={'xs'}>
         {errorMessage}
       </P>
       <Space v={'s'} />
-      <Button
-        title={translate('continue')}
-        borderRadius={100}
-        loading={loading}
-        fullWidth
-        onClick={onNext}
-        color={'l'}
-      />
+      <Button title={translate('continue')} borderRadius={100} loading={loading} fullWidth onClick={onNext} />
       <Space v={'s'} />
       <Button title={translate('back')} borderRadius={100} fullWidth onClick={onBack} type={'back'} />
     </>
