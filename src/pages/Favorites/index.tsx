@@ -48,73 +48,9 @@ const Favorites: React.FC<Props> = ({}: Props) => {
               isFavorite
               prize={125}
               rating={4}
-              onClick={() => {}}
               isInCard
             />
             <Space h={'s'} />
-            <ProductCard
-              title={'Siyah Basic Erkek Bisiklet Yaka Oversize Kısa Kollu Tişört'}
-              isFavorite={false}
-              prize={125}
-              rating={4}
-              onClick={() => {}}
-            />
-            <Space h={'s'} />
-            <ProductCard
-              title={'Siyah Basic Erkek Bisiklet Yaka Oversize Kısa Kollu Tişört'}
-              isFavorite={false}
-              prize={125}
-              rating={4}
-              onClick={() => {}}
-            />
-            <Space h={'s'} />
-            <ProductCard
-              title={'Siyah Basic Erkek Bisiklet Yaka Oversize Kısa Kollu Tişört'}
-              isFavorite={false}
-              prize={125}
-              rating={4}
-              onClick={() => {}}
-            />
-            <Space h={'s'} />
-            <ProductCard
-              title={'Siyah Basic Erkek Bisiklet Yaka Oversize Kısa Kollu Tişört'}
-              isFavorite={false}
-              prize={125}
-              rating={4}
-              onClick={() => {}}
-            />
-            <Space h={'s'} />
-            <ProductCard
-              title={'Siyah Basic Erkek Bisiklet Yaka Oversize Kısa Kollu Tişört'}
-              isFavorite={false}
-              prize={125}
-              rating={4}
-              onClick={() => {}}
-            />
-            <Space h={'s'} />
-            <ProductCard
-              title={'Siyah Basic Erkek Bisiklet Yaka Oversize Kısa Kollu Tişört'}
-              isFavorite={false}
-              prize={125}
-              rating={4}
-              onClick={() => {}}
-            />
-            <Space h={'s'} />
-            <ProductCard
-              title={'Siyah Basic Erkek Bisiklet Yaka Oversize Kısa Kollu Tişört'}
-              isFavorite={false}
-              prize={125}
-              rating={4}
-              onClick={() => {}}
-            />
-            <Space h={'s'} />
-            <ProductCard
-              title={'Siyah Basic Erkek Bisiklet Yaka Oversize Kısa Kollu Tişört'}
-              isFavorite={false}
-              prize={125}
-              rating={4}
-              onClick={() => {}}
-            />
           </Horizontal>
         ) : (
           <Horizontal>

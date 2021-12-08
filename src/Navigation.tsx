@@ -1,7 +1,7 @@
 import { Routes, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import { Home, Login, SignUp, ResetPassword, Favorites } from 'pages';
+import { Home, Login, SignUp, ResetPassword, Favorites, ProductDetail } from 'pages';
 import { AppNotification } from 'components';
 import { Chat, Header, LoginForChat } from 'shared';
 import { Profile } from 'models';
@@ -20,6 +20,7 @@ const Navigation = ({ profile }: Props) => {
         <Route path="/sign-up" element={<SignUp />} />
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/favorites" element={<Favorites />} />
+        <Route path="/product-detail" element={<ProductDetail />} />
       </Routes>
       {profile?._id ? <Chat /> : <LoginForChat />}
       <AppNotification />
