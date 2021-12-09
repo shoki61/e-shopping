@@ -23,7 +23,7 @@ const ProductColors: React.FC<Props> = ({ onClick, options }: Props) => {
       <Space h={'n'} v={'xs'} />
       <Horizontal>
         {options.map(({ imgUrl, color }, i) => (
-          <>
+          <Fragment key={`product-color-${imgUrl}-${i}`}>
             <Clickable
               onClick={() => {
                 setSelectedColor(color);
@@ -36,8 +36,8 @@ const ProductColors: React.FC<Props> = ({ onClick, options }: Props) => {
                 source={imgUrl}
               />
             </Clickable>
-            <Space v={'n'} l={'s'} />
-          </>
+            <Space v={'n'} h={'n'} l={'s'} />
+          </Fragment>
         ))}
       </Horizontal>
     </Fragment>
