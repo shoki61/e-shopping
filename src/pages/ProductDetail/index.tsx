@@ -1,19 +1,58 @@
+import { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Rating } from 'react-simple-star-rating';
 
-import { Space, Clickable, P, Horizontal, Button, Sizes, ProductColors } from 'components';
+import { Space, P, Horizontal, Button, Sizes, Clickable, ProductColors, ImageSlider } from 'components';
 import { Profile } from 'models';
+
+import './style.css';
+import { palette } from 'palette';
 
 type Props = {
   profile: Profile;
 };
 
 const ProductDetail: React.FC<Props> = ({ profile }: Props) => {
+  const [showMoreDescriptionButton, setShowDescriptionButton] = useState(false);
+  const [showMoreDescription, setShowDescription] = useState(false);
+
+  const getElement = () => {
+    const element: any = document.querySelector('.P-Angry');
+    if (element) {
+      const status = element.clientWidth < element.scrollWidth || element.clientHeight < element.scrollHeight;
+      setShowDescriptionButton(status);
+    }
+    if (!element) {
+      getElement();
+    }
+  };
+  useEffect(() => {
+    getElement();
+  }, []);
+
   return (
     <div>
-      <Space>
-        <Horizontal>
-          <Space></Space>
+      <Space flex h={'xxl'} v={'xl'}>
+        <Horizontal align={'top'} spread className={'Product-Detail-Container'}>
+          <Space>
+            <ImageSlider
+              isFavorite
+              images={[
+                {
+                  imgUrl:
+                    'https://cdn.dsmcdn.com/mnresize/1200/1800/ty184/product/media/images/20210927/16/136847065/135399598/1/1_org_zoom.jpg',
+                },
+                {
+                  imgUrl:
+                    'https://cdn.dsmcdn.com/mnresize/1200/1800/ty161/product/media/images/20210817/8/119111888/164609399/1/1_org_zoom.jpg',
+                },
+                {
+                  imgUrl:
+                    'https://cdn.dsmcdn.com/mnresize/1200/1800/ty156/product/media/images/20210812/15/118159653/186967030/1/1_org_zoom.jpg',
+                },
+              ]}
+            />
+          </Space>
           <Space>
             <P color={'dg'} size={'xl'} bold>
               Siyah Basic Erkek Bisiklet Yaka Oversize Kısa Kollu Tişört.
@@ -32,7 +71,7 @@ const ProductDetail: React.FC<Props> = ({ profile }: Props) => {
             <P color={'dg1'} bold>
               Fiyat
             </P>
-            <P color={'dg'} size={'xxl'} bold>
+            <P color={'dg'} size={'xxxl'} bold>
               35 TL
             </P>
             <Space h={'n'} v={'xs'} />
@@ -71,11 +110,29 @@ const ProductDetail: React.FC<Props> = ({ profile }: Props) => {
             <P bold color={'dg1'}>
               Ürün açıklaması
             </P>
-            <P color={'dg'}>
+            <P color={'dg'} line={!showMoreDescription ? 3 : 1000} className={'Product-Detail-Description'}>
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam vel iaculis mauris, id viverra sem. Sed
               pellentesque eu lectus ut auctor. Praesent eget aliquam arcu. Etiam vitae porta nulla. Aenean euismod quis
-              felis ac ornare. Vestibulum pharetra orci vel nibh interdum, ac pharetra nulla
+              felis ac ornare. Vestibulum pharetra orci vel nibh interdum, ac pharetra nulla.
             </P>
+            <Space v={'n'} b={'xs'} />
+            {showMoreDescriptionButton && (
+              <div style={{ position: 'relative' }}>
+                {!showMoreDescription && <div className={'Product-Detail-More-Description-Opacity'} />}
+                <Clickable
+                  className={'Product-Detail-More-Description'}
+                  fullWidth
+                  style={{ backgroundColor: `${palette.m}3f` }}
+                  onClick={() => setShowDescription(!showMoreDescription)}
+                >
+                  <Space v={'xs'}>
+                    <P color={'m'} bold size={'s'}>
+                      {showMoreDescription ? 'Daha az' : 'Daha fazla'}
+                    </P>
+                  </Space>
+                </Clickable>
+              </div>
+            )}
           </Space>
         </Horizontal>
       </Space>
