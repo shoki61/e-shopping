@@ -49,6 +49,9 @@ const Favorites: React.FC<Props> = ({}: Props) => {
               prize={125}
               rating={4}
               isInCard
+              imageSource={
+                'https://cdn.dsmcdn.com/mnresize/1200/1800/ty184/product/media/images/20210927/16/136847065/135399598/1/1_org_zoom.jpg'
+              }
             />
             <Space h={'s'} />
           </Horizontal>
