@@ -10,3 +10,6 @@ export { default as T } from './T';
 export { default as AppNotification } from './AppNotification';
 export { default as Menu } from './Menu';
 export { default as ProductCard } from './ProductCard';
+export { default as Sizes } from './Sizes';
+export { default as ProductColors } from './ProductColors';
+export { default as ImageSlider } from './ImageSlider';

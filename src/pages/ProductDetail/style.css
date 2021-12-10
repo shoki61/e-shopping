@@ -1,0 +1,23 @@
+@import '~react-image-gallery/styles/css/image-gallery.css';
+
+.Product-Detail-Container {
+  border-radius: 10px;
+  box-shadow: 1px 2px 3px #ccc;
+  width: 80% !important;
+  padding: 0 35px;
+}
+
+.Product-Detail-More-Description-Opacity {
+  height: 20px;
+  width: 100%;
+  background: linear-gradient(#ffffffb9, #fffffff5, #fff);
+  position: absolute;
+  top: -20px;
+}
+
+.Product-Detail-More-Description {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 100px;
+}

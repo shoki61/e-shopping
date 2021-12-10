@@ -1,0 +1,57 @@
+@import '~react-image-gallery/styles/css/image-gallery.css';
+
+.Image-Slider-Nav-Buttons {
+  position: absolute;
+  z-index: 4;
+  border-radius: 100px;
+  width: 45px !important;
+  height: 45px !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  top: 50%;
+  transform: translateY(-50%);
+  box-shadow: 1px 2px 3px #bbb;
+}
+
+.Image-Slider-Left-Button {
+  left: -20px;
+}
+
+.Image-Slider-Right-Button {
+  right: -20px;
+}
+
+.Image-Slider-Original {
+  object-fit: cover;
+}
+.Image-Slider-Favoite-Button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 4;
+  width: 40px !important;
+  height: 40px !important;
+  box-shadow: 1px 2px 3px #bbb;
+  border-radius: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.Image-Slider-Bottom-Image {
+  border: none !important;
+  width: 32px;
+}
+
+.Image-Slider-Bottom-Image img {
+  border-radius: 7px;
+  width: 32px;
+  height: 45px;
+  object-fit: cover;
+  border: 2px solid #e2e2e2;
+}
+
+.Image-Slider-Bottom-Image.active img {
+  border-color: #d46124 !important;
+}

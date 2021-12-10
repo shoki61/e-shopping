@@ -1,5 +1,5 @@
 .Chat-Box {
-  position: absolute;
+  position: fixed;
   bottom: 30px;
   right: 50px;
   box-shadow: 1px 1px 3px #acacac;
