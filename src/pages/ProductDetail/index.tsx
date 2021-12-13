@@ -1,12 +1,13 @@
-import { useEffect, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Rating } from 'react-simple-star-rating';
 
-import { Space, P, Horizontal, Button, Sizes, Clickable, ProductColors, ImageSlider } from 'components';
+import { Space, P, Horizontal, Button, Sizes, Clickable, ProductColors, ImageSlider, ProductCard } from 'components';
 import { Profile } from 'models';
 
 import './style.css';
 import { palette } from 'palette';
+import { Person } from '@material-ui/icons';
 
 type Props = {
   profile: Profile;
@@ -32,7 +33,7 @@ const ProductDetail: React.FC<Props> = ({ profile }: Props) => {
 
   return (
     <div>
-      <Space flex h={'xxl'} v={'xl'}>
+      <Space flex column h={'xxl'} v={'xl'}>
         <Horizontal align={'top'} spread className={'Product-Detail-Container'}>
           <Space>
             <ImageSlider
@@ -135,6 +136,123 @@ const ProductDetail: React.FC<Props> = ({ profile }: Props) => {
             )}
           </Space>
         </Horizontal>
+        <Space />
+        <div className={'Product-Detail-Container'}>
+          <Space h={'n'}>
+            <Horizontal>
+              <P color={'dg'} bold>
+                Ürün değerlendirmeleri
+              </P>
+              <Space v={'n'} h={'xs'}>
+                <P color={'dg1'} style={{ fontWeight: 500 }}>
+                  (275)
+                </P>
+              </Space>
+            </Horizontal>
+            <Space v={'xs'} />
+            <Horizontal align="top">
+              <Horizontal>
+                <P color={'dg'} bold size={'l'}>
+                  4.8
+                </P>
+                <Space v={'n'} h={'n'} r={'xs'} />
+                <P color={'dg1'} size={'l'}>
+                  /5
+                </P>
+              </Horizontal>
+              <Space h={'xs'} v={'n'} />
+              <Rating readonly onClick={() => {}} size={27} ratingValue={4.5} allowHalfIcon />
+            </Horizontal>
+            <Space>
+              <Horizontal align={'top'}>
+                <div className={'Product-Detail-Person'} style={{ backgroundColor: `${palette.m}c1` }}>
+                  <Person style={{ color: palette.l }} />
+                </div>
+                <Space v={'n'} h={'n'} l={'m'} />
+                <div
+                  style={{
+                    borderBottom: `2px solid ${palette.lg}`,
+                    paddingBottom: 10,
+                    flex: 1,
+                  }}
+                >
+                  <P color={'dg'} bold>
+                    Lorem Ipsum
+                  </P>
+                  <Rating readonly onClick={() => {}} size={20} ratingValue={4.5} allowHalfIcon />
+                  <P color={'dg1'} size={'s'}>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam vel iaculis mauris, id viverra sem
+                  </P>
+                </div>
+              </Horizontal>
+              <Horizontal align={'top'}>
+                <div className={'Product-Detail-Person'} style={{ backgroundColor: `${palette.m}c1` }}>
+                  <Person style={{ color: palette.l }} />
+                </div>
+                <Space v={'n'} h={'n'} l={'m'} />
+                <div
+                  style={{
+                    borderBottom: `2px solid ${palette.lg}`,
+                    paddingBottom: 10,
+                    flex: 1,
+                  }}
+                >
+                  <P color={'dg'} bold>
+                    Lorem Ipsum
+                  </P>
+                  <Rating readonly onClick={() => {}} size={20} ratingValue={4.5} allowHalfIcon />
+                  <P color={'dg1'} size={'s'}>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam vel iaculis mauris, id viverra sem
+                  </P>
+                </div>
+              </Horizontal>
+              <Horizontal align={'top'}>
+                <div className={'Product-Detail-Person'} style={{ backgroundColor: `${palette.m}c1` }}>
+                  <Person style={{ color: palette.l }} />
+                </div>
+                <Space v={'n'} h={'n'} l={'m'} />
+                <div
+                  style={{
+                    borderBottom: `2px solid ${palette.lg}`,
+                    paddingBottom: 10,
+                    flex: 1,
+                  }}
+                >
+                  <P color={'dg'} bold>
+                    Lorem Ipsum
+                  </P>
+                  <Rating readonly onClick={() => {}} size={20} ratingValue={4.5} allowHalfIcon />
+                  <P color={'dg1'} size={'s'}>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam vel iaculis mauris, id viverra sem
+                  </P>
+                </div>
+              </Horizontal>
+            </Space>
+          </Space>
+        </div>
+        <Space />
+        <Space h={'xl'} className={'Product-Detail-Container'}>
+          <P color={'dg'} bold>
+            Benzer Ürünler
+          </P>
+          <Space h={'n'} v={'xs'} />
+          <Horizontal className={'Product-Detail-Similar-Container'}>
+            {[1, 2, 3, 4, 5, 5, 5, 5, 5, 5].map((item) => (
+              <Fragment key={item}>
+                <ProductCard
+                  isFavorite
+                  prize={25}
+                  rating={item}
+                  imageSource={
+                    'https://cdn.dsmcdn.com/mnresize/1200/1800/ty161/product/media/images/20210817/8/119111888/164609399/1/1_org_zoom.jpg'
+                  }
+                  title={'Lorem ipsum dolor sit amet'}
+                />
+                <Space v={'n'} h={'s'} />
+              </Fragment>
+            ))}
+          </Horizontal>
+        </Space>
       </Space>
     </div>
   );
