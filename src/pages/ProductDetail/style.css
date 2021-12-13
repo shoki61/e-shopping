@@ -21,3 +21,32 @@
   justify-content: center;
   border-radius: 100px;
 }
+.Product-Detail-Person {
+  width: 45px !important;
+  height: 45px !important;
+  border-radius: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.Product-Detail-Similar-Container {
+  overflow: auto;
+  padding-bottom: 10px;
+}
+
+.Product-Detail-Similar-Container::-webkit-scrollbar {
+  height: 7px;
+  border-radius: 100px;
+}
+
+.Product-Detail-Similar-Container::-webkit-scrollbar-track {
+  background-color: #f0f0f0;
+  border-radius: 10px;
+}
+
+.Product-Detail-Similar-Container::-webkit-scrollbar-thumb {
+  background-color: #d462247e;
+  border-radius: 10px;
+  cursor: pointer !important;
+}
