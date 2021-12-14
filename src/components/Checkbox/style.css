@@ -1,0 +1,55 @@
+.container {
+  display: flex;
+  position: relative;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  align-items: center;
+  justify-content: center;
+}
+
+.container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.checkmark {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+  box-shadow: 1px 2px 3px #ccc;
+}
+
+.container input:checked ~ .checkmark {
+  background-color: #d46124;
+}
+
+.checkmark:after {
+  content: '';
+  position: absolute;
+  display: block;
+}
+
+.container .checkmark:after {
+  width: 60%;
+  height: 3px;
+  border-radius: 100px;
+  background-color: #696969;
+}
+.container input:checked ~ .checkmark:after {
+  width: 4px;
+  height: 10px;
+  border: solid #fff;
+  border-width: 0 2px 2px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+  border-radius: 0;
+  background-color: transparent;
+}
