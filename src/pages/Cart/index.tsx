@@ -1,23 +1,78 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { AddRounded, RemoveRounded, DeleteOutlineRounded } from '@material-ui/icons';
 
-import { Space, Horizontal, P, Clickable, Image, Button, Container, Checkbox } from 'components';
+import { Space, Horizontal, P, Image, Button, Container, Checkbox } from 'components';
 import { Profile } from 'models';
 import { palette } from 'palette';
 import { EmptyCart } from 'assets';
+
+import { CartItem } from './components';
 import './style.css';
-import { w } from 'windowDimensions';
 
 type Props = {
   profile: Profile;
 };
 
 const Cart: React.FC<Props> = ({ profile }: Props) => {
-  const [count, setCount] = useState(1);
+  const [cartItems, setCartItems] = useState([
+    {
+      id: '123',
+      name: 'Siyah Basic Erkek Bisiklet Yaka Oversize Kısa Kollu Tişört.',
+      imageUrl:
+        'https://cdn.dsmcdn.com/mnresize/1200/1800/ty184/product/media/images/20210927/16/136847065/135399598/1/1_org_zoom.jpg',
+      checked: true,
+      price: 49.99,
+      size: 'M',
+      total: 1,
+      color: 'Siyah',
+    },
+    {
+      id: '456',
+      name: 'Mavi Basic Erkek Bisiklet Yaka Oversize Kısa Kollu Tişört.',
+      imageUrl:
+        'https://cdn.dsmcdn.com/mnresize/1200/1800/ty156/product/media/images/20210812/15/118159653/186967030/1/1_org_zoom.jpg',
+      checked: true,
+      price: 34.99,
+      size: 'S',
+      total: 1,
+      color: 'Mavi',
+    },
+    {
+      id: '789',
+      name: 'Sarı Basic Erkek Bisiklet Yaka Oversize Kısa Kollu Tişört.',
+      imageUrl:
+        'https://cdn.dsmcdn.com/mnresize/1200/1800/ty161/product/media/images/20210817/8/119111888/164609399/1/1_org_zoom.jpg',
+      checked: true,
+      price: 39.99,
+      size: 'M',
+      total: 1,
+      color: 'Sarı',
+    },
+  ]);
   const [checked, setChecked] = useState(true);
   const navigate = useNavigate();
+
+  const switchSelect = (id: string) => {
+    setCartItems(cartItems.map((item) => (item.id === id ? { ...item, checked: !item.checked } : item)));
+  };
+
+  const decreaseProduct = (id: string) => {
+    setCartItems(cartItems.map((item) => (item.id === id ? { ...item, total: item.total - 1 } : item)));
+  };
+
+  const increaseProduct = (id: string) => {
+    setCartItems(cartItems.map((item) => (item.id === id ? { ...item, total: item.total + 1 } : item)));
+  };
+
+  const goProductDetail = (id: string) => {
+    navigate('/product-detail');
+  };
+
+  const removeProduct = (id: string) => {
+    setCartItems(cartItems.filter((item) => item.id !== id));
+  };
+
   return (
     <Space v={'xxxl'} h={'xxxl'} flex column align={'flex-start'}>
       {false ? (
@@ -39,76 +94,26 @@ const Cart: React.FC<Props> = ({ profile }: Props) => {
         </>
       ) : (
         <Horizontal>
-          <Space flex>
-            <Checkbox checked={checked} onClick={() => setChecked(!checked)} />
-            <Space v={'n'} h={'s'} />
-            <Container borderRadius={8} id={'Cart-Item-Container'}>
-              <Horizontal style={{ width: w(50) }}>
-                <Horizontal style={{ maxWidth: '80%' }} align={'top'}>
-                  <Clickable onClick={() => navigate('/product-detail')}>
-                    <Image
-                      source={
-                        'https://cdn.dsmcdn.com/mnresize/1200/1800/ty184/product/media/images/20210927/16/136847065/135399598/1/1_org_zoom.jpg'
-                      }
-                      width={100}
-                    />
-                  </Clickable>
-                  <Space v={'xs'}>
-                    <P bold color={'dg'}>
-                      Siyah Basic Erkek Bisiklet Yaka Oversize Kısa Kollu Tişört.
-                    </P>
-                    <Space h={'n'} v={'xs'}>
-                      <P color={'dg'} size={'s'}>
-                        Renk: <strong>Siyah</strong>
-                      </P>
-                    </Space>
-                    <P color={'dg'} size={'s'}>
-                      Beden: <strong>M</strong>
-                    </P>
-                    <Space h={'n'} v={'xs'}>
-                      <P bold size={'xl'} color={'m'}>
-                        44,99TL
-                      </P>
-                    </Space>
-                    <P color={'dg1'} bold size={'s'}>
-                      {count} adet / 44,99 TL
-                    </P>
-                  </Space>
-                </Horizontal>
-
-                <Space flex style={{ flex: 1 }}>
-                  <Horizontal>
-                    <Clickable
-                      onClick={() => count !== 1 && setCount(count - 1)}
-                      className={'Cart-Item-Counter-Button'}
-                    >
-                      <RemoveRounded style={{ color: palette.dg1 }} />
-                    </Clickable>
-                    <Space v={'n'} h={'s'}>
-                      <P bold color={'dg'} size={'l'}>
-                        {count}
-                      </P>
-                    </Space>
-                    <Clickable
-                      onClick={() => setCount(count + 1)}
-                      className={'Cart-Item-Counter-Button'}
-                      style={{ backgroundColor: palette.m }}
-                    >
-                      <AddRounded style={{ color: palette.l }} />
-                    </Clickable>
-                  </Horizontal>
-                </Space>
-              </Horizontal>
-              <Clickable
-                style={{ backgroundColor: palette.l }}
-                onClick={() => {}}
-                htmlTitle={'Sepetten sil'}
-                className={'Cart-Item-Delete-Button'}
-              >
-                <DeleteOutlineRounded style={{ color: palette.e }} />
-              </Clickable>
-            </Container>
+          <Space>
+            {cartItems.map((item) => (
+              <CartItem
+                name={item.name}
+                imageUrl={item.imageUrl}
+                key={item.id}
+                checked={item.checked}
+                color={item.color}
+                price={item.price}
+                size={item.size}
+                total={item.total}
+                switchSelect={() => switchSelect(item.id)}
+                onClick={() => goProductDetail(item.id)}
+                onDecrease={() => decreaseProduct(item.id)}
+                onIncrease={() => increaseProduct(item.id)}
+                removeProduct={() => removeProduct(item.id)}
+              />
+            ))}
           </Space>
+
           <Space />
         </Horizontal>
       )}
