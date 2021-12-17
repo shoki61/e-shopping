@@ -18,6 +18,7 @@ type Props = {
   size: string;
   price: number;
   total: number;
+  totalPrice: number | string;
   removeProduct: () => void;
   onIncrease: () => void;
   onDecrease: () => void;
@@ -33,6 +34,7 @@ const CartItem: React.FC<Props> = ({
   size,
   price,
   total,
+  totalPrice,
   removeProduct,
   onIncrease,
   onDecrease,
@@ -65,7 +67,7 @@ const CartItem: React.FC<Props> = ({
                 </P>
               </Space>
               <P color={'dg1'} bold size={'s'}>
-                {total} adet / {(price * total).toFixed(2)} TL
+                {total} adet / {totalPrice} TL
               </P>
             </Space>
           </Horizontal>
