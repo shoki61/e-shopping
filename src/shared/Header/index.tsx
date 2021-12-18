@@ -96,7 +96,7 @@ const Header: React.FC<Props> = ({ languages, profile, loggedIn }: Props) => {
                   </P>
                 </Clickable>
                 <Space v={'n'} />
-                <Clickable onClick={() => {}}>
+                <Clickable onClick={() => navigate('/cart')}>
                   {pathname.includes('cart') ? (
                     <ShoppingCart style={{ color: palette.y, height: 25 }} />
                   ) : (

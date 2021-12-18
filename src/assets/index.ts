@@ -1,7 +1,7 @@
-import AppLogo from './e-shopping.svg';
-import Bat from './bat.png';
-import Camera from './camera.png';
-import Empty from './empty.png';
+export { default as AppLogo } from './e-shopping.svg';
+export { default as Bat } from './bat.png';
+export { default as Camera } from './camera.png';
+export { default as Empty } from './empty.png';
+export { default as EmptyCart } from './empty-cart.png';
 
-export { AppLogo, Bat, Camera, Empty };
 export * from './flags';

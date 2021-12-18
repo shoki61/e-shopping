@@ -1,3 +1,4 @@
+import React from 'react';
 import './style.css';
 
 export type CursorType = 'pointer' | 'crosshair' | 'zoom-in' | 'wait' | 'not-allowed';

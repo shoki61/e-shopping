@@ -13,3 +13,5 @@ export { default as ProductCard } from './ProductCard';
 export { default as Sizes } from './Sizes';
 export { default as ProductColors } from './ProductColors';
 export { default as ImageSlider } from './ImageSlider';
+export { default as Container } from './Container';
+export { default as Checkbox } from './Checkbox';
