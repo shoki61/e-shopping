@@ -55,12 +55,14 @@ const Cart: React.FC<Props> = ({ profile }: Props) => {
     },
   ]);
   const [totalPrice, setTotalPrice] = useState(0);
+  const [totalProduct, setTotalProduct] = useState(0);
   const navigate = useNavigate();
 
   useEffect(() => {
     const extractedPrices = cartItems.filter((item) => item.checked).map((item) => Number(item.totalPrice.toFixed(2)));
     const totalExtractedPrices = extractedPrices.reduce((t, c) => t + c, 0);
     setTotalPrice(totalExtractedPrices);
+    setTotalProduct(cartItems.filter((item) => item.checked).length);
   }, [cartItems]);
 
   const switchSelect = (id: string) =>
@@ -134,7 +136,7 @@ const Cart: React.FC<Props> = ({ profile }: Props) => {
           <Space v={'n'}>
             <Container>
               <Space r={'xxxl'}>
-                <P color={'m'}>Toplam ürün sayısı: {cartItems.length}</P>
+                <P color={'m'}>Toplam ürün sayısı: {totalProduct}</P>
                 <Space h={'n'}>
                   <P color={'dg1'} size={'s'}>
                     Ürünlerin toplamı
