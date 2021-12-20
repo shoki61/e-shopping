@@ -1,0 +1,11 @@
+.Collapse-Title-Container {
+  min-width: 150px;
+  border-radius: 5px;
+  border: 2px solid;
+  padding: 7px 10px;
+}
+
+.Collapse-Contents-Container {
+  transition: all 0.5s ease-in-out;
+  overflow: hidden;
+}
