@@ -15,3 +15,4 @@ export { default as ProductColors } from './ProductColors';
 export { default as ImageSlider } from './ImageSlider';
 export { default as Container } from './Container';
 export { default as Checkbox } from './Checkbox';
+export { default as Collapse } from './Collapse';
