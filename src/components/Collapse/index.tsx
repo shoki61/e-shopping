@@ -18,15 +18,22 @@ type Props = {
 
 const Collapse: React.FC<Props> = ({ title, contents, icon, titleColor }: Props) => {
   const [showContent, setShowContent] = useState(false);
-  const iconProps = { style: { color: palette.m } };
+  const iconProps = { style: { color: palette.m, transform: 'rotate(180deg)' } };
   return (
     <Space v={'s'} h={'s'}>
       <Clickable onClick={() => setShowContent(!showContent)}>
-        <Horizontal style={{ borderColor: palette.lg }} spread className={'Collapse-Title-Container'}>
+        <Horizontal
+          style={{ borderColor: palette.lg, backgroundColor: palette.l }}
+          spread
+          className={'Collapse-Title-Container'}
+        >
           <P color={titleColor ?? 'dg'} bold>
             {title}
           </P>
-          {showContent ? <KeyboardArrowUpRounded {...iconProps} /> : <KeyboardArrowDownRounded {...iconProps} />}
+          <KeyboardArrowDownRounded
+            className={'Collapse-Icon'}
+            style={{ color: palette.m, transform: `rotate(${showContent ? 180 : 0}deg)` }}
+          />
         </Horizontal>
       </Clickable>
       <div style={{ maxHeight: showContent ? 250 : 0 }} className={'Collapse-Contents-Container'}>

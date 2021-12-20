@@ -1,6 +1,7 @@
 import { useState } from 'react';
 
-import { Space, P, Horizontal, Clickable, Button, Checkbox, Collapse } from 'components';
+import { Space, P, Horizontal, Clickable, Button, Checkbox, Collapse, ProductCard } from 'components';
+import { palette } from 'palette';
 
 import './style.css';
 
@@ -27,61 +28,63 @@ const Products: React.FC<Props> = ({}: Props) => {
     { name: 'D', selected: false },
   ]);
 
+  const [colors, setColors] = useState([
+    { name: 'Red', selected: false },
+    { name: 'White', selected: false },
+    { name: 'Black', selected: false },
+    { name: 'Yellow', selected: false },
+    { name: 'Orange', selected: false },
+  ]);
+
   const updateFilter = (filterItem: any, v: any) =>
     filterItem.map((item: any) => (item.name === v.name ? { ...item, selected: !item.selected } : item));
 
   const filterHandler = (key: string, v: any) => {
-    if (key === 'sizes') {
+    if (key === 'Sizes') {
       setSizes(updateFilter(sizes, v));
-    } else if (key === 'marks') {
+    } else if (key === 'Marks') {
       setMarks(updateFilter(marks, v));
-    } else if (key === 'prices') {
+    } else if (key === 'Prices') {
       setPrices(updateFilter(prices, v));
+    } else if (key === 'Colors') {
+      setColors(updateFilter(colors, v));
     }
   };
+
+  const filters = [
+    { name: 'Marks', items: marks },
+    { name: 'Sizes', items: sizes },
+    { name: 'Prices', items: prices },
+    { name: 'Colors', items: colors },
+  ];
   return (
-    <Horizontal>
-      <Space>
-        <Collapse
-          title={'Marks'}
-          contents={marks.map((m, i) => (
-            <Space key={`products-marks-${m.name}-${i}`} h={'s'} v={'xs'}>
-              <Horizontal>
-                <Checkbox checked={m.selected} onClick={() => filterHandler('marks', m)} size={'small'} />
-                <Space v={'n'} h={'xs'} />
-                <P color={'dg1'}>{m.name}</P>
-              </Horizontal>
-            </Space>
-          ))}
-        />
-        <Collapse
-          title={'Sizes'}
-          contents={sizes.map((s: any, i) => (
-            <Space key={`products-sizes-${s.name}-${i}`} h={'s'} v={'xs'}>
-              <Horizontal>
-                <Checkbox checked={s.selected} onClick={() => filterHandler('sizes', s)} size={'small'} />
-                <Space v={'n'} h={'xs'} />
-                <P color={'dg1'}>{s.name}</P>
-              </Horizontal>
-            </Space>
-          ))}
-        />
-        <Collapse
-          title={'Prices'}
-          contents={prices.map((p, i) => (
-            <Space key={`products-prices-${p.name}-${i}`} h={'s'} v={'xs'}>
-              <Horizontal>
-                <Checkbox checked={p.selected} onClick={() => filterHandler('prices', p)} size={'small'} />
-                <Space v={'n'} h={'xs'} />
-                <P color={'dg1'}>
-                  {p.min} - {p.max}
-                </P>
-              </Horizontal>
-            </Space>
-          ))}
-        />
+    <Horizontal style={{ position: 'relative' }} align={'top'}>
+      <Space style={{ backgroundColor: palette.l }} h={'xxxl'} className={'Products-Left-Container'}>
+        {filters.map((f, i) => (
+          <Collapse
+            key={`products-collapse-${f.name}-${i}`}
+            title={f.name}
+            contents={f.items.map((item, i) => (
+              <Space key={`products-collapse-${item.name}-${i}`} h={'s'} v={'xs'}>
+                <Horizontal>
+                  <Checkbox checked={item.selected} onClick={() => filterHandler(f.name, item)} size={'small'} />
+                  <Space v={'n'} h={'xs'} />
+                  <P color={'dg1'}>{item.name}</P>
+                </Horizontal>
+              </Space>
+            ))}
+          />
+        ))}
       </Space>
-      <Space></Space>
+      <Space>
+        <Horizontal wrap>
+          {[1, 2, 3, 4, 5, 6, 7, 8].map((item) => (
+            <Space v={'xs'} h={'xs'}>
+              <ProductCard isFavorite={false} prize={35} rating={4} title="Test Product" />
+            </Space>
+          ))}
+        </Horizontal>
+      </Space>
     </Horizontal>
   );
 };
