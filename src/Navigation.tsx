@@ -22,7 +22,7 @@ const Navigation = ({ profile }: Props) => {
         <Route path="/favorites" element={<Favorites />} />
         <Route path="/product-detail" element={<ProductDetail />} />
         <Route path="/cart" element={<Cart />} />
-        <Route path="/products" element={<Products />} />
+        <Route path="/products/*" element={<Products />} />
       </Routes>
       {profile?._id ? <Chat /> : <LoginForChat />}
       <AppNotification />

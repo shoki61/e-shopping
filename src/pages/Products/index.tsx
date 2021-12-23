@@ -60,6 +60,11 @@ const Products: React.FC<Props> = ({}: Props) => {
   return (
     <Horizontal style={{ position: 'relative' }} align={'top'}>
       <Space style={{ backgroundColor: palette.l }} h={'xxxl'} className={'Products-Left-Container'}>
+        <Space h={'s'} v={'s'}>
+          <P color={'dg'} size={'l'}>
+            Filtrelemeler
+          </P>
+        </Space>
         {filters.map((f, i) => (
           <Collapse
             key={`products-collapse-${f.name}-${i}`}
@@ -77,10 +82,30 @@ const Products: React.FC<Props> = ({}: Props) => {
         ))}
       </Space>
       <Space>
+        <Space v={'s'} h={'s'}>
+          <Horizontal>
+            <P size={'l'} color={'d'}>
+              Erkek tişört
+            </P>
+            <Space h={'s'} v={'n'}>
+              <P size={'l'} color={'dg'}>
+                (sonuç: 156)
+              </P>
+            </Space>
+          </Horizontal>
+        </Space>
         <Horizontal wrap>
           {[1, 2, 3, 4, 5, 6, 7, 8].map((item) => (
-            <Space v={'xs'} h={'xs'}>
-              <ProductCard isFavorite={false} prize={35} rating={4} title="Test Product" />
+            <Space v={'s'} h={'n'} r={'m'}>
+              <ProductCard
+                imageSource={
+                  'https://cdn.dsmcdn.com/mnresize/1200/1800/ty184/product/media/images/20210927/16/136847065/135399598/1/1_org_zoom.jpg'
+                }
+                isFavorite
+                prize={35}
+                rating={4}
+                title="Test Product"
+              />
             </Space>
           ))}
         </Horizontal>
