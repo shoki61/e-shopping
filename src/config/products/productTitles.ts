@@ -31,7 +31,7 @@ export const productMenus: { [key: string]: any } = {
   },
   Electronic: {
     'White Appliances': ['Icebox', 'Washing machine', 'Dishwasher', 'Stove'],
-    Kitchen: ['Kettle', 'Coffee maker', 'Sandwich maker', 'Mikser', 'Weight '],
+    Kitchen: ['Kettle', 'Coffee maker', 'Sandwich maker', 'Mikser', 'Weight'],
     Other: ['TV', 'Vacuum cleaner', 'Electric toothbrush', 'Earphone', 'Speaker'],
   },
   Sport: {
