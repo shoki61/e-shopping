@@ -23,7 +23,7 @@ const ProductCard: React.FC<Props> = ({ imageSource, prize, title, rating, isFav
   return (
     <Clickable onClick={() => navigate('/product-detail')}>
       <div className={'Product-Card-Container'} style={{ borderColor: palette.lg }}>
-        <div style={{ position: 'relative' }}>
+        <div style={{ position: 'relative', overflow: 'hidden' }}>
           {imageSource ? (
             <Image source={imageSource} alt="title" className={'Product-Card-Image'} />
           ) : (
@@ -44,7 +44,7 @@ const ProductCard: React.FC<Props> = ({ imageSource, prize, title, rating, isFav
             )}
           </Clickable>
         </div>
-        <Space h={'s'} v={'xs'}>
+        <Space h={'s'} v={'s'}>
           <P color={'dg'} size={'s'} line={2}>
             {title}
           </P>

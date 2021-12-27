@@ -1,7 +1,7 @@
 import { Routes, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import { Home, Login, SignUp, ResetPassword, Favorites, ProductDetail, Cart } from 'pages';
+import { Home, Login, SignUp, ResetPassword, Favorites, ProductDetail, Cart, Products } from 'pages';
 import { AppNotification } from 'components';
 import { Chat, Header, LoginForChat } from 'shared';
 import { Profile } from 'models';
@@ -22,6 +22,7 @@ const Navigation = ({ profile }: Props) => {
         <Route path="/favorites" element={<Favorites />} />
         <Route path="/product-detail" element={<ProductDetail />} />
         <Route path="/cart" element={<Cart />} />
+        <Route path="/products/*" element={<Products />} />
       </Routes>
       {profile?._id ? <Chat /> : <LoginForChat />}
       <AppNotification />

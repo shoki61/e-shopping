@@ -43,13 +43,13 @@ const Header: React.FC<Props> = ({ languages, profile, loggedIn }: Props) => {
   const { pathname } = useLocation();
 
   const navItems = [
-    { title: translate('man'), to: '/man' },
-    { title: translate('woman'), to: '/woman' },
-    { title: translate('child'), to: '/child' },
-    { title: `${translate('home')} & ${translate('life')}`, to: '/home' },
-    { title: translate('pet'), to: '/pet' },
-    { title: translate('electronic'), to: '/electronic' },
-    { title: translate('sport'), to: '/sport' },
+    { title: translate('man'), to: '/products/man' },
+    { title: translate('woman'), to: '/products/woman' },
+    { title: translate('child'), to: '/products/child' },
+    { title: `${translate('home')} & ${translate('life')}`, to: '/products/home' },
+    { title: translate('pet'), to: '/products/pet' },
+    { title: translate('electronic'), to: '/products/electronic' },
+    { title: translate('sport'), to: '/products/sport' },
   ];
 
   const menuItems = [

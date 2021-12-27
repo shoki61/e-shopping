@@ -11,10 +11,16 @@
   box-shadow: 0 0 5px #b6b6b6;
 }
 
+.Product-Card-Container:hover .Product-Card-Image {
+  transform: scale(1.2);
+}
+
 .Product-Card-Image {
   max-width: 100%;
   height: 250px;
   object-fit: contain;
+  transition: all 0.3s ease-in-out;
+  overflow: hidden;
 }
 
 .Product-Card-Favorite-Button {
