@@ -39,7 +39,7 @@ const Header: React.FC<Props> = ({ languages, profile, loggedIn }: Props) => {
   const [showLanguages, setShowLanguages] = useState(false);
   const navigate = useNavigate();
   const [showMenu, setShowMenu] = useState(false);
-  const [category, setCategory] = useState('');
+  const [selectedMainCategory, setSelectedMainCategory] = useState('');
   const { pathname } = useLocation();
 
   const getProducts = (mainCategory: string) => {
@@ -65,6 +65,28 @@ const Header: React.FC<Props> = ({ languages, profile, loggedIn }: Props) => {
     { label: 'Your Account', icon: <Person />, onClick: () => {} },
     { label: 'Logout', icon: <ExitToAppRounded />, onClick: () => store.dispatch(actions.logout()) },
   ];
+
+  const getCategory = (category: string) => {
+    store.dispatch(
+      actions.getCategoryProducts(selectedMainCategory, category, (res: any) => {
+        if (res.error) {
+          return AppNotification.error(res.error.message);
+        }
+        navigate('/products');
+      }),
+    );
+  };
+
+  const getSubCategory = (category: string, subCategory: string) => {
+    store.dispatch(
+      actions.getSubCategoryProducts(selectedMainCategory, category, subCategory, (res: any) => {
+        if (res.error) {
+          return AppNotification.error(res.error.message);
+        }
+        navigate('/products');
+      }),
+    );
+  };
 
   return (
     <>
@@ -126,7 +148,7 @@ const Header: React.FC<Props> = ({ languages, profile, loggedIn }: Props) => {
                 {navItems.map((item, i) => (
                   <NavItem
                     onMouseEnter={(v: string) => {
-                      setCategory(v.replace(/[ ]/gi, '_').toUpperCase());
+                      setSelectedMainCategory(v.replace(/[ ]/gi, '_').toUpperCase());
                       setShowMenu(true);
                     }}
                     onMouseLeave={() => {
@@ -191,12 +213,14 @@ const Header: React.FC<Props> = ({ languages, profile, loggedIn }: Props) => {
       </div>
       <CSSTransition in={showMenu} classNames={'fade'} timeout={200} unmountOnExit>
         <SubNav
-          category={category}
+          category={selectedMainCategory}
           onOpen={() => setShowMenu(true)}
           onClose={() => {
             setShowMenu(false);
-            setCategory('');
+            setSelectedMainCategory('');
           }}
+          onClickCategory={getCategory}
+          onClickSubCategory={getSubCategory}
         />
       </CSSTransition>
     </>

@@ -1,5 +1,3 @@
-import { useNavigate } from 'react-router-dom';
-
 import { Space, P, Clickable, Horizontal } from 'components';
 import { palette } from 'palette';
 import { productMenus } from 'config/products';
@@ -9,14 +7,15 @@ import './style.css';
 type Props = {
   onOpen: () => void;
   onClose: () => void;
+  onClickCategory: (v: string) => void;
+  onClickSubCategory: (c: string, subCategory: string) => void;
   category: string;
 };
 
-const SubNav: React.FC<Props> = ({ onOpen, onClose, category }: Props) => {
-  const navigate = useNavigate();
+const SubNav: React.FC<Props> = ({ onOpen, onClose, category, onClickCategory, onClickSubCategory }: Props) => {
   const products = category
     ? Object.keys(productMenus[category])?.map((item) => ({
-        title: item.replace(/[_]/gi, ' ').toLowerCase(),
+        title: item,
         items: productMenus[category][item],
       }))
     : null;
@@ -26,7 +25,7 @@ const SubNav: React.FC<Props> = ({ onOpen, onClose, category }: Props) => {
         <Horizontal wrap align={'top'}>
           {products?.map((product, i: number) => (
             <Space h={'l'} key={`sub-nav-porducts-${product.title}-${i}`}>
-              <Clickable onClick={() => navigate(`/products/${category.toLowerCase()}?q=${product.title}`)}>
+              <Clickable onClick={() => onClickCategory(product.title)}>
                 <Space
                   v={'xs'}
                   h={'s'}
@@ -34,17 +33,14 @@ const SubNav: React.FC<Props> = ({ onOpen, onClose, category }: Props) => {
                   className={'Sub-Nav-Product-Title'}
                 >
                   <P capital color={'m'} bold>
-                    {product.title}
+                    {product.title.replace(/[_]/gi, ' ').toLowerCase()}
                   </P>
                 </Space>
               </Clickable>
               <Space v={'n'} b={'xs'} />
               {product.items.map((item: string, i: number) => (
                 <Space h={'n'} v={'n'} b={'xs'} key={`sub-nav-products-items-${item}-${i}`}>
-                  <Clickable
-                    onClick={() => navigate(`/products/${category.toLowerCase()}?q=${product.title}&product=${item}`)}
-                    className={'Sub-Nav-Product-Item'}
-                  >
+                  <Clickable onClick={() => onClickSubCategory(product.title, item)} className={'Sub-Nav-Product-Item'}>
                     <P capital>{item.replace(/[_]/gi, ' ').toLowerCase()}</P>
                   </Clickable>
                 </Space>
