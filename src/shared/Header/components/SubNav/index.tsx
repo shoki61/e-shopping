@@ -16,7 +16,7 @@ const SubNav: React.FC<Props> = ({ onOpen, onClose, category }: Props) => {
   const navigate = useNavigate();
   const products = category
     ? Object.keys(productMenus[category])?.map((item) => ({
-        title: item,
+        title: item.replace(/[_]/gi, ' ').toLowerCase(),
         items: productMenus[category][item],
       }))
     : null;
@@ -33,7 +33,7 @@ const SubNav: React.FC<Props> = ({ onOpen, onClose, category }: Props) => {
                   style={{ backgroundColor: `${palette.m}15` }}
                   className={'Sub-Nav-Product-Title'}
                 >
-                  <P color={'m'} bold>
+                  <P capital color={'m'} bold>
                     {product.title}
                   </P>
                 </Space>
@@ -45,7 +45,7 @@ const SubNav: React.FC<Props> = ({ onOpen, onClose, category }: Props) => {
                     onClick={() => navigate(`/products/${category.toLowerCase()}?q=${product.title}&product=${item}`)}
                     className={'Sub-Nav-Product-Item'}
                   >
-                    <P>{item}</P>
+                    <P capital>{item.replace(/[_]/gi, ' ').toLowerCase()}</P>
                   </Clickable>
                 </Space>
               ))}
