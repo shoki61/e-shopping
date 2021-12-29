@@ -13,32 +13,42 @@ export const getProductDetail =
     callback(res);
   };
 
-export const getMainCategory =
+export const getMainCategoryProducts =
   (mainCategory: string, callback = (res: any) => {}) =>
   async (dispatch: Dispatch) => {
     const res = await Request.get(`/product/main_category/${mainCategory}`);
     if ((res as any).data) {
-      dispatch({ type: types.SET_MAIN_CATEGORY, payload: (res as any).data });
+      dispatch({ type: types.SET_MAIN_CATEGORY_PRODUCTS, payload: (res as any).data });
     }
     callback(res);
   };
 
-export const getCategory =
+export const getCategoryProducts =
   (mainCategory: string, category: string, callback = (res: any) => {}) =>
   async (dispatch: Dispatch) => {
     const res = await Request.get(`/product/${mainCategory}/${category}`);
     if ((res as any).data) {
-      dispatch({ type: types.SET_CATEGORY, payload: (res as any).data });
+      dispatch({ type: types.SET_CATEGORY_PRODUCTS, payload: (res as any).data });
     }
     callback(res);
   };
 
-export const getSubCategory =
+export const getSubCategoryProducts =
   (mainCategory: string, category: string, subCategory: string, callback = (res: any) => {}) =>
   async (dispatch: Dispatch) => {
     const res = await Request.get(`/product/${mainCategory}/${category}/${subCategory}`);
     if ((res as any).data) {
-      dispatch({ type: types.SET_SUB_CATEGORY, payload: (res as any).data });
+      dispatch({ type: types.SET_SUB_CATEGORY_PRODUCTS, payload: (res as any).data });
+    }
+    callback(res);
+  };
+
+export const getSimilarProducts =
+  (mainCategory: string, category: string, subCategory: string, callback = (res: any) => {}) =>
+  async (dispatch: Dispatch) => {
+    const res = await Request.get(`/product/${mainCategory}/${category}/${subCategory}`);
+    if ((res as any).data) {
+      dispatch({ type: types.SET_SIMILAR_PRODUCTS, payload: (res as any).data });
     }
     callback(res);
   };

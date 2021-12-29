@@ -31,7 +31,7 @@ export const product = (state = initialState, { type, payload }: any): ProductRe
     case types.SET_SUB_CATEGORY_PRODUCTS:
       return { ...state, subCategoryProducts: payload };
 
-    case types.SET_SIMILAR_PRODUCT_PRODUCTS:
+    case types.SET_SIMILAR_PRODUCTS:
       return { ...state, similarProducts: payload };
 
     default:
