@@ -16,13 +16,10 @@ const initialState: ProductReducer = {
 export const product = (state = initialState, { type, payload }: any): ProductReducer => {
   switch (type) {
     case types.SET_PRODUCT_DETAIL:
-      return { ...state, productDetail: payload };
+      return { ...state, productDetail: payload.product, similarProducts: payload.similarProducts };
 
     case types.SET_PRODUCTS:
-      return { ...state, products: payload };
-
-    case types.SET_SIMILAR_PRODUCTS:
-      return { ...state, similarProducts: payload };
+      return { ...state, products: payload.products, similarProducts: payload.similarProducts };
 
     default:
       return state;

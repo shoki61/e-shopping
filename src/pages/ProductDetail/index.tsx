@@ -12,11 +12,13 @@ import { Person } from '@material-ui/icons';
 type Props = {
   profile: Profile;
   productDetail: Product;
+  similarProducts: Product[];
 };
 
 const ProductDetail: React.FC<Props> = ({
   profile,
   productDetail: { name, rating, ratingCount, price, description, seller, colors },
+  similarProducts,
 }: Props) => {
   const [showMoreDescriptionButton, setShowDescriptionButton] = useState(false);
   const [showMoreDescription, setShowDescription] = useState(false);
@@ -34,7 +36,6 @@ const ProductDetail: React.FC<Props> = ({
   useEffect(() => {
     getElement();
   }, []);
-
   return (
     <div>
       <Space flex column h={'xxl'} v={'xl'}>
@@ -147,7 +148,7 @@ const ProductDetail: React.FC<Props> = ({
               </P>
               <Space v={'n'} h={'xs'}>
                 <P color={'dg1'} style={{ fontWeight: 500 }}>
-                  (275)
+                  ({ratingCount})
                 </P>
               </Space>
             </Horizontal>
@@ -233,34 +234,41 @@ const ProductDetail: React.FC<Props> = ({
           </Space>
         </div>
         <Space />
-        <Space h={'xl'} className={'Product-Detail-Container'}>
-          <P color={'dg'} bold>
-            Benzer Ürünler
-          </P>
-          <Space h={'n'} v={'xs'} />
-          <Horizontal className={'Product-Detail-Similar-Container'}>
-            {[1, 2, 3, 4, 5, 5, 5, 5, 5, 5].map((item) => (
-              <Fragment key={item}>
-                <ProductCard
-                  onClick={() => {}}
-                  isFavorite
-                  prize={25}
-                  rating={item}
-                  imageSource={
-                    'https://cdn.dsmcdn.com/mnresize/1200/1800/ty161/product/media/images/20210817/8/119111888/164609399/1/1_org_zoom.jpg'
-                  }
-                  title={'Lorem ipsum dolor sit amet'}
-                />
-                <Space v={'n'} h={'s'} />
-              </Fragment>
-            ))}
-          </Horizontal>
-        </Space>
+        {similarProducts?.length > 0 && (
+          <Space h={'xl'} className={'Product-Detail-Container'}>
+            <P color={'dg'} bold>
+              Benzer Ürünler
+            </P>
+            <Space h={'n'} v={'xs'} />
+            <Horizontal className={'Product-Detail-Similar-Container'}>
+              {similarProducts?.map((item: Product) => (
+                <Fragment key={item._id}>
+                  <ProductCard
+                    onClick={() => {}}
+                    isFavorite
+                    prize={item.price}
+                    rating={item.rating}
+                    ratingCount={item.ratingCount}
+                    imageSource={
+                      'https://cdn.dsmcdn.com/mnresize/1200/1800/ty161/product/media/images/20210817/8/119111888/164609399/1/1_org_zoom.jpg'
+                    }
+                    title={item.name}
+                  />
+                  <Space v={'n'} h={'s'} />
+                </Fragment>
+              ))}
+            </Horizontal>
+          </Space>
+        )}
       </Space>
     </div>
   );
 };
 
-const mapStateToProps = ({ user: { profile }, product: { productDetail } }: any) => ({ profile, productDetail });
+const mapStateToProps = ({ user: { profile }, product: { productDetail, similarProducts } }: any) => ({
+  profile,
+  productDetail,
+  similarProducts,
+});
 
 export default connect(mapStateToProps)(ProductDetail);

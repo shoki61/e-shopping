@@ -124,6 +124,7 @@ const Products: React.FC<Props> = ({ products }: Props) => {
                 isFavorite
                 prize={item.price}
                 rating={item.rating}
+                ratingCount={item.ratingCount}
                 title={item.name}
               />
             </Space>

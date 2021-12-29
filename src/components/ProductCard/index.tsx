@@ -13,12 +13,22 @@ type Props = {
   prize: number;
   title: string;
   rating: number;
+  ratingCount: number;
   isFavorite: boolean;
   isInCard?: boolean;
   onClick: () => void;
 };
 
-const ProductCard: React.FC<Props> = ({ imageSource, prize, title, rating, isFavorite, isInCard, onClick }: Props) => {
+const ProductCard: React.FC<Props> = ({
+  imageSource,
+  prize,
+  title,
+  rating,
+  ratingCount,
+  isFavorite,
+  isInCard,
+  onClick,
+}: Props) => {
   return (
     <Clickable onClick={onClick}>
       <div className={'Product-Card-Container'} style={{ borderColor: palette.lg }}>
@@ -52,7 +62,7 @@ const ProductCard: React.FC<Props> = ({ imageSource, prize, title, rating, isFav
             <Rating ratingValue={rating} onClick={() => {}} size={18} readonly />
             <Space v={'n'} h={'n'} l={'xs'} />
             <P color={'dg1'} size={'xs'}>
-              ( 275 )
+              ( {ratingCount} )
             </P>
           </Horizontal>
           <Space h={'n'} v={'xs'}>
