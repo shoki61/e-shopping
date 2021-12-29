@@ -1,57 +1,41 @@
 export const productMenus: { [key: string]: any } = {
-  Man: {
-    Clothes: ['Jumper', 'T-shirt', 'Shirts', 'Pants', 'Coats', 'Jacket', 'Suit', 'Uniform'],
-    Shoes: ['Sports shoes', 'Casual shoe', 'Walking shoe', 'Spikes', 'Classical', 'Outdoor'],
-    Accessory: ['Goggles', 'Watch', 'Wallet', 'Bag', 'Hats'],
-    Electronic: ['Shaver'],
+  MAN: {
+    CLOTHES: ['JUMPER', 'T_SHIRT', 'SHIRTS', 'PANTS', 'COATS', 'JACKET', 'SUIT', 'UNIFORM'],
+    SHOES: ['SPORTS_SHOES', 'CASUAL_SHOE', 'WALKING_SHOE', 'SPIKES', 'CLASSICAL', 'OUTDOOR'],
+    ACCESSORY: ['GOGGLES', 'WATCH', 'WALLET', 'BAG', 'HATS'],
+    ELECTRONIC: ['SHAVER'],
   },
-  Woman: {
-    Clothes: ['Jumper', 'T-shirt', 'Shirts', 'Pants', 'Coats', 'Jacket', 'Suit', 'Uniform'],
-    Shoes: ['Sports shoes', 'Casual shoe', 'Walking shoe', 'Spikes', 'Classical', 'Outdoor'],
-    Accessory: ['Goggles', 'Watch', 'Wallet', 'Bag', 'Hats'],
+  WOMAN: {
+    CLOTHES: ['JUMPER', 'T_SHIRT', 'SHIRTS', 'PANTS', 'COATS', 'JACKET', 'SUIT', 'UNIFORM'],
+    SHOES: ['SPORTS_SHOES', 'CASUAL_SHOE', 'WALKING_SHOE', 'SPIKES', 'CLASSICAL', 'OUTDOOR'],
+    ACCESSORY: ['GOGGLES', 'WATCH', 'WALLET', 'BAG', 'HATS'],
   },
-  Child: {
-    Clothes: ['Jumper', 'T-shirt', 'Shirts', 'Pants', 'Coats', 'Jacket', 'Suit', 'Uniform'],
-    Shoes: ['Sports shoes', 'Casual shoe', 'Walking shoe', 'Spikes', 'Classical', 'Outdoor'],
-    Accessory: ['Goggles', 'Watch', 'Bag', 'Hats'],
+  CHILD: {
+    CLOTHES: ['JUMPER', 'T_SHIRT', 'SHIRTS', 'PANTS', 'COATS', 'JACKET', 'SUIT', 'UNIFORM'],
+    SHOES: ['SPORTS_SHOES', 'CASUAL_SHOE', 'WALKING_SHOE', 'SPIKES', 'CLASSICAL', 'OUTDOOR'],
+    ACCESSORY: ['GOGGLES', 'WATCH', 'BAG', 'HATS'],
   },
-  'Home & Life': {
-    Kitchen: ['Cup', 'Fork and spoon', 'Knife', 'Teapot', 'Saucepan', 'Plate', 'Cetyl', 'Pan'],
-    Bathroom: ['Soap', 'Shampoo', 'Towel ', 'Bath mat', 'Bath sponge', 'Bathroom mirror'],
-    Hobby: ['Book', 'Games', 'Picture'],
-    'Automobile And Motorcycle': ['Auto accessory', 'Auto cleaning', 'Helmet', 'Riding gear'],
-    'Home Textiles': ['Bed', 'Pillow', 'Quilt', 'Curtain', 'Carpet & Rug'],
-    'Household Items': ['Decorative accessories', 'Home clock', 'Mirror', 'Wall sign'],
-    Garden: ['Lown Tool', 'Garden light', 'Garden ornaments and furniture', 'Horticultural machinery'],
+  PET: {
+    CAT: ['DRY_FOOD', 'WET_FOOD', 'VITAMIN', 'BALL', 'SCRATCHING_POST', 'CARE', 'CAT_LITTER'],
+    DOG: ['DRY_FOOD', 'WET_FOOD', 'VITAMIN', 'BALL', 'CARE', 'DOG_COLLAR', 'DOG_TOILET'],
+    BIRD: ['FOOD', 'CARE', 'CAGE', 'LUNCH_BOX', 'WATER_BOX'],
   },
-  Pet: {
-    Cat: ['Dry food', 'Wet food', 'Vitamin', 'Ball', 'Scratching post', 'Care', 'Cat litter'],
-    Dog: ['Dry food', 'Wet food', 'Vitamin', 'Ball', 'Care', 'Dog collar', 'Dog toilet'],
-    Bird: ['Food', 'Care', 'Cage', 'Lunch box', 'Water box'],
+  ELECTRONIC: {
+    WHITE_APPLIANCES: ['ICEBOX', 'WASHING_MACHINE', 'DISHWASHER', 'STOVE'],
+    KITCHEN: ['KETTLE', 'COFFEE_MAKER', 'SANDWICH_MAKER', 'MIKSER', 'WEIGHT'],
+    OTHER: ['TV', 'VACUUM_CLEANER', 'ELECTRIC_TOOTHBRUSH', 'EARPHONE', 'SPEAKER'],
   },
-  Electronic: {
-    'White Appliances': ['Icebox', 'Washing machine', 'Dishwasher', 'Stove'],
-    Kitchen: ['Kettle', 'Coffee maker', 'Sandwich maker', 'Mikser', 'Weight'],
-    Other: ['TV', 'Vacuum cleaner', 'Electric toothbrush', 'Earphone', 'Speaker'],
-  },
-  Sport: {
-    Sportswear: ['Sports T-Shirt', 'Sports Shorts', 'Tracksuit', 'Sports Sweatshirt'],
-    'Gym Shoe': [
-      'Running Shoes',
-      'Astroturf shoes',
-      'Basketball Shoes',
-      'Walking shoe',
-      'Outdoor Shoes',
-      'Outdoor Bot',
+  SPORT: {
+    SPORTSWEAR: ['SPORTS_T_SHIRT', 'SPORTS_SHORTS', 'TRACKSUIT', 'SPORTS_SWEATSHIRT'],
+    GYM_SHOE: ['RUNNING_SHOES', 'ASTROTURF_SHOES', 'BASKETBALL_SHOES', 'WALKING_SHOE', 'OUTDOOR_SHOES', 'OUTDOOR_BOT'],
+    SPORTS_EQUIPMENT: [
+      'SKATEBOARD',
+      'CAMPING_TOOLS',
+      'MOUNTAINEERING_CLIMBING',
+      'TENT',
+      'FISHING_SUPPLIES',
+      'DUMBBELL',
     ],
-    'Sports Equipment': [
-      'Skateboard',
-      'Camping tools',
-      'Mountaineering & Climbing',
-      'Tent',
-      'Fishing Supplies',
-      'Dumbbell',
-    ],
-    'Sports Nutrition': ['Protein powder', 'Amino acids', 'Carbohydrate', 'Creatine'],
+    SPORTS_NUTRITION: ['PROTEIN_POWDER', 'AMINO_ACIDS', 'CARBOHYDRATE', 'CREATINE'],
   },
 };

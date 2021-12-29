@@ -56,7 +56,6 @@ const Header: React.FC<Props> = ({ languages, profile, loggedIn }: Props) => {
     { title: translate('man'), to: '/products/man', onClick: () => getProducts('MAN') },
     { title: translate('woman'), to: '/products/woman', onClick: () => getProducts('WOMAN') },
     { title: translate('child'), to: '/products/child', onClick: () => getProducts('CHILD') },
-    { title: `${translate('home')} & ${translate('life')}`, to: '/products/home', onClick: () => {} },
     { title: translate('pet'), to: '/products/pet', onClick: () => getProducts('PET') },
     { title: translate('electronic'), to: '/products/electronic', onClick: () => getProducts('ELECTRONIC') },
     { title: translate('sport'), to: '/products/sport', onClick: () => getProducts('SPORT') },
@@ -127,7 +126,7 @@ const Header: React.FC<Props> = ({ languages, profile, loggedIn }: Props) => {
                 {navItems.map((item, i) => (
                   <NavItem
                     onMouseEnter={(v: string) => {
-                      setCategory(v);
+                      setCategory(v.replace(/[ ]/gi, '_').toUpperCase());
                       setShowMenu(true);
                     }}
                     onMouseLeave={() => {

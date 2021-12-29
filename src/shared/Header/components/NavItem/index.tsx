@@ -37,7 +37,9 @@ const NavItem: React.FC<Props> = ({ title, to, onClick, data, onMouseEnter, onMo
           className={'Nav-Item'}
         >
           <Space v={'s'}>
-            <P bold>{title}</P>
+            <P capital bold>
+              {title.replace(/[ ]/gi, ' ')}
+            </P>
           </Space>
         </NavLink>
       </div>

@@ -12,6 +12,7 @@ type Props = {
   style?: React.CSSProperties;
   align?: 'center' | 'left' | 'right' | 'justify';
   line?: number;
+  capital?: boolean;
 };
 
 const P: React.FC<Props> = ({
@@ -23,6 +24,7 @@ const P: React.FC<Props> = ({
   style,
   align = 'left',
   line,
+  capital = false,
 }: Props) => {
   return (
     <p
@@ -34,6 +36,7 @@ const P: React.FC<Props> = ({
         textAlign: align,
         ...style,
         WebkitLineClamp: line,
+        textTransform: capital ? 'capitalize' : 'inherit',
       }}
     >
       {children}
