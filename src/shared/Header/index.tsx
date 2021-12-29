@@ -14,7 +14,7 @@ import {
 } from '@material-ui/icons';
 import { useLocation } from 'react-router-dom';
 
-import { P, Space, Image, Horizontal, SearchBar, Clickable, T, Menu } from 'components';
+import { P, Space, Image, Horizontal, SearchBar, Clickable, T, Menu, AppNotification } from 'components';
 import { AppLogo, TR, US } from 'assets';
 import { palette } from 'palette';
 import { translate } from 'util/translate';
@@ -42,14 +42,24 @@ const Header: React.FC<Props> = ({ languages, profile, loggedIn }: Props) => {
   const [category, setCategory] = useState('');
   const { pathname } = useLocation();
 
+  const getProducts = (mainCategory: string) => {
+    store.dispatch(
+      actions.getMainCategoryProducts(mainCategory, (res: any) => {
+        if (res.error) {
+          AppNotification.error(res.error.message);
+        }
+      }),
+    );
+  };
+
   const navItems = [
-    { title: translate('man'), to: '/products/man' },
-    { title: translate('woman'), to: '/products/woman' },
-    { title: translate('child'), to: '/products/child' },
-    { title: `${translate('home')} & ${translate('life')}`, to: '/products/home' },
-    { title: translate('pet'), to: '/products/pet' },
-    { title: translate('electronic'), to: '/products/electronic' },
-    { title: translate('sport'), to: '/products/sport' },
+    { title: translate('man'), to: '/products/man', onClick: () => getProducts('MAN') },
+    { title: translate('woman'), to: '/products/woman', onClick: () => getProducts('WOMAN') },
+    { title: translate('child'), to: '/products/child', onClick: () => getProducts('CHILD') },
+    { title: `${translate('home')} & ${translate('life')}`, to: '/products/home', onClick: () => {} },
+    { title: translate('pet'), to: '/products/pet', onClick: () => getProducts('PET') },
+    { title: translate('electronic'), to: '/products/electronic', onClick: () => getProducts('ELECTRONIC') },
+    { title: translate('sport'), to: '/products/sport', onClick: () => getProducts('SPORT') },
   ];
 
   const menuItems = [
@@ -131,11 +141,11 @@ const Header: React.FC<Props> = ({ languages, profile, loggedIn }: Props) => {
               <Horizontal>
                 {!loggedIn && (
                   <>
-                    <NavItem title={translate('login')} to={'/login'} />
+                    <NavItem title={translate('login')} to={'/login'} onClick={() => {}} />
                     <P color={'dg'}>
                       <T>or</T>
                     </P>
-                    <NavItem title={translate('signUp')} to={'/sign-up'} />
+                    <NavItem title={translate('signUp')} to={'/sign-up'} onClick={() => {}} />
                   </>
                 )}
                 <Space v={'n'} h={'s'} />

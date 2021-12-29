@@ -18,7 +18,7 @@ export const getMainCategoryProducts =
   async (dispatch: Dispatch) => {
     const res = await Request.get(`/product/main_category/${mainCategory}`);
     if ((res as any).data) {
-      dispatch({ type: types.SET_MAIN_CATEGORY_PRODUCTS, payload: (res as any).data });
+      dispatch({ type: types.SET_PRODUCTS, payload: (res as any).data });
     }
     callback(res);
   };
@@ -28,7 +28,7 @@ export const getCategoryProducts =
   async (dispatch: Dispatch) => {
     const res = await Request.get(`/product/${mainCategory}/${category}`);
     if ((res as any).data) {
-      dispatch({ type: types.SET_CATEGORY_PRODUCTS, payload: (res as any).data });
+      dispatch({ type: types.SET_PRODUCTS, payload: (res as any).data });
     }
     callback(res);
   };
@@ -38,7 +38,7 @@ export const getSubCategoryProducts =
   async (dispatch: Dispatch) => {
     const res = await Request.get(`/product/${mainCategory}/${category}/${subCategory}`);
     if ((res as any).data) {
-      dispatch({ type: types.SET_SUB_CATEGORY_PRODUCTS, payload: (res as any).data });
+      dispatch({ type: types.SET_PRODUCTS, payload: (res as any).data });
     }
     callback(res);
   };

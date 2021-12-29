@@ -1,13 +1,21 @@
 import { useState } from 'react';
+import { connect } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
-import { Space, P, Horizontal, Clickable, Button, Checkbox, Collapse, ProductCard } from 'components';
+import { Space, P, Horizontal, Clickable, Button, Checkbox, Collapse, ProductCard, AppNotification } from 'components';
 import { palette } from 'palette';
+import { Product } from 'models';
+import { store } from 'store';
+import * as actions from 'store/actions';
 
 import './style.css';
 
-type Props = {};
+type Props = {
+  products: Product[];
+};
 
-const Products: React.FC<Props> = ({}: Props) => {
+const Products: React.FC<Props> = ({ products }: Props) => {
+  const navigate = useNavigate();
   const [sizes, setSizes] = useState([
     { name: 'XS', selected: false },
     { name: 'S', selected: false },
@@ -57,6 +65,17 @@ const Products: React.FC<Props> = ({}: Props) => {
     { name: 'Prices', items: prices },
     { name: 'Colors', items: colors },
   ];
+
+  const goToProductDetail = (productId: string) => {
+    store.dispatch(
+      actions.getProductDetail(productId, (res: any) => {
+        if (res.error) {
+          return AppNotification.error(res.error.message);
+        }
+        navigate('/product-detail');
+      }),
+    );
+  };
   return (
     <Horizontal style={{ position: 'relative' }} align={'top'}>
       <Space style={{ backgroundColor: palette.l }} h={'xxxl'} className={'Products-Left-Container'}>
@@ -95,16 +114,17 @@ const Products: React.FC<Props> = ({}: Props) => {
           </Horizontal>
         </Space>
         <Horizontal wrap>
-          {[1, 2, 3, 4, 5, 6, 7, 8].map((item) => (
-            <Space v={'s'} h={'n'} r={'m'}>
+          {products?.map((item: Product) => (
+            <Space v={'s'} h={'n'} r={'m'} key={`products-${item._id}`}>
               <ProductCard
+                onClick={() => goToProductDetail(item._id)}
                 imageSource={
                   'https://cdn.dsmcdn.com/mnresize/1200/1800/ty184/product/media/images/20210927/16/136847065/135399598/1/1_org_zoom.jpg'
                 }
                 isFavorite
-                prize={35}
-                rating={4}
-                title="Test Product"
+                prize={item.price}
+                rating={item.rating}
+                title={item.name}
               />
             </Space>
           ))}
@@ -114,4 +134,6 @@ const Products: React.FC<Props> = ({}: Props) => {
   );
 };
 
-export default Products;
+const mapStateToProps = ({ product: { products } }: any) => ({ products });
+
+export default connect(mapStateToProps)(Products);

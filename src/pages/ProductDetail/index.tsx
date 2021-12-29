@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Rating } from 'react-simple-star-rating';
 
 import { Space, P, Horizontal, Button, Sizes, Clickable, ProductColors, ImageSlider, ProductCard } from 'components';
-import { Profile } from 'models';
+import { Product, Profile } from 'models';
 
 import './style.css';
 import { palette } from 'palette';
@@ -11,9 +11,13 @@ import { Person } from '@material-ui/icons';
 
 type Props = {
   profile: Profile;
+  productDetail: Product;
 };
 
-const ProductDetail: React.FC<Props> = ({ profile }: Props) => {
+const ProductDetail: React.FC<Props> = ({
+  profile,
+  productDetail: { name, rating, ratingCount, price, description, seller, colors },
+}: Props) => {
   const [showMoreDescriptionButton, setShowDescriptionButton] = useState(false);
   const [showMoreDescription, setShowDescription] = useState(false);
 
@@ -34,7 +38,7 @@ const ProductDetail: React.FC<Props> = ({ profile }: Props) => {
   return (
     <div>
       <Space flex column h={'xxl'} v={'xl'}>
-        <Horizontal align={'top'} spread className={'Product-Detail-Container'}>
+        <Horizontal align={'top'} className={'Product-Detail-Container'}>
           <Space>
             <ImageSlider
               isFavorite
@@ -54,18 +58,18 @@ const ProductDetail: React.FC<Props> = ({ profile }: Props) => {
               ]}
             />
           </Space>
-          <Space>
+          <Space l={'xl'}>
             <P color={'dg'} size={'xl'} bold>
-              Siyah Basic Erkek Bisiklet Yaka Oversize Kısa Kollu Tişört.
+              {name}
             </P>
             <Space h={'n'} v={'xs'} />
             <P color={'dg1'} bold>
               Değerlendirme
             </P>
             <Horizontal>
-              <Rating readonly onClick={() => {}} size={30} ratingValue={4.5} allowHalfIcon />
+              <Rating readonly onClick={() => {}} size={30} ratingValue={rating} allowHalfIcon />
               <Space v={'n'} h={'xs'}>
-                <P color={'dg1'}>(275)</P>
+                <P color={'dg1'}>({ratingCount})</P>
               </Space>
             </Horizontal>
             <Space h={'n'} v={'xs'} />
@@ -73,7 +77,7 @@ const ProductDetail: React.FC<Props> = ({ profile }: Props) => {
               Fiyat
             </P>
             <P color={'dg'} size={'xxxl'} bold>
-              35 TL
+              {price} TL
             </P>
             <Space h={'n'} v={'xs'} />
             <Sizes onClick={(v: string) => {}} />
@@ -105,16 +109,14 @@ const ProductDetail: React.FC<Props> = ({ profile }: Props) => {
               Satıcı
             </P>
             <P style={{ fontWeight: 500 }} color={'i'}>
-              Lorem ipsum
+              {seller}
             </P>
             <Space h={'n'} v={'xs'} />
             <P bold color={'dg1'}>
               Ürün açıklaması
             </P>
             <P color={'dg'} line={!showMoreDescription ? 3 : 1000} className={'Product-Detail-Description'}>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam vel iaculis mauris, id viverra sem. Sed
-              pellentesque eu lectus ut auctor. Praesent eget aliquam arcu. Etiam vitae porta nulla. Aenean euismod quis
-              felis ac ornare. Vestibulum pharetra orci vel nibh interdum, ac pharetra nulla.
+              {description}
             </P>
             <Space v={'n'} b={'xs'} />
             {showMoreDescriptionButton && (
@@ -153,7 +155,7 @@ const ProductDetail: React.FC<Props> = ({ profile }: Props) => {
             <Horizontal align="top">
               <Horizontal>
                 <P color={'dg'} bold size={'l'}>
-                  4.8
+                  {rating}
                 </P>
                 <Space v={'n'} h={'n'} r={'xs'} />
                 <P color={'dg1'} size={'l'}>
@@ -161,7 +163,7 @@ const ProductDetail: React.FC<Props> = ({ profile }: Props) => {
                 </P>
               </Horizontal>
               <Space h={'xs'} v={'n'} />
-              <Rating readonly onClick={() => {}} size={27} ratingValue={4.5} allowHalfIcon />
+              <Rating readonly onClick={() => {}} size={27} ratingValue={rating} allowHalfIcon />
             </Horizontal>
             <Space>
               <Horizontal align={'top'}>
@@ -240,6 +242,7 @@ const ProductDetail: React.FC<Props> = ({ profile }: Props) => {
             {[1, 2, 3, 4, 5, 5, 5, 5, 5, 5].map((item) => (
               <Fragment key={item}>
                 <ProductCard
+                  onClick={() => {}}
                   isFavorite
                   prize={25}
                   rating={item}
@@ -258,6 +261,6 @@ const ProductDetail: React.FC<Props> = ({ profile }: Props) => {
   );
 };
 
-const mapStateToProps = ({ user: { profile } }: any) => ({ profile });
+const mapStateToProps = ({ user: { profile }, product: { productDetail } }: any) => ({ profile, productDetail });
 
 export default connect(mapStateToProps)(ProductDetail);

@@ -9,8 +9,8 @@ import reportWebVitals from './reportWebVitals';
 import { store } from 'store';
 import { Request } from './Request';
 
-// Request.baseURL = 'http://localhost:3080';
-Request.baseURL = 'https://shokidev-e-shopping-api.herokuapp.com';
+Request.baseURL = 'http://localhost:3080';
+// Request.baseURL = 'https://shokidev-e-shopping-api.herokuapp.com';
 
 ReactDOM.render(
   <React.StrictMode>

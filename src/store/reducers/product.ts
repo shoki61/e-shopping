@@ -3,17 +3,13 @@ import * as types from '../actionTypes';
 
 type ProductReducer = {
   productDetail: null | Product;
-  mainCategoryProducts: null | Product[];
-  categoryProducts: null | Product[];
-  subCategoryProducts: null | Product[];
+  products: null | Product[];
   similarProducts: null | Product[];
 };
 
 const initialState: ProductReducer = {
   productDetail: null,
-  mainCategoryProducts: null,
-  categoryProducts: null,
-  subCategoryProducts: null,
+  products: null,
   similarProducts: null,
 };
 
@@ -22,14 +18,8 @@ export const product = (state = initialState, { type, payload }: any): ProductRe
     case types.SET_PRODUCT_DETAIL:
       return { ...state, productDetail: payload };
 
-    case types.SET_MAIN_CATEGORY_PRODUCTS:
-      return { ...state, mainCategoryProducts: payload };
-
-    case types.SET_CATEGORY_PRODUCTS:
-      return { ...state, categoryProducts: payload };
-
-    case types.SET_SUB_CATEGORY_PRODUCTS:
-      return { ...state, subCategoryProducts: payload };
+    case types.SET_PRODUCTS:
+      return { ...state, products: payload };
 
     case types.SET_SIMILAR_PRODUCTS:
       return { ...state, similarProducts: payload };

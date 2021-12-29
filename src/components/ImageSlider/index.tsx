@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import ImageGallery from 'react-image-gallery';
 import { ChevronLeftRounded, ChevronRightRounded, FavoriteBorderRounded, FavoriteRounded } from '@material-ui/icons';
 
@@ -6,7 +7,6 @@ import { palette } from 'palette';
 import Clickable from '../Clickable';
 import Image from '../Image';
 import './style.css';
-import { useState } from 'react';
 
 type Props = {
   images: { imgUrl: string }[];
@@ -58,19 +58,16 @@ const ImageSlider: React.FC<Props> = ({ images, isFavorite }: Props) => {
       />
     </div>
   );
-  const renderFovoriteButton = () => {
-    return showControls ? (
-      <Clickable style={{ backgroundColor: palette.l }} className={'Image-Slider-Favoite-Button'} onClick={() => ''}>
-        {isFavorite ? (
-          <FavoriteRounded style={{ color: palette.e }} fontSize={'small'} />
-        ) : (
-          <FavoriteBorderRounded style={{ color: palette.dg1 }} fontSize={'small'} />
-        )}
-      </Clickable>
-    ) : (
-      <div />
-    );
-  };
+  const renderFovoriteButton = () => (
+    <Clickable style={{ backgroundColor: palette.l }} className={'Image-Slider-Favoite-Button'} onClick={() => ''}>
+      {isFavorite ? (
+        <FavoriteRounded style={{ color: palette.e }} fontSize={'small'} />
+      ) : (
+        <FavoriteBorderRounded style={{ color: palette.dg1 }} fontSize={'small'} />
+      )}
+    </Clickable>
+  );
+
   return (
     <ImageGallery
       showPlayButton={false}

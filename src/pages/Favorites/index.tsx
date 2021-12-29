@@ -44,6 +44,7 @@ const Favorites: React.FC<Props> = ({}: Props) => {
         {true ? (
           <Horizontal className={'Favorites-Products-Container'}>
             <ProductCard
+              onClick={() => {}}
               title={'Siyah Basic Erkek Bisiklet Yaka Oversize Kısa Kollu Tişört'}
               isFavorite
               prize={125}

@@ -1,6 +1,5 @@
 import { FavoriteBorderRounded, FavoriteRounded, AddShoppingCart, DoneRounded } from '@material-ui/icons';
 import { Rating } from 'react-simple-star-rating';
-import { useNavigate } from 'react-router-dom';
 
 import { Space, P, Clickable, Horizontal, Image, Button } from 'components';
 import { palette } from 'palette';
@@ -16,12 +15,12 @@ type Props = {
   rating: number;
   isFavorite: boolean;
   isInCard?: boolean;
+  onClick: () => void;
 };
 
-const ProductCard: React.FC<Props> = ({ imageSource, prize, title, rating, isFavorite, isInCard }: Props) => {
-  const navigate = useNavigate();
+const ProductCard: React.FC<Props> = ({ imageSource, prize, title, rating, isFavorite, isInCard, onClick }: Props) => {
   return (
-    <Clickable onClick={() => navigate('/product-detail')}>
+    <Clickable onClick={onClick}>
       <div className={'Product-Card-Container'} style={{ borderColor: palette.lg }}>
         <div style={{ position: 'relative', overflow: 'hidden' }}>
           {imageSource ? (
