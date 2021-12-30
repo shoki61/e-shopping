@@ -14,48 +14,28 @@ type Props = {
   products: Product[];
 };
 
+type FilterObj = {
+  [key: string]: any;
+};
+
 const Products: React.FC<Props> = ({ products }: Props) => {
   const navigate = useNavigate();
-  const [sizes, setSizes] = useState([
-    { name: 'XS', selected: false },
-    { name: 'S', selected: false },
-    { name: 'M', selected: false },
-    { name: 'L', selected: false },
-    { name: 'XL', selected: false },
-  ]);
-  const [prices, setPrices] = useState([
-    { name: '0-50', min: 0, max: 50, selected: false },
-    { name: '50-100', min: 50, max: 100, selected: false },
-    { name: '100-150', min: 100, max: 150, selected: false },
-    { name: '150-200', min: 150, max: 200, selected: false },
-  ]);
-  const [marks, setMarks] = useState([
-    { name: 'A', selected: false },
-    { name: 'B', selected: false },
-    { name: 'C', selected: false },
-    { name: 'D', selected: false },
-  ]);
+  const filterObj: FilterObj = {
+    sizes: [],
+    marks: [],
+    prices: [],
+    colors: [],
+  };
+  const sizes = [{ name: 'XS' }, { name: 'S' }, { name: 'M' }, { name: 'L' }, { name: 'XL' }];
+  const prices = [{ name: '0-50' }, { name: '50-100' }, { name: '100-150' }, { name: '150-200' }];
+  const marks = [{ name: 'A' }, { name: 'B' }, { name: 'C' }, { name: 'D' }];
+  const colors = [{ name: 'Red' }, { name: 'White' }, { name: 'Black' }, { name: 'Yellow' }, { name: 'Orange' }];
 
-  const [colors, setColors] = useState([
-    { name: 'Red', selected: false },
-    { name: 'White', selected: false },
-    { name: 'Black', selected: false },
-    { name: 'Yellow', selected: false },
-    { name: 'Orange', selected: false },
-  ]);
-
-  const updateFilter = (filterItem: any, v: any) =>
-    filterItem.map((item: any) => (item.name === v.name ? { ...item, selected: !item.selected } : item));
-
-  const filterHandler = (key: string, v: any) => {
-    if (key === 'Sizes') {
-      setSizes(updateFilter(sizes, v));
-    } else if (key === 'Marks') {
-      setMarks(updateFilter(marks, v));
-    } else if (key === 'Prices') {
-      setPrices(updateFilter(prices, v));
-    } else if (key === 'Colors') {
-      setColors(updateFilter(colors, v));
+  const filterHandler = (key: string, value: string) => {
+    if (filterObj[key].includes(value)) {
+      filterObj[key] = filterObj[key].filter((item: string) => item !== value);
+    } else {
+      filterObj[key].push(value);
     }
   };
 
@@ -76,6 +56,35 @@ const Products: React.FC<Props> = ({ products }: Props) => {
       }),
     );
   };
+
+  const getFilteredProducts = () => {
+    if (
+      filterObj.sizes?.length < 1 &&
+      filterObj.marks?.length < 1 &&
+      filterObj.prices?.length < 1 &&
+      filterObj.colors?.length < 1
+    ) {
+      return;
+    }
+    let myArr = [];
+    const numbersArr = [];
+    if (filterObj.prices?.length > 0) {
+      myArr = filterObj.prices.map((item: string) => item.split('-'));
+      for (let i = 0; i < myArr.length; i++) {
+        for (let j = 0; j < myArr[i].length; j++) {
+          numbersArr.push(Number(myArr[i][j]));
+        }
+      }
+      filterObj.prices = Array.from(new Set(numbersArr));
+    }
+    store.dispatch(
+      actions.getFilteredProducts(filterObj, (res) => {
+        if (res.error) {
+          AppNotification.error(res.error.message);
+        }
+      }),
+    );
+  };
   return (
     <Horizontal style={{ position: 'relative' }} align={'top'}>
       <Space style={{ backgroundColor: palette.l }} h={'xxxl'} className={'Products-Left-Container'}>
@@ -91,7 +100,7 @@ const Products: React.FC<Props> = ({ products }: Props) => {
             contents={f.items.map((item, i) => (
               <Space key={`products-collapse-${item.name}-${i}`} h={'s'} v={'xs'}>
                 <Horizontal>
-                  <Checkbox checked={item.selected} onClick={() => filterHandler(f.name, item)} size={'small'} />
+                  <Checkbox onClick={() => filterHandler(f.name.toLowerCase(), item.name)} size={'small'} />
                   <Space v={'n'} h={'xs'} />
                   <P color={'dg1'}>{item.name}</P>
                 </Horizontal>
@@ -99,6 +108,9 @@ const Products: React.FC<Props> = ({ products }: Props) => {
             ))}
           />
         ))}
+        <Space h={'s'}>
+          <Button fullWidth onClick={getFilteredProducts} title={'Ürünleri getir'} />
+        </Space>
       </Space>
       <Space>
         <Space v={'s'} h={'s'}>
@@ -108,7 +120,7 @@ const Products: React.FC<Props> = ({ products }: Props) => {
             </P>
             <Space h={'s'} v={'n'}>
               <P size={'l'} color={'dg'}>
-                (sonuç: 156)
+                (sonuç: {products?.length})
               </P>
             </Space>
           </Horizontal>

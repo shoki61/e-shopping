@@ -43,3 +43,13 @@ export const getSubCategoryProducts =
     }
     callback(res);
   };
+
+export const getFilteredProducts =
+  (obj: any, callback = (res: any) => {}) =>
+  async (dispatch: Dispatch) => {
+    const res = Request.post('/product/filter', obj);
+    if ((res as any).data) {
+      dispatch({ type: types.SET_PRODUCTS, payload: (res as any).data });
+    }
+    callback(res);
+  };
